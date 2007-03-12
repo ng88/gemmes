@@ -1,0 +1,44 @@
+#! ./testsuite
+#
+p Ce fichier teste un plateau de dimension 12x9 avec 9 couleurs
+
+< b1u b1d b1l b1r b2u b2d b2l b2r b3u b3d b3l b3r b4u b4d b4l b4r 
+< b5u b5d b5l b5r b6u b6d b6l b6r b7u b7d b7l b7r b8u b8d b8l b8r b9u b9d 
+< b9l b9r 
+< c1u c1d c1l c1r c2u c2d c2l c2r c3u c3d c3l c3r c4u c4d c4l c4r 
+< c5u c5d c5l c5r c6u c6d c6l c6r c7u c7d c7l c7r c8u c8d c8l c8r c9u c9d 
+< c9l c9r 
+< d1u d1d d1l d1r d2u d2d d2l d2r d3u d3d d3l d3r d4u d4d d4l d4r 
+< d5u d5d d5l d5r d6u d6d d6l d6r d7u d7d d7l d7r d8u d8d d8l d8r d9u d9d 
+< d9l d9r 
+< e1u e1d e1l e1r e2u e2d e2l e2r e3u e3d e3l e3r e4u e4d e4l e4r 
+< e5u e5d e5l e5r e6u e6d e6l e6r e7u e7d e7l e7r e8u e8d e8l e8r e9u e9d 
+< e9l e9r 
+< f1u f1d f1l f1r f2u f2d f2l f2r f3u f3d f3l f3r f4u f4d f4l f4r 
+< f5u f5d f5l f5r f6u f6d f6l f6r f7u f7d f7l f7r f8u f8d f8l f8r f9u f9d 
+< f9l f9r 
+< g1u g1d g1l g1r g2u g2d g2l g2r g3u g3d g3l g3r g4u g4d g4l g4r 
+< g5u g5d g5l g5r g6u g6d g6l g6r g7u g7d g7l g7r g8u g8d g8l g8r g9u g9d 
+< g9l g9r 
+< h1u h1d h1l h1r h2u h2d h2l h2r h3u h3d h3l h3r h4u h4d h4l h4r 
+< h5u h5d h5l h5r h6u h6d h6l h6r h7u h7d h7l h7r h8u h8d h8l h8r h9u h9d 
+< h9l h9r 
+< i1u i1d i1l i1r i2u i2d i2l i2r i3u i3d i3l i3r i4u i4d i4l i4r 
+< i5u i5d i5l i5r i6u i6d i6l i6r i7u i7d i7l i7r i8u i8d i8l i8r i9u i9d 
+< i9l i9r 
+< j1u j1d j1l j1r j2u j2d j2l j2r j3u j3d j3l j3r j4u j4d j4l j4r 
+< j5u j5d j5l j5r j6u j6d j6l j6r j7u j7d j7l j7r j8u j8d j8l j8r j9u j9d 
+< j9l j9r 
+< k1u k1d k1l k1r k2u k2d k2l k2r k3u k3d k3l k3r k4u k4d k4l k4r 
+< k5u k5d k5l k5r k6u k6d k6l k6r k7u k7d k7l k7r k8u k8d k8l k8r k9u k9d 
+< k9l k9r 
+< l1u l1d l1l l1r l2u l2d l2l l2r l3u l3d l3l l3r l4u l4d l4l l4r 
+< l5u l5d l5l l5r l6u l6d l6l l6r l7u l7d l7l l7r l8u l8d l8l l8r l9u l9d 
+< l9l l9r 
+< m1u m1d m1l m1r m2u m2d m2l m2r m3u m3d m3l m3r m4u m4d m4l m4r 
+< m5u m5d m5l m5r m6u m6d m6l m6r m7u m7d m7l m7r m8u m8d m8l m8r m9u m9d 
+< m9l m9r 
+< d q
+> DGFEECECAGABBCFDEGGFBGEFDDCFAEEFBFGACGGCACEBGCDGDGFDGDGFDEAFBABGGADCBGDDDEFEBEEDBCDGACCAAFCFCABEFDEBGGEDDBEE 965
+$ ./gemmes -q -x 12 -y 9 -c 9 -sFDGECECAADGECCDEAGDBGACFCCCCCCCCCCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB
+

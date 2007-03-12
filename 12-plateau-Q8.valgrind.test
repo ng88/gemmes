@@ -1,0 +1,25 @@
+#! ./testsuite
+#
+p Ce fichier teste votre implémentation de la question 8.
+#
+# Il est semblable au test 1-plateau.test, mais la séquence utilisée crèe un
+# plateau invalide tant que la question 8 n'est pas implémentée.
+
+# Ce test est comparable à 2-plateau-Q8.test, sauf qu'il exécute votre
+# programme dans valgrind pour vérifier votre gestion de la mémoire. 
+# 
+# Ce test échoue si vous avez des dépassements d'indice dans les tableaux,
+# ou si vous avez des blocks mémoires alloués à certains endroits et jamais
+# désalloués. Utilisez valgrind pour chasser ces problèmes.
+
+< d q
+> FDGECECAADGECCDEAGDBGACFCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB 0
+$ valgrind --log-file-exactly=valgrind.out ./gemmes -q -sFDGECECAADGECCDEAGDBGACFCCCCCCCCCCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB
+
+> ERROR SUMMARY: 0 errors from 0 contexts
+$ grep "ERROR SUMMARY" valgrind.out | sed -e 's/^[^ ]* //' -e 's/ (.*$//'
+
+> malloc/free: in use at exit: 0 bytes in 0 blocks.
+$ grep "malloc/free: in use at exit:" valgrind.out | sed -e 's/^[^ ]* //' 
+
+$ rm valgrind.out

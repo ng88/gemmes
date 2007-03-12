@@ -1,0 +1,14 @@
+#! ./testsuite
+#
+p Ce fichier teste que vous détectez correctement les bords du plateau
+
+# Il suppose également que la question 8 est traitée.
+
+< a1l a2l a3l a4l a5l a6l a7l a8l
+< h1r h2r h3r h4r h5r h6r h7r h8r
+< a1u b1u c1u d1u e1u f1u g1u h1u
+< a8d b8d c8d d8d e8d f8d g8d h8d
+< d q
+> FDGECECAADGECCDEAGDBGACFCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB 0
+$ ./gemmes -q -sFDGECECAADGECCDEAGDBGACFCCCCCCCCCCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB
+

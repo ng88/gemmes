@@ -1,0 +1,12 @@
+#! ./testsuite
+#
+p Ce fichier constitue un test de base pour votre programme.
+p Il crée un plateau, l'affiche et termine.
+#
+# Si le test échoue, c'est que votre représentation mémoire du plateau n'est
+# pas bonne
+
+< d q
+> FDGECECAADGECCDEAGDBGACFCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB 0
+$ ./gemmes -q -sFDGECECAADGECCDEAGDBGACFCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB
+

@@ -1,0 +1,11 @@
+#! ./testsuite
+#
+p Ce fichier teste votre implémentation de la question 8.
+#
+# Il est semblable au test 1-plateau.test, mais la séquence utilisée crèe un
+# plateau invalide tant que la question 8 n'est pas implémentée.
+
+< d q
+> FDGECECAADGECCDEAGDBGACFCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB 0
+$ ./gemmes -q -sFDGECECAADGECCDEAGDBGACFCCCCCCCCCCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB
+

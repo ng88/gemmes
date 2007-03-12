@@ -1,0 +1,31 @@
+#! ./testsuite
+#
+p Ce fichier teste que le big display de votre programme ne provoque pas d'erreur memoire
+
+< a1u a1d a1l a1r a2u a2d a2l a2r a3u a3d a3l a3r a4u a4d a4l a4r
+< a5u a5d a5l a5r a6u a6d a6l a6r a7u a7d a7l a7r a8u a8d a8l a8r
+< b1u b1d b1l b1r b2u b2d b2l b2r b3u b3d b3l b3r b4u b4d b4l b4r
+< b5u b5d b5l b5r b6u b6d b6l b6r b7u b7d b7l b7r b8u b8d b8l b8r
+< c1u c1d c1l c1r c2u c2d c2l c2r c3u c3d c3l c3r c4u c4d c4l c4r
+< c5u c5d c5l c5r c6u c6d c6l c6r c7u c7d c7l c7r c8u c8d c8l c8r
+< d1u d1d d1l d1r d2u d2d d2l d2r d3u d3d d3l d3r d4u d4d d4l d4r
+< d5u d5d d5l d5r d6u d6d d6l d6r d7u d7d d7l d7r d8u d8d d8l d8r
+< e1u e1d e1l e1r e2u e2d e2l e2r e3u e3d e3l e3r e4u e4d e4l e4r
+< e5u e5d e5l e5r e6u e6d e6l e6r e7u e7d e7l e7r e8u e8d e8l e8r
+< f1u f1d f1l f1r f2u f2d f2l f2r f3u f3d f3l f3r f4u f4d f4l f4r
+< f5u f5d f5l f5r f6u f6d f6l f6r f7u f7d f7l f7r f8u f8d f8l f8r
+< g1u g1d g1l g1r g2u g2d g2l g2r g3u g3d g3l g3r g4u g4d g4l g4r
+< g5u g5d g5l g5r g6u g6d g6l g6r g7u g7d g7l g7r g8u g8d g8l g8r
+< h1u h1d h1l h1r h2u h2d h2l h2r h3u h3d h3l h3r h4u h4d h4l h4r
+< h5u h5d h5l h5r h6u h6d h6l h6r h7u h7d h7l h7r h8u h8d h8l h8r
+< d q
+$ valgrind --log-file-exactly=valgrind.out ./gemmes -b -sFDGECECAADGECCDEAGDBGACFCCCCCCCCCCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB >/dev/null
+
+> ERROR SUMMARY: 0 errors from 0 contexts
+$ grep "ERROR SUMMARY" valgrind.out | sed -e 's/^[^ ]* //' -e 's/ (.*$//'
+
+> malloc/free: in use at exit: 0 bytes in 0 blocks.
+$ grep "malloc/free: in use at exit:" valgrind.out | sed -e 's/^[^ ]* //' 
+
+$ rm valgrind.out
+
