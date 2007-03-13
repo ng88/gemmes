@@ -13,7 +13,6 @@ int main()
     randseq_t alea = randseq_new(5);
     randseq_t alea2 = randseq_new(5000);
 
-
     randseq_t fstr = randseq_new_from_str("ABCDE");
 
 

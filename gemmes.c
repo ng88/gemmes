@@ -12,14 +12,14 @@ randseq_t randseq_new(int len)
     char * data = (char*)malloc(len + 1);
 
     while(i < len)
-    {
 	data[i++] = 'A' + (int)((double)('Z' - 'A' + 1) * (rand() / (double)RAND_MAX));
 
+    randseq_t ret = (randseq_t)malloc(sizeof(randseq_t));
+    ret->len = len;
+    ret->pos = 0;
+    ret->data = data;
 
-
-    }
-
-    return randseq_new_from_str(data);
+    return ret;
 }
 
 randseq_t randseq_new_from_str(char * seq)
