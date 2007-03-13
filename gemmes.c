@@ -14,7 +14,7 @@ randseq_t randseq_new(int len)
     while(i < len)
 	data[i++] = 'A' + (int)((double)('Z' - 'A' + 1) * (rand() / (double)RAND_MAX));
 
-    randseq_t ret = (randseq_t)malloc(sizeof(randseq_t));
+    randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
     ret->len = len;
     ret->pos = 0;
     ret->data = data;
