@@ -4,6 +4,9 @@
 #include "gemmes.h"
 #include "assert.h"
 
+const int dx[4] = {0, 0, -1, 1};
+const int dy[4] = {-1, 1, 0, 0};
+
 randseq_t randseq_new(int len)
 {
     int i = 0;
