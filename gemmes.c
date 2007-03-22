@@ -98,7 +98,11 @@ void board_print(board_t b)
 			printf("%c ",board_pos(b,j,i));
 		printf("|%d\n",i+1);
 	}
-	fputs("\t\t +----------------+\n\t\t  ", stdout);
+	fputs("\t\t +", stdout);
+	for(i=0;i<b->xsize;i++)
+		fputs("--", stdout);
+	fputs("+\n\t\t  ", stdout);
+
 	for(i=0;i<b->xsize;i++)
 		printf("%c ",'a'+i);
 
