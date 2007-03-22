@@ -6,6 +6,7 @@
 #include "gemmes.h"
 
 
+
 int main()
 {
     srand(time(0));
@@ -33,10 +34,15 @@ int main()
 
     putchar('\n');
 
+    board_t b=board_new(8,8,fstr);
+
+    board_t_print(b);
+
 
     randseq_free(alea2);
     randseq_free(alea);
     randseq_free(fstr);
+
 
     return EXIT_SUCCESS;
 }
