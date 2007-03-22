@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "gemmes.h"
-
+#include "assert.h"
 
 randseq_t randseq_new(int len)
 {
@@ -12,7 +12,7 @@ randseq_t randseq_new(int len)
     while(i < len)
 	data[i++] = 'A' + (int)((double)('Z' - 'A' + 1) * (rand() / (double)RAND_MAX));
 
-    randseq_t ret = (randseq_t)malloc(sizeof(randseq_t));
+    randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
     ret->len = len;
     ret->pos = 0;
     ret->data = data;
@@ -24,7 +24,7 @@ randseq_t randseq_new_from_str(char * seq)
 {
     c_assert(seq);
 
-    randseq_t ret = (randseq_t)malloc(sizeof(randseq_t));
+    randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
     ret->len = strlen(seq);
     ret->pos = 0;
     ret->data = strdup(seq);
@@ -55,39 +55,52 @@ char randseq_next(randseq_t rs)
 
 board_t board_new(int nlines, int nrows, randseq_t rs)
 {
-	board_t b = (board_t)malloc(sizeof(board_t));
+        int i;
+        board_t b = (board_t)malloc(sizeof(struct s_board));
 
 	b->ysize=nlines;
 	b->xsize=nrows;
-	strcpy(b->data,randseq_t->data);
+	b->rs = rs;
 	b->score=0;
+
+	b->data = (char*)malloc(nlines * nrows);
+	for(i = 0; i < nlines * nrows; ++i)
+	    b->data[i] = randseq_next(rs);
+	
+	return b;
 }
 
 
-void board_t_print(board_t b)
+void board_print(board_t b)
 {
 	int i,j;
 
 	printf("\t\t  ");
 	for(i=0;i<b->xsize;i++)
-		printf("%c",'a'+i);
-	printf("\n");
+		printf("%c ",'a'+i);
 
-	printf("board:\t +");
+	fputs("\nboard:\t\t +", stdout);
 	for(i=0;i<b->xsize;i++)
-		printf("--");
-	printf("+\t Score: %d",b->score);
-	
+		fputs("--", stdout);
+	printf("+\t Score: %d\n",b->score);
+
 	for(i=0;i<(b->ysize);i++)
 	{
-		printf("\t\t%d|",i);
+		printf("\t\t%d|",i+1);
 		for(j=0;j<(b->xsize);j++)
 			printf("%c ",board_pos(b,j,i));
-		printf("|%d\n",i);
+		printf("|%d\n",i+1);
 	}
-	printf("\t\t +----------------+");
-	printf("\t\t  ");
+	fputs("\t\t +----------------+\n\t\t  ", stdout);
 	for(i=0;i<b->xsize;i++)
-		printf("%c",'a'+i);
-	printf("\n");
+		printf("%c ",'a'+i);
+
+	fputs("\n", stdout);
+}
+
+void board_free(board_t b)
+{
+    randseq_free(b->rs);
+    free(b->data);
+    free(b);
 }
