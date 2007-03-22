@@ -16,6 +16,7 @@ void randseq_free(randseq_t rs);
 char randseq_next(randseq_t rs);
 
 #define board_pos(b, x, y) ((b)->data[(y) + (x)*((b)->ysize)])
+#define board_neighbor(b, x, y, dir, dist)
 
 enum dir_t { up=0, down=1, left=2, right=3 };
 

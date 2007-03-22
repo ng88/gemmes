@@ -55,6 +55,8 @@ char randseq_next(randseq_t rs)
 
 board_t board_new(int nlines, int nrows, randseq_t rs)
 {
+        c_assert(rs);
+
         int i;
         board_t b = (board_t)malloc(sizeof(struct s_board));
 
@@ -73,6 +75,8 @@ board_t board_new(int nlines, int nrows, randseq_t rs)
 
 void board_print(board_t b)
 {
+       c_assert(b);
+
 	int i,j;
 
 	printf("\t\t  ");
