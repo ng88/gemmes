@@ -40,4 +40,6 @@ void board_print(board_t b);
 /** free the b->data, b->rs & b */
 void board_free(board_t b);
 
+int board_move_s(board_t b, char *blow);
+
 #endif

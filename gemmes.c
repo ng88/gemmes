@@ -115,3 +115,35 @@ void board_free(board_t b)
     free(b->data);
     free(b);
 }
+
+int analyse_1case(board_t b, char c)
+{
+	if ( (c<=('a'+(b->xsize))) && (c>='a') ) return 0;
+	else return 1;
+}
+
+int analyse_2case(board_t b, char c)
+{
+	if ( (c<=(b->ysize)) && (c>=0)) return 0;
+	else return 1;
+}
+
+int analyse_3case(char c)
+{
+	if ( (c=='u') || (c=='d') || (c=='r') || (c=='l') ) return 0;
+	else return 1;
+}
+
+int board_move_s(board_t b, char blow[4])
+{
+	printf("1 : %c\n2 : %`\n3 : %c\n",blow[0],blow[1],blow[2]);
+	if (blow[0]=='q')	{
+						puts("On va quitter");
+						return 2;
+						}
+	else 
+	{
+		if ( (analyse_1case(b,blow[0])==0) && (analyse_2case(b,blow[1])==0) && (analyse_3case(blow[2])==0) )	return 0;
+		else return 1;
+	}
+}
