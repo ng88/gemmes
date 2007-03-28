@@ -20,7 +20,7 @@ char randseq_next(randseq_t rs);
 #define board_neighbor(b, x, y, dir, dist) \
               board_pos((b), (x) + dx[(dir)] * (dist), (y) + dy[(dir)] * (dist))
 
-enum dir_t { up=0, down=1, left=2, right=3 };
+typedef enum { up=0, down=1, left=2, right=3 } dir_t;
 
 const int dx[4];
 const int dy[4];
@@ -40,6 +40,6 @@ void board_print(board_t b);
 /** free the b->data, b->rs & b */
 void board_free(board_t b);
 
-int board_move_s(board_t b, char *blow);
+int board_is_valid_move(board_t b, char *blow);
 
 #endif

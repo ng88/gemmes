@@ -111,39 +111,46 @@ void board_print(board_t b)
 
 void board_free(board_t b)
 {
+    if(!b)
+	return;
+
     randseq_free(b->rs);
     free(b->data);
     free(b);
 }
 
-int analyse_1case(board_t b, char c)
-{
-	if ( (c<=('a'+(b->xsize))) && (c>='a') ) return 0;
-	else return 1;
-}
 
-int analyse_2case(board_t b, char c)
+int board_is_valid_move(board_t b, char * cmd)
 {
-	if ( (c<=(b->ysize)) && (c>=0)) return 0;
-	else return 1;
-}
+    c_assert(strlen(cmd) == 4 && b);
 
-int analyse_3case(char c)
-{
-	if ( (c=='u') || (c=='d') || (c=='r') || (c=='l') ) return 0;
-	else return 1;
-}
+    int col = cmd[0] - 'a';
+    int line = cmd[1] - '0';
+    dir_t dir;
 
-int board_move_s(board_t b, char blow[4])
-{
-	printf("1 : %c\n2 : %`\n3 : %c\n",blow[0],blow[1],blow[2]);
-	if (blow[0]=='q')	{
-						puts("On va quitter");
-						return 2;
-						}
-	else 
-	{
-		if ( (analyse_1case(b,blow[0])==0) && (analyse_2case(b,blow[1])==0) && (analyse_3case(blow[2])==0) )	return 0;
-		else return 1;
-	}
+    if(col < 0 || col > b->xsize)
+    {
+	fprintf(stderr, "Invalid column specifier:   not between 'a' and '%c'\n", 'a' + b->xsize - 1);
+	return 0;
+    }
+
+    if(line <= 0 || line > b->ysize)
+    {
+	fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n", b->ysize);
+	return 0;
+    }
+
+    switch(cmd[2])
+    {
+    case 'u': dir = up;  break;
+    case 'd': dir = down;  break;
+    case 'l': dir = left;  break;
+    case 'r': dir = right;  break;
+    default:
+	fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n", cmd[2]);
+	return 0;
+    }
+
+
+    return 1;
 }
