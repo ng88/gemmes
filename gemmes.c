@@ -58,20 +58,38 @@ char randseq_next(randseq_t rs)
 
 board_t board_new(int nlines, int nrows, randseq_t rs)
 {
-        c_assert(rs);
+    c_assert(rs);
 
-        int i;
-        board_t b = (board_t)malloc(sizeof(struct s_board));
+    int i = 1;
+	board_t b = (board_t)malloc(sizeof(struct s_board));
 
 	b->ysize=nlines;
 	b->xsize=nrows;
 	b->rs = rs;
 	b->score=0;
 
+	char c1=randseq_next(rs), c2=randseq_next(rs), c3;
+
 	b->data = (char*)malloc(nlines * nrows);
+
+	b->data[0]=c1;
+	b->data[1]=c2;
+	
+	while(i < nlines * nrows){
+		c3=randseq_next(rs);
+		if ( (c1==c2) && (c2==c3) )	{
+			//do nothing
+		}else{
+			b->data[i]=c3;
+			i++;
+		}	
+		c1=c2;
+		c2=c3;
+	}
+/*
 	for(i = 0; i < nlines * nrows; ++i)
 	    b->data[i] = randseq_next(rs);
-	
+*/	
 	return b;
 }
 
@@ -130,13 +148,13 @@ int board_is_valid_move(board_t b, char * cmd)
 
     if(col < 0 || col > b->xsize)
     {
-	fprintf(stderr, "Invalid column specifier:   not between 'a' and '%c'\n", 'a' + b->xsize - 1);
+	fprintf(stderr, "Invalid column specifier:   not between 'a' and '%c'\n\n", 'a' + b->xsize - 1);
 	return 0;
     }
 
     if(line <= 0 || line > b->ysize)
     {
-	fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n", b->ysize);
+	fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n\n", b->ysize);
 	return 0;
     }
 
@@ -147,10 +165,45 @@ int board_is_valid_move(board_t b, char * cmd)
     case 'l': dir = left;  break;
     case 'r': dir = right;  break;
     default:
-	fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n", cmd[2]);
+	fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n\n", cmd[2]);
 	return 0;
     }
 
 
     return 1;
 }
+
+int board_searchline(board_t b, int x, int y, dir_t dir)
+{
+	int	cpt=0,dist=1;
+	while(board_pos(b,x,y)==board_neighbor(b,x,y,dir,dist))//je teste par rapport à le case voisine dans la direction donnée
+	{
+		cpt++;
+		dist++;
+	}
+	return cpt;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
