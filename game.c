@@ -71,7 +71,7 @@ int main() {
 		    continue;
 		}
 		
-		entree = board_is_valid_move(b, line[0] - 'a', line[1] - '1', dir);
+		entree = !board_move(b, line[0] - 'a', line[1] - '1', dir);
 	    }
 	    else
 	    {

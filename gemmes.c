@@ -75,12 +75,12 @@ board_t board_new(int nlines, int nrows, randseq_t rs)
     {
 	b->data[i] = randseq_next(rs);
 
-	int x = i / nrows;
-	int y = i % nrows;
+	int x = i % nrows;
+	int y = i / nrows;
 
 	c_assert(b->data[i] == board_pos(b, x, y));
 
-	while(board_searchline(b, x, y, left) == 2 || board_searchline(b, x, y, up) == 2)
+	while(board_searchline(b, x, y, left) >= 2 || board_searchline(b, x, y, up) >= 2)
 	  b->data[i] = randseq_next(rs);
 
     }
@@ -134,7 +134,7 @@ void board_print(board_t b)
 	{
 		printf("\t\t%d|",i+1);
 		for(j=0;j<(b->xsize);j++)
-			printf("%c ",board_pos(b,i,j));
+			printf("%c ",board_pos(b,j,i));
 		printf("|%d\n",i+1);
 	}
 	fputs("\t\t +", stdout);
@@ -202,6 +202,41 @@ int board_searchline(board_t b, int x, int y, dir_t dir)
 }
 
 
+int board_move(board_t b, int x, int y, dir_t dir)
+{
+    if(!board_is_valid_move(b, x, y, dir))
+	return 1;
+
+    /* on fait l'echange */
+    board_swap(b, x, y, dir);
+
+    /* combien on a de segment maintenant ? */
+    int seg_count = board_segment_count(b, x, y) + board_segment_count(b, x + dx[dir], y + dy[y]);
+
+    if(!seg_count)
+    { /* on a pas cree de segments */
+	board_swap(b, x, y, dir);	/* on retablit */
+	fputs("Invalid move (move leads nowhere)\n", stderr);
+	return 1;
+    }
+
+    return 0;
+}
+
+void board_swap(board_t b, int x, int y, dir_t dir)
+{
+    char tmp = board_pos(b, x, y);
+    board_pos(b, x, y) =  board_neighbor(b, x, y, dir, 1);
+    board_neighbor(b, x, y, dir, 1) = tmp;
+}
+
+int board_segment_count(board_t b, int x, int y)
+{
+    return (board_searchline(b, x, y, up) >= 2) +
+	 (board_searchline(b, x, y, down) >= 2) +
+	 (board_searchline(b, x, y, left) >= 2) +
+	 (board_searchline(b, x, y, right) >= 2);
+}
 
 char * dir_to_string(dir_t d)
 {
