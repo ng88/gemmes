@@ -146,13 +146,13 @@ int board_is_valid_move(board_t b, char * cmd)
     int line = cmd[1] - '1';
     dir_t dir;
 
-    if(col < 0 || col > b->xsize)
+    if(col < 0 || col >= b->xsize)
     {
 	fprintf(stderr, "Invalid column specifier:   not between 'a' and '%c'\n\n", 'a' + b->xsize - 1);
 	return 0;
     }
 
-    if(line < 0 || line > b->ysize)
+    if(line < 0 || line >= b->ysize)
     {
 	fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n\n", b->ysize);
 	return 0;
@@ -172,7 +172,7 @@ int board_is_valid_move(board_t b, char * cmd)
     int x = col + dx[dir];
     int y = line + dy[dir];
 
-    if(x < 0 || y < 0 || x > b->xsize || y >  b->ysize)
+    if(x < 0 || y < 0 || x >= b->xsize || y >=  b->ysize)
     {
 	fprintf(stderr, "Invalid move %c%d %s (cannot switch against the walls)\n\n", col + 'a', line + 1, dir_to_string(dir));
 	return 0;
@@ -184,11 +184,13 @@ int board_is_valid_move(board_t b, char * cmd)
 
 int board_searchline(board_t b, int x, int y, dir_t dir)
 {
-	int	cpt=0,dist=1;
-	while(board_pos(b,x,y)==board_neighbor(b,x,y,dir,dist))//je teste par rapport à le case voisine dans la direction donnée
+	int cpt = 0, dist = 1;
+	char current = board_pos(b,x,y);
+
+	while(board_neighbor_valid(b, x, y, dir, dist) && current == board_neighbor(b, x, y, dir, dist)) /*je teste par rapport à le case voisine dans la direction donnée*/
 	{
-		cpt++;
-		dist++;
+	    cpt++;
+	    dist++;
 	}
 	return cpt;
 }

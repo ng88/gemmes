@@ -20,6 +20,12 @@ char randseq_next(randseq_t rs);
 #define board_neighbor(b, x, y, dir, dist) \
               board_pos((b), (x) + dx[(dir)] * (dist), (y) + dy[(dir)] * (dist))
 
+/* return non-zero is this is a valid pos */
+#define board_neighbor_valid(b, x, y, dir, dist) \
+                (((x) + dx[(dir)] * (dist)) >= 0 && ((x) + dx[(dir)] * (dist)) < b->xsize && \
+                ((y) + dy[(dir)] * (dist)) >= 0 && ((y) + dy[(dir)] * (dist)) < b->ysize)
+              
+
 typedef enum { up=0, down=1, left=2, right=3 } dir_t;
 
 const int dx[4];
