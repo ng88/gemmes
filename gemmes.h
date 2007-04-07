@@ -15,7 +15,8 @@ randseq_t randseq_new_from_str(char * seq);
 void randseq_free(randseq_t rs);
 char randseq_next(randseq_t rs);
 
-#define board_pos(b, x, y) ((b)->data[(y) + (x)*((b)->ysize)])
+/* get the gemmes at (x, y) */
+#define board_pos(b, x, y) ((b)->data[(x) + (y)*((b)->ysize)])
 
 #define board_neighbor(b, x, y, dir, dist) \
               board_pos((b), (x) + dx[(dir)] * (dist), (y) + dy[(dir)] * (dist))

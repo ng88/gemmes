@@ -60,37 +60,58 @@ board_t board_new(int nlines, int nrows, randseq_t rs)
 {
     c_assert(rs);
 
+   
+    board_t b = (board_t)malloc(sizeof(struct s_board));
+
+    b->ysize = nlines;
+    b->xsize = nrows;
+    b->rs = rs;
+    b->score=0;
+
+    b->data = (char*)malloc(nlines * nrows);
+
+    int i;
+    for(i = 0; i < nlines * nrows; ++i)
+    {
+	b->data[i] = randseq_next(rs);
+
+	int y = i / nrows;
+	int x = i % nrows;
+
+	c_assert(b->data[i] == board_pos(b, x, y));
+
+	while(board_searchline(b, x, y, left) == 2 || board_searchline(b, x, y, up) == 2)
+	  b->data[i] = randseq_next(rs);
+
+    }
+
+    return b;
+
+/*  
+
+
+   Ne fournit pas le bon resultat (cf enonce, fig1)
+
+
+
     int i = 1;
-	board_t b = (board_t)malloc(sizeof(struct s_board));
+    char c1=randseq_next(rs), c2=randseq_next(rs), c3;
 
-	b->ysize=nlines;
-	b->xsize=nrows;
-	b->rs = rs;
-	b->score=0;
-
-	char c1=randseq_next(rs), c2=randseq_next(rs), c3;
-
-	b->data = (char*)malloc(nlines * nrows);
-
-	b->data[0]=c1;
-	b->data[1]=c2;
+    b->data[0]=c1;
+    b->data[1]=c2;
 	
-	while(i < nlines * nrows){
-		c3=randseq_next(rs);
-		if ( (c1==c2) && (c2==c3) )	{
-			//do nothing
-		}else{
-			b->data[i]=c3;
-			i++;
-		}	
-		c1=c2;
-		c2=c3;
-	}
-/*
-	for(i = 0; i < nlines * nrows; ++i)
-	    b->data[i] = randseq_next(rs);
-*/	
-	return b;
+    while(i < nlines * nrows){
+	c3=randseq_next(rs);
+	if ( (c1==c2) && (c2==c3) )	{
+	    //do nothing
+	}else{
+	    b->data[i]=c3;
+	    i++;
+	}	
+	c1=c2;
+	c2=c3;
+	}*/
+
 }
 
 
