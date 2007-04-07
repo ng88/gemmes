@@ -143,7 +143,7 @@ int board_is_valid_move(board_t b, char * cmd)
     c_assert(strlen(cmd) == 4 && b);
 
     int col = cmd[0] - 'a';
-    int line = cmd[1] - '0';
+    int line = cmd[1] - '1';
     dir_t dir;
 
     if(col < 0 || col > b->xsize)
@@ -152,7 +152,7 @@ int board_is_valid_move(board_t b, char * cmd)
 	return 0;
     }
 
-    if(line <= 0 || line > b->ysize)
+    if(line < 0 || line > b->ysize)
     {
 	fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n\n", b->ysize);
 	return 0;
@@ -169,6 +169,15 @@ int board_is_valid_move(board_t b, char * cmd)
 	return 0;
     }
 
+    int x = col + dx[dir];
+    int y = line + dy[dir];
+
+    if(x < 0 || y < 0 || x > b->xsize || y >  b->ysize)
+    {
+	fprintf(stderr, "Invalid move %c%d %s (cannot switch against the walls)\n\n", col + 'a', line + 1, dir_to_string(dir));
+	return 0;
+    }
+    
 
     return 1;
 }
@@ -186,6 +195,17 @@ int board_searchline(board_t b, int x, int y, dir_t dir)
 
 
 
+char * dir_to_string(dir_t d)
+{
+    switch(d)
+    {
+    case up: return "up";
+    case down: return "down";
+    case left: return "left";
+    case right: return "right";
+    default: return "unknow";
+    }
+}
 
 
 
