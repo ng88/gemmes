@@ -75,8 +75,8 @@ board_t board_new(int nlines, int nrows, randseq_t rs)
     {
 	b->data[i] = randseq_next(rs);
 
-	int y = i / nrows;
-	int x = i % nrows;
+	int x = i / nrows;
+	int y = i % nrows;
 
 	c_assert(b->data[i] == board_pos(b, x, y));
 
@@ -134,7 +134,7 @@ void board_print(board_t b)
 	{
 		printf("\t\t%d|",i+1);
 		for(j=0;j<(b->xsize);j++)
-			printf("%c ",board_pos(b,j,i));
+			printf("%c ",board_pos(b,i,j));
 		printf("|%d\n",i+1);
 	}
 	fputs("\t\t +", stdout);
@@ -159,13 +159,9 @@ void board_free(board_t b)
 }
 
 
-int board_is_valid_move(board_t b, char * cmd)
+int board_is_valid_move(board_t b, int col, int line, dir_t dir)
 {
-    c_assert(strlen(cmd) == 4 && b);
-
-    int col = cmd[0] - 'a';
-    int line = cmd[1] - '1';
-    dir_t dir;
+    c_assert(b);
 
     if(col < 0 || col >= b->xsize)
     {
@@ -176,17 +172,6 @@ int board_is_valid_move(board_t b, char * cmd)
     if(line < 0 || line >= b->ysize)
     {
 	fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n\n", b->ysize);
-	return 0;
-    }
-
-    switch(cmd[2])
-    {
-    case 'u': dir = up;  break;
-    case 'd': dir = down;  break;
-    case 'l': dir = left;  break;
-    case 'r': dir = right;  break;
-    default:
-	fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n\n", cmd[2]);
 	return 0;
     }
 

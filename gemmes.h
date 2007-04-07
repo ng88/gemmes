@@ -16,7 +16,7 @@ void randseq_free(randseq_t rs);
 char randseq_next(randseq_t rs);
 
 /* get the gemmes at (x, y) */
-#define board_pos(b, x, y) ((b)->data[(x) + (y)*((b)->ysize)])
+#define board_pos(b, x, y) ((b)->data[(y) + (x)*((b)->ysize)])
 
 #define board_neighbor(b, x, y, dir, dist) \
               board_pos((b), (x) + dx[(dir)] * (dist), (y) + dy[(dir)] * (dist))
@@ -47,10 +47,13 @@ void board_print(board_t b);
 /** free the b->data, b->rs & b */
 void board_free(board_t b);
 
-int board_is_valid_move(board_t b, char *blow);
+int board_is_valid_move(board_t b, int x, int y, dir_t dir);
 
 int board_searchline(board_t, int x, int y, dir_t dir);
 
+/* returns "left" for left, "right", for right etc*/
 char * dir_to_string(dir_t d);
+
+
 
 #endif

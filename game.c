@@ -57,7 +57,21 @@ int main() {
 	    }
 	    else if(read == 4) /* c'est peut être un coup */
 	    {
-		entree = board_is_valid_move(b, line);
+		dir_t dir;
+
+		switch(line[2])
+		{
+		case 'u': dir = up;  break;
+		case 'd': dir = down;  break;
+		case 'l': dir = left;  break;
+		case 'r': dir = right;  break;
+		default:
+		    fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n\n", line[2]);
+		    entree = 0;
+		    continue;
+		}
+		
+		entree = board_is_valid_move(b, line[0] - 'a', line[1] - '1', dir);
 	    }
 	    else
 	    {
