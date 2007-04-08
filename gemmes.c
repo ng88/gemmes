@@ -273,7 +273,9 @@ void board_update(board_t b)
     board_t buff =  board_alloc(b->ysize, b->xsize, b->rs);
 
     int ncase = buff->ysize * buff->xsize;
-    
+
+    int old_score = b->score;
+
     int i;
 
     for(i = 0; i < ncase; ++i)
@@ -324,54 +326,61 @@ void board_update(board_t b)
 
     }
 
-    /* on va maintenant remplacer les segments par des espaces */
-
-    for(i = 0; i < ncase; ++i)
+    if(old_score != b->score) /* si on a eu des segments */
     {
-	int x = board_index_to_x(buff, i);
-	int y = board_index_to_y(buff, i);
 
-	if( board_pos(buff, x, y) == TAGGED )
-	    board_pos(b, x, y) = ' ';
-    }
-
-    board_print(b);
-
-    /* on fait tomber les gemmes */
-
-    int x, y;
-    for(x = 0; x < b->xsize; ++x)
-    {
-	for(y = b->ysize - 1; y >= 0; --y)
+	/* on va maintenant remplacer les segments par des espaces */
+	
+	for(i = 0; i < ncase; ++i)
 	{
-	    if(board_pos(b, x, y) == ' ')
+	    int x = board_index_to_x(buff, i);
+	    int y = board_index_to_y(buff, i);
+	    
+	    if( board_pos(buff, x, y) == TAGGED )
+		board_pos(b, x, y) = ' ';
+	}
+	
+	board_print(b);
+
+
+	/* on fait tomber les gemmes */
+
+	int x, y;
+	for(x = 0; x < b->xsize; ++x)
+	{
+	    for(y = b->ysize - 1; y >= 0; --y)
 	    {
-		/* on cherche la position de la premiere gemme au dessus */
-		i = y - 1;
-		while(i >= 0 && board_pos(b, x, i) == ' ')
-		    i--;
-
-		/* on fait tomber les gemmes du dessus */
-
-		int h =  y - i; /* hauteur du trou */
-
-		int t;
-		for(t = y; t >= i; --t)
+		if(board_pos(b, x, y) == ' ')
 		{
-		    if(t - h < 0)
-			board_pos(b, x, t) = randseq_next(b->rs);
-		    else
-			board_pos(b, x, t) = board_pos(b, x, t - h);
+		    /* on cherche la position de la premiere gemme au dessus */
+		    i = y - 1;
+		    while(i >= 0 && board_pos(b, x, i) == ' ')
+			i--;
+
+		    /* on fait tomber les gemmes du dessus */
+
+		    int h =  y - i; /* hauteur du trou */
+
+		    int t;
+		    for(t = y; t >= i; --t)
+		    {
+			if(t - h < 0)
+			    board_pos(b, x, t) = randseq_next(b->rs);
+			else
+			    board_pos(b, x, t) = board_pos(b, x, t - h);
+		    }
+
+		    break; /* on a fini de traiter cette colonne*/
+
 		}
-
-		break; /* on a fini de traiter cette colonne*/
-
 	    }
 	}
+
+	board_update(b);
     }
 
-
     board_free(buff);
+
 }
 
 
