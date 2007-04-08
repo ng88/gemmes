@@ -6,7 +6,15 @@
 #include "gemmes.h"
 
 
-int main() {
+#define HELP_MSG  "Moves are on three positions:\n" \
+                  " - First char specifies the column to move from\n" \
+		  " - Second one specifies the line to move from\n" \
+		  " - Third one specifies the direction: Up, Down, Left, Right\n" \
+		  "Examples: c4u (from c4, up); d7l (from d7, left)\n\n" \
+                  "The goal is to switch gems so that you get 3 or more aligned.\n"
+
+int main(int argc, char ** argv)
+{
 
 
     randseq_t rs = randseq_new_from_str(
@@ -39,12 +47,14 @@ int main() {
 		switch(line[0])
 		{
 		case 'd': /* dump */
+		    printf("%s %d\n", b->data, b->score);
 		    entree = 1;
 		    break;
 		case 'h': /* hint */
 		    entree = 1;
 		    break;
 		case '?': /* help */
+		    puts(HELP_MSG);
 		    entree = 1;
 		    break;
 		case 'q': /* quit */
