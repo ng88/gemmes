@@ -335,6 +335,42 @@ void board_update(board_t b)
 	    board_pos(b, x, y) = ' ';
     }
 
+    board_print(b);
+
+    /* on fait tomber les gemmes */
+
+    int x, y;
+    for(x = 0; x < b->xsize; ++x)
+    {
+	for(y = b->ysize - 1; y >= 0; --y)
+	{
+	    if(board_pos(b, x, y) == ' ')
+	    {
+		/* on cherche la position de la premiere gemme au dessus */
+		i = y - 1;
+		while(i >= 0 && board_pos(b, x, i) == ' ')
+		    i--;
+
+		/* on fait tomber les gemmes du dessus */
+
+		int h =  y - i; /* hauteur du trou */
+
+		int t;
+		for(t = y; t >= i; --t)
+		{
+		    if(t - h < 0)
+			board_pos(b, x, t) = randseq_next(b->rs);
+		    else
+			board_pos(b, x, t) = board_pos(b, x, t - h);
+		}
+
+		break; /* on a fini de traiter cette colonne*/
+
+	    }
+	}
+    }
+
+
     board_free(buff);
 }
 
