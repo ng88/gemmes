@@ -279,6 +279,10 @@ void board_update(board_t b)
     for(i = 0; i < ncase; ++i)
 	buff->data[i] = EMPTY;
 
+    /* on va chercher les segments */
+
+    int multiple_seg = 1; /* coeff de score si plusieurs segments */
+
     for(i = 0; i < ncase; ++i)
     {
 
@@ -296,26 +300,25 @@ void board_update(board_t b)
 	    { /* alors on est dans un segment horizontal */
 
 		int x2 = x - 2;
-
 		while(x2 < buff->xsize && board_pos(b, x2, y) == current)
-		{
-		    board_pos(buff, x2, y) = TAGGED;
-		    x2++;
-		}
+		    board_pos(buff, x2++, y) = TAGGED;
+
+		b->score += (x2 - x + 2 - 1) * 5 * multiple_seg;
+		multiple_seg *= 2;
 	    }
 
 	    if(board_searchline(b, x, y, up) == 2)
 	    { /* alors on est dans un segment horizontal */
 
 		int y2 = y - 2;
-
 		while(y2 < buff->ysize && board_pos(b, x, y2) == current)
-		{
-		    board_pos(buff, x, y2) = TAGGED;
-		    y2++;
-		}
+		    board_pos(buff, x, y2++) = TAGGED;
+
+		b->score += (y2 - y + 2 - 1) * 5 * multiple_seg;
+		multiple_seg *= 2;
 
 	    }
+		
 
 	}
 
