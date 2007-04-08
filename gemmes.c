@@ -241,6 +241,8 @@ int board_move(board_t b, int x, int y, dir_t dir)
 	return 1;
     }
 
+    board_update(b);
+
     return 0;
 }
 
@@ -266,7 +268,7 @@ void board_update(board_t b)
 
     /* TAGGED indique une case marquee, ie la ou il y a plus de 3 gemmes
        identiques de suite et EMPTY indique une case ou ce n'est pas le cas */
-    enum { TAGGED = 1, EMPTY = 2 };
+    enum { TAGGED = '1', EMPTY = '0' };
 
     board_t buff =  board_alloc(b->ysize, b->xsize, b->rs);
 
@@ -292,13 +294,8 @@ void board_update(board_t b)
 	{
 	    if(board_searchline(b, x, y, left) == 2)
 	    { /* alors on est dans un segment horizontal */
-		board_pos(buff, x, y) = TAGGED;
-		board_pos(buff, x - 1, y) = TAGGED;
-		board_pos(buff, x - 2, y) = TAGGED;
 
-		/* on regarde s'il y a d'autres gemmes identiques apres */
-
-		int x2 = x + 1;
+		int x2 = x - 2;
 
 		while(x2 < buff->xsize && board_pos(b, x2, y) == current)
 		{
@@ -308,12 +305,23 @@ void board_update(board_t b)
 	    }
 
 	    if(board_searchline(b, x, y, up) == 2)
-	    { /* alors on est dans un segment vertical */
+	    { /* alors on est dans un segment horizontal */
+
+		int y2 = y - 2;
+
+		while(y2 < buff->ysize && board_pos(b, x, y2) == current)
+		{
+		    board_pos(buff, x, y2) = TAGGED;
+		    y2++;
+		}
+
 	    }
 
 	}
 
     }
+
+    board_print(buff);
 
     board_free(buff);
 }
