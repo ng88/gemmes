@@ -21,6 +21,12 @@ char randseq_next(randseq_t rs);
 #define board_neighbor(b, x, y, dir, dist) \
               board_pos((b), (x) + dx[(dir)] * (dist), (y) + dy[(dir)] * (dist))
 
+/* get the x coord of the gemme which have i as index */
+#define board_index_to_x(b, i) ((i) % (b)->xsize)
+
+/* get the y coord of the gemme which have i as index */
+#define board_index_to_y(b, i) ((i) / (b)->xsize)
+
 /* return non-zero is this is a valid pos */
 #define board_neighbor_valid(b, x, y, dir, dist) \
                 (((x) + dx[(dir)] * (dist)) >= 0 && ((x) + dx[(dir)] * (dist)) < b->xsize && \
@@ -41,10 +47,16 @@ typedef struct s_board
 	int score;
 }* board_t;
 
+
+/* only alloc a new board, does not initialize gemmes */
+board_t board_alloc(int nlines, int nrows, randseq_t rs);
+
+/* alloc a new board and initializes it */
 board_t board_new(int nlines, int nrows, randseq_t rs);
+
 void board_print(board_t b);
 
-/** free the b->data, b->rs & b */
+/** do not free rs */
 void board_free(board_t b);
 
 int board_is_valid_move(board_t b, int x, int y, dir_t dir);
@@ -59,6 +71,8 @@ void board_swap(board_t b, int x, int y, dir_t dir);
 
 /* return the segment count around (x, y) */
 int board_segment_count(board_t b, int x, int y);
+
+void board_update(board_t b);
 
 /* returns "left" for left, "right", for right etc*/
 char * dir_to_string(dir_t d);

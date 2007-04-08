@@ -12,10 +12,15 @@ randseq_t randseq_new(int len)
     int i = 0;
     char * data = (char*)malloc(len + 1);
 
+    c_assert2(data, "malloc failed");
+
     while(i < len)
 	data[i++] = 'A' + (int)((double)('Z' - 'A' + 1) * (rand() / (double)RAND_MAX));
 
     randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
+
+    c_assert2(ret, "malloc failed");
+
     ret->len = len;
     ret->pos = 0;
     ret->data = data;
@@ -28,9 +33,14 @@ randseq_t randseq_new_from_str(char * seq)
     c_assert(seq);
 
     randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
+
+    c_assert2(ret, "malloc failed");
+
     ret->len = strlen(seq);
     ret->pos = 0;
     ret->data = strdup(seq);
+
+    c_assert2(ret->data, "strdup failed");
 
     return ret;
 }
@@ -56,12 +66,13 @@ char randseq_next(randseq_t rs)
     return ret;
 }
 
-board_t board_new(int nlines, int nrows, randseq_t rs)
+board_t board_alloc(int nlines, int nrows, randseq_t rs)
 {
-    c_assert(rs);
-
+    c_assert(rs && nlines > 0 && nrows > 0);
    
     board_t b = (board_t)malloc(sizeof(struct s_board));
+
+    c_assert2(b, "malloc failed");
 
     b->ysize = nlines;
     b->xsize = nrows;
@@ -70,13 +81,23 @@ board_t board_new(int nlines, int nrows, randseq_t rs)
 
     b->data = (char*)malloc(nlines * nrows);
 
+    c_assert2(b->data, "malloc failed");
+
+    return b;
+}
+
+board_t board_new(int nlines, int nrows, randseq_t rs)
+{
+
+    board_t b = board_alloc(nlines, nrows, rs);
+
     int i;
     for(i = 0; i < nlines * nrows; ++i)
     {
 	b->data[i] = randseq_next(rs);
 
-	int x = i % nrows;
-	int y = i / nrows;
+	int x = board_index_to_x(b, i);
+	int y = board_index_to_y(b, i);
 
 	c_assert(b->data[i] == board_pos(b, x, y));
 
@@ -153,7 +174,7 @@ void board_free(board_t b)
     if(!b)
 	return;
 
-    randseq_free(b->rs);
+//    randseq_free(b->rs);
     free(b->data);
     free(b);
 }
@@ -237,6 +258,66 @@ int board_segment_count(board_t b, int x, int y)
 	 (board_searchline(b, x, y, left) >= 2) +
 	 (board_searchline(b, x, y, right) >= 2);
 }
+
+
+void board_update(board_t b)
+{
+    c_assert(b);
+
+    /* TAGGED indique une case marquee, ie la ou il y a plus de 3 gemmes
+       identiques de suite et EMPTY indique une case ou ce n'est pas le cas */
+    enum { TAGGED = 1, EMPTY = 2 };
+
+    board_t buff =  board_alloc(b->ysize, b->xsize, b->rs);
+
+    int ncase = buff->ysize * buff->xsize;
+    
+    int i;
+
+    for(i = 0; i < ncase; ++i)
+	buff->data[i] = EMPTY;
+
+    for(i = 0; i < ncase; ++i)
+    {
+
+	int x = board_index_to_x(buff, i);
+	int y = board_index_to_y(buff, i);
+
+	char current = board_pos(b, x, y);
+
+	c_assert(buff->data[i] == board_pos(buff, x, y) &&
+		 b->data[i] == board_pos(b, x, y));
+
+	if(buff->data[i] == EMPTY) /* si la case n'est pas marquee */
+	{
+	    if(board_searchline(b, x, y, left) == 2)
+	    { /* alors on est dans un segment horizontal */
+		board_pos(buff, x, y) = TAGGED;
+		board_pos(buff, x - 1, y) = TAGGED;
+		board_pos(buff, x - 2, y) = TAGGED;
+
+		/* on regarde s'il y a d'autres gemmes identiques apres */
+
+		int x2 = x + 1;
+
+		while(x2 < buff->xsize && board_pos(b, x2, y) == current)
+		{
+		    board_pos(buff, x2, y) = TAGGED;
+		    x2++;
+		}
+	    }
+
+	    if(board_searchline(b, x, y, up) == 2)
+	    { /* alors on est dans un segment vertical */
+	    }
+
+	}
+
+    }
+
+    board_free(buff);
+}
+
 
 char * dir_to_string(dir_t d)
 {

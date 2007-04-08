@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -84,6 +85,7 @@ int main() {
 	free(line);
 
     board_free(b);
+    randseq_free(rs);
 
     return EXIT_SUCCESS;
 }
