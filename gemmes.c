@@ -324,7 +324,16 @@ void board_update(board_t b)
 
     }
 
-    board_print(buff);
+    /* on va maintenant remplacer les segments par des espaces */
+
+    for(i = 0; i < ncase; ++i)
+    {
+	int x = board_index_to_x(buff, i);
+	int y = board_index_to_y(buff, i);
+
+	if( board_pos(buff, x, y) == TAGGED )
+	    board_pos(b, x, y) = ' ';
+    }
 
     board_free(buff);
 }
