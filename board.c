@@ -270,10 +270,8 @@ int board_segment_count(board_t b, int x, int y)
 {
     c_assert(b && x >= 0 && x < b->xsize && y >=0 && y < b->ysize);
 
-    return (board_searchline(b, x, y, up) >= 2) +
-	 (board_searchline(b, x, y, down) >= 2) +
-	 (board_searchline(b, x, y, left) >= 2) +
-	 (board_searchline(b, x, y, right) >= 2);
+    return (board_searchline(b, x, y, up) + board_searchline(b, x, y, down) >= 2) +
+	 (board_searchline(b, x, y, left) + board_searchline(b, x, y, right) >= 2);
 }
 
 
