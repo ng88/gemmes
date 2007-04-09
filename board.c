@@ -89,7 +89,7 @@ void board_print(board_t b)
 
     if(b->big)
 	board_print_big(b);
-    gelse
+    else
 	board_print_small(b);
 
 }
