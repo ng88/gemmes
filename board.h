@@ -19,6 +19,8 @@ typedef struct s_board
     int silent;
     int big;
 
+    int last_seg_count;
+
 }* board_t;
 
 /* get the gemmes at (x, y) */
@@ -72,7 +74,14 @@ void board_swap(board_t b, int x, int y, dir_t dir);
 /* return the segment count around (x, y) */
 int board_segment_count(board_t b, int x, int y);
 
-void board_update(board_t b);
+/* update the board (remove the segments etc) */
+#define board_update(b) board_update_helper((b), 1, 0)
+
+/* used by board_update()
+ * multiple_seg: score coefficient
+ * sed_count: segment count
+ */
+void board_update_helper(board_t b, int multiple_seg, int seg_count);
 
 /* returns "left" for left, "right", for right etc*/
 char * dir_to_string(dir_t d);

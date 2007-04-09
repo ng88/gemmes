@@ -24,6 +24,8 @@ board_t board_alloc(int nlines, int nrows, randseq_t rs)
     b->silent = 0;
     b->big = 0;
 
+    b->last_seg_count = 0;
+
     b->data = (char*)malloc(nlines * nrows);
 
     c_assert2(b->data, "malloc failed");
@@ -182,7 +184,7 @@ void board_free(board_t b)
 
 int board_is_valid_move(board_t b, int col, int line, dir_t dir)
 {
-    c_assert(b);
+    c_assert(b && col >= 0 && col < b->xsize && line >=0 && line < b->ysize);
 
     if(col < 0 || col >= b->xsize)
     {
@@ -214,7 +216,7 @@ int board_is_valid_move(board_t b, int col, int line, dir_t dir)
 
 int board_searchline(board_t b, int x, int y, dir_t dir)
 {
-    c_assert(b);
+        c_assert(b && x >= 0 && x < b->xsize && y >=0 && y < b->ysize);
 
 	int cpt = 0, dist = 1;
 	char current = board_pos(b,x,y);
@@ -230,7 +232,7 @@ int board_searchline(board_t b, int x, int y, dir_t dir)
 
 int board_move(board_t b, int x, int y, dir_t dir)
 {
-    c_assert(b);
+    c_assert(b && x >= 0 && x < b->xsize && y >=0 && y < b->ysize);
 
     if(!board_is_valid_move(b, x, y, dir))
 	return 1;
@@ -239,7 +241,7 @@ int board_move(board_t b, int x, int y, dir_t dir)
     board_swap(b, x, y, dir);
 
     /* combien on a de segment maintenant ? */
-    int seg_count = board_segment_count(b, x, y) + board_segment_count(b, x + dx[dir], y + dy[y]);
+    int seg_count = board_segment_count(b, x, y) + board_segment_count(b, x + dx[dir], y + dy[dir]);
 
     if(!seg_count)
     { /* on a pas cree de segments */
@@ -256,6 +258,8 @@ int board_move(board_t b, int x, int y, dir_t dir)
 
 void board_swap(board_t b, int x, int y, dir_t dir)
 {
+    c_assert(b && x >= 0 && x < b->xsize && y >=0 && y < b->ysize);
+
     char tmp = board_pos(b, x, y);
     board_pos(b, x, y) =  board_neighbor(b, x, y, dir, 1);
     board_neighbor(b, x, y, dir, 1) = tmp;
@@ -263,6 +267,8 @@ void board_swap(board_t b, int x, int y, dir_t dir)
 
 int board_segment_count(board_t b, int x, int y)
 {
+    c_assert(b && x >= 0 && x < b->xsize && y >=0 && y < b->ysize);
+
     return (board_searchline(b, x, y, up) >= 2) +
 	 (board_searchline(b, x, y, down) >= 2) +
 	 (board_searchline(b, x, y, left) >= 2) +
@@ -270,7 +276,7 @@ int board_segment_count(board_t b, int x, int y)
 }
 
 
-void board_update(board_t b)
+void board_update_helper(board_t b, int multiple_seg, int seg_count)
 {
     c_assert(b);
 
@@ -290,8 +296,6 @@ void board_update(board_t b)
 	buff->data[i] = EMPTY;
 
     /* on va chercher les segments */
-
-    int multiple_seg = 1; /* coeff de score si plusieurs segments */
 
     for(i = 0; i < ncase; ++i)
     {
@@ -315,6 +319,7 @@ void board_update(board_t b)
 
 		b->score += (x2 - x + 2 - 1) * 5 * multiple_seg;
 		multiple_seg *= 2;
+		seg_count++;
 	    }
 
 	    if(board_searchline(b, x, y, up) == 2)
@@ -326,7 +331,7 @@ void board_update(board_t b)
 
 		b->score += (y2 - y + 2 - 1) * 5 * multiple_seg;
 		multiple_seg *= 2;
-
+		seg_count++;
 	    }
 		
 
@@ -356,36 +361,41 @@ void board_update(board_t b)
 	int x, y;
 	for(x = 0; x < b->xsize; ++x)
 	{
-	    for(y = b->ysize - 1; y >= 0; --y)
+	    int col_changed = 1;
+	    while(col_changed) /* car il peut y avoir plusieurs trous par colonne */
 	    {
-		if(board_pos(b, x, y) == ' ')
+		col_changed = 0;
+		for(y = b->ysize - 1; y >= 0; --y)
 		{
-		    /* on cherche la position de la premiere gemme au dessus */
-		    i = y - 1;
-		    while(i >= 0 && board_pos(b, x, i) == ' ')
-			i--;
-
-		    /* on fait tomber les gemmes du dessus */
-
-		    int h =  y - i; /* hauteur du trou */
-
-		    int t;
-		    for(t = y; t >= i; --t)
+		    if(board_pos(b, x, y) == ' ')
 		    {
-			if(t - h < 0)
-			    board_pos(b, x, t) = randseq_next(b->rs);
-			else
-			    board_pos(b, x, t) = board_pos(b, x, t - h);
+			col_changed = 1;
+			/* on cherche la position de la premiere gemme au dessus */
+			i = y - 1;
+			while(i >= 0 && board_pos(b, x, i) == ' ')
+			    i--;
+
+			/* on fait tomber les gemmes du dessus */
+
+			int h =  y - i; /* hauteur du trou */
+
+			int t;
+			for(t = y; t >= 0; --t)
+			{
+			    if(t - h < 0)
+				board_pos(b, x, t) = randseq_next(b->rs);
+			    else
+				board_pos(b, x, t) = board_pos(b, x, t - h);
+			}
 		    }
-
-		    break; /* on a fini de traiter cette colonne*/
-
 		}
 	    }
 	}
 
-	board_update(b);
+	board_update_helper(b, multiple_seg, seg_count);
     }
+    else
+	b->last_seg_count = seg_count;
 
     board_free(buff);
 

@@ -14,7 +14,7 @@ void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int 
 {
 
     c_assert(nlines > 0 && nlines < 10 && nrows > 0 && nrows < 27);
-    c_assert( (s && strlen(s) > 2) || ngemmes > 2 );
+    c_assert( (s && strlen(s) > 2) || (!s && ngemmes > 2) );
 
     randseq_t rs;
     
@@ -38,6 +38,10 @@ void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int 
     while( read != -1 && !stop )
     {
 	board_print(b);
+
+	if(!silent && b->last_seg_count)
+	    printf("This move created %d segment(s).\n", b->last_seg_count);
+
 	entree = 0;
 	while(!entree) /* tant que pas d'entree correct */
 	{
@@ -90,6 +94,7 @@ void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int 
 		}
 		
 		entree = !board_move(b, line[0] - 'a', line[1] - '1', dir);
+
 	    }
 	    else
 	    {
