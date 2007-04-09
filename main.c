@@ -37,7 +37,7 @@ int main(int argc, char ** argv)
     int big = 0;
     int silent = 0;
 
-    while( (optch = getopt(argc, argv, "bhds:x:y:c:")) != -1 )
+    while( (optch = getopt(argc, argv, "bhqs:x:y:c:")) != -1 )
     {
 	switch(optch)
 	{

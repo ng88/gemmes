@@ -22,16 +22,16 @@ typedef struct s_board
 }* board_t;
 
 /* get the gemmes at (x, y) */
-#define board_pos(b, x, y) ((b)->data[(x) + (y)*((b)->ysize)])
+#define board_pos(b, x, y) ((b)->data[(y) + (x)*((b)->ysize)])
 
 #define board_neighbor(b, x, y, dir, dist) \
               board_pos((b), (x) + dx[(dir)] * (dist), (y) + dy[(dir)] * (dist))
 
 /* get the x coord of the gemme which have i as index */
-#define board_index_to_x(b, i) ((i) % (b)->ysize)
+#define board_index_to_x(b, i) ((i) / (b)->ysize)
 
 /* get the y coord of the gemme which have i as index */
-#define board_index_to_y(b, i) ((i) / (b)->ysize)
+#define board_index_to_y(b, i) ((i) % (b)->ysize)
 
 /* return non-zero is this is a valid pos */
 #define board_neighbor_valid(b, x, y, dir, dist) \
