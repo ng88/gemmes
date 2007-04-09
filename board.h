@@ -28,10 +28,10 @@ typedef struct s_board
               board_pos((b), (x) + dx[(dir)] * (dist), (y) + dy[(dir)] * (dist))
 
 /* get the x coord of the gemme which have i as index */
-#define board_index_to_x(b, i) ((i) % (b)->xsize)
+#define board_index_to_x(b, i) ((i) % (b)->ysize)
 
 /* get the y coord of the gemme which have i as index */
-#define board_index_to_y(b, i) ((i) / (b)->xsize)
+#define board_index_to_y(b, i) ((i) / (b)->ysize)
 
 /* return non-zero is this is a valid pos */
 #define board_neighbor_valid(b, x, y, dir, dist) \
