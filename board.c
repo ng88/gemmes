@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "board.h"
 #include "assert.h"
@@ -184,7 +185,7 @@ void board_free(board_t b)
 
 int board_is_valid_move(board_t b, int col, int line, dir_t dir)
 {
-    c_assert(b && col >= 0 && col < b->xsize && line >=0 && line < b->ysize);
+    c_assert(b);
 
     if(col < 0 || col >= b->xsize)
     {
@@ -232,7 +233,7 @@ int board_searchline(board_t b, int x, int y, dir_t dir)
 
 int board_move(board_t b, int x, int y, dir_t dir)
 {
-    c_assert(b && x >= 0 && x < b->xsize && y >=0 && y < b->ysize);
+    c_assert(b);
 
     if(!board_is_valid_move(b, x, y, dir))
 	return 1;
@@ -354,7 +355,8 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 	}
 	
 	board_print(b);
-
+	if(!b->silent)
+	    sleep(1);
 
 	/* on fait tomber les gemmes */
 

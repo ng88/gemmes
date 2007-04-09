@@ -6,11 +6,11 @@
 #include "assert.h"
 
 #include "gemmes.h"
-#include "board.h"
 
 
 
-void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int silent)
+
+void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, int silent)
 {
 
     c_assert(nlines > 0 && nlines < 10 && nrows > 0 && nrows < 27);
@@ -48,59 +48,22 @@ void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int 
 	    if(!silent)
 		puts("\nWhat's your move? (or ? for help, h for hint, d for dump, q to quit)");
 
-	    read = getline(&line, &len, stdin);
-	    
-	    if(read == 2) /* c'est peut être une commande */
+	    read = getline(&line, &len, stdin); /* une ligne peut contenir plusieurs commandes */
+
+	    char * cmd = line;
+	    int i;
+	    for(i = 0; i < read; ++i)
 	    {
-		switch(line[0])
+		if(line[i] == ' ' || i == read - 1)
 		{
-		case 'd': /* dump */
-		    printf("%s %d\n", b->data, b->score);
-		    entree = 1;
-		    break;
-		case 'h': /* hint */
-		    entree = 1;
-		    break;
-		case '?': /* help */
-		    if(!silent)
-			puts(HELP_MSG);
-		    entree = 1;
-		    break;
-		case 'q': /* quit */
-		    stop = 1;
-		    entree = 1;
-		    break;
-		default:
-		    if(!silent)
-			fputs("Invalid command\n", stderr);
-		    break;
+		    entree = gemmes_process_command(b, cmd, line + i - cmd, &stop);
+
+		    if(i + 1 < read)
+			cmd = line + i + 1;
+
 		}
 	    }
-	    else if(read == 4) /* c'est peut être un coup */
-	    {
-		dir_t dir;
 
-		switch(line[2])
-		{
-		case 'u': dir = up;  break;
-		case 'd': dir = down;  break;
-		case 'l': dir = left;  break;
-		case 'r': dir = right;  break;
-		default:
-		    if(!silent)
-			fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n\n", line[2]);
-		    entree = 0;
-		    continue;
-		}
-		
-		entree = !board_move(b, line[0] - 'a', line[1] - '1', dir);
-
-	    }
-	    else
-	    {
-		if(!silent)
-		    fputs("Invalid command\n", stderr);
-	    }
 	}
     }
 
@@ -111,5 +74,61 @@ void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int 
     randseq_free(rs);
 
 
+}
+
+int gemmes_process_command(board_t b, char * line, int read, int * stop)
+{
+    c_assert(stop);
+
+    if(read == 0)
+	return 0;
+    else if(read == 1) /* c'est peut être une commande */
+    {
+	switch(line[0])
+	{
+	case 'd': /* dump */
+	    printf("%s %d\n", b->data, b->score);
+	    return 1;
+	case 'h': /* hint */
+	    return 1;
+	case '?': /* help */
+	    if(!b->silent)
+		puts(HELP_MSG);
+	    return 1;
+	    break;
+	case 'q': /* quit */
+	    *stop = 1;
+	    return 1;
+	default:
+	    if(!b->silent)
+		fputs("Invalid command\n", stderr);
+	    return 0;
+	}
+    }
+    else if(read == 3) /* c'est peut être un coup */
+    {
+	dir_t dir;
+
+	switch(line[2])
+	{
+	case 'u': dir = up;  break;
+	case 'd': dir = down;  break;
+	case 'l': dir = left;  break;
+	case 'r': dir = right;  break;
+	default:
+	    if(!b->silent)
+		fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n\n", line[2]);
+	    return 0;
+	}
+		
+	return !board_move(b, line[0] - 'a', line[1] - '1', dir);
+
+    }
+    else
+    {
+	if(!b->silent)
+	    fputs("Invalid command\n", stderr);
+	return 0;
+    }
 }
 

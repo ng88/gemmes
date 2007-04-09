@@ -83,7 +83,7 @@ int main(int argc, char ** argv)
 	return EXIT_FAILURE;
     }
 
-    start_game_loop(y, x, ncolor, s, big, silent);
+    gemmes_start_loop(y, x, ncolor, s, big, silent);
 
     return EXIT_SUCCESS;
 }
