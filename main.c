@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
 
     int x = 8;
     int y = 8;
-    int ncolor = 8;
+    int ncolor = 7;
     char * s = NULL;
     int big = 0;
     int silent = 0;

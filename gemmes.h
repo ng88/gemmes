@@ -25,7 +25,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, in
 
 
 /* demarre un nouveau jeu avec les options par defaut */
-#define gemmes_start_loop_defaut() gemmes_start_loop(8, 8, 8, NULL, 0, 0)
+#define gemmes_start_loop_defaut() gemmes_start_loop(8, 8, 7, NULL, 0, 0)
 
 
 int gemmes_process_command(board_t b, char * line, int read, int * stop);

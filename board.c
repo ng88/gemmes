@@ -304,6 +304,10 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 
 	char current = board_pos(b, x, y);
 
+
+	printf("ch=%c %d;%d\n", current, x, y);
+
+
 	c_assert(buff->data[i] == board_pos(buff, x, y) &&
 		 b->data[i] == board_pos(b, x, y));
 
