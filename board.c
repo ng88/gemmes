@@ -80,13 +80,62 @@ board_t board_new(int nlines, int nrows, randseq_t rs)
 
 }
 
-
 void board_print(board_t b)
 {
-       c_assert(b);
+    c_assert(b);
 
-       if(b->silent)
-	   return;
+    if(b->silent)
+	return;
+
+    if(b->big)
+	board_print_big(b);
+    gelse
+	board_print_small(b);
+
+}
+
+void board_print_big(board_t b)
+{
+    int x, y;
+
+    fputs("Board:  +", stdout);
+    for(x = 0; x < b->xsize; ++x)
+	printf("-%c-+", 'a' + x);
+
+    printf("       Score: %d\n", b->score);
+
+    for(y = 0; y < b->ysize; ++y)
+    {
+	int i, j;
+
+	for(i = 1; i < 4; ++i)
+	{
+	    if(i == 2)
+		printf("      %d |", y);
+	    else
+		fputs("        |", stdout);
+	    for(x = 0; x < b->xsize; ++x)
+	    {
+		char c = board_pos(b, x, y);
+		putchar(c);
+		putchar(c);
+		putchar(c);
+		putchar('|');
+	    }
+	    if(i == 2)
+		printf(" %d", y);
+	    putchar('\n');
+	}
+
+	fputs("        +", stdout);
+	for(x = 0; x < b->xsize; ++x)
+	    printf("-%c-+", 'a' + x);
+	putchar('\n');
+    }
+}
+
+void board_print_small(board_t b)
+{
 
 	int i,j;
 
@@ -94,7 +143,7 @@ void board_print(board_t b)
 	for(i=0;i<b->xsize;i++)
 		printf("%c ",'a'+i);
 
-	fputs("\nboard:\t\t +", stdout);
+	fputs("\nBoard:\t\t +", stdout);
 	for(i=0;i<b->xsize;i++)
 		fputs("--", stdout);
 	printf("+\t Score: %d\n",b->score);

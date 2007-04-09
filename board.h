@@ -45,7 +45,16 @@ board_t board_alloc(int nlines, int nrows, randseq_t rs);
 /* alloc a new board and initializes it */
 board_t board_new(int nlines, int nrows, randseq_t rs);
 
+
+/* print the board */
 void board_print(board_t b);
+
+/* print the board with small letters */
+void board_print_small(board_t b);
+
+/* print the board with big letters */
+void board_print_big(board_t b);
+
 
 /** do not free rs */
 void board_free(board_t b);
