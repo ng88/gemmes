@@ -1,70 +1,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "gemmes.h"
+#include "board.h"
 #include "assert.h"
 
 const int dx[4] = {0, 0, -1, 1};
 const int dy[4] = {-1, 1, 0, 0};
 
-randseq_t randseq_new(int len)
-{
-    int i = 0;
-    char * data = (char*)malloc(len + 1);
-
-    c_assert2(data, "malloc failed");
-
-    while(i < len)
-	data[i++] = 'A' + (int)((double)('Z' - 'A' + 1) * (rand() / (double)RAND_MAX));
-
-    randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
-
-    c_assert2(ret, "malloc failed");
-
-    ret->len = len;
-    ret->pos = 0;
-    ret->data = data;
-
-    return ret;
-}
-
-randseq_t randseq_new_from_str(char * seq)
-{
-    c_assert(seq);
-
-    randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
-
-    c_assert2(ret, "malloc failed");
-
-    ret->len = strlen(seq);
-    ret->pos = 0;
-    ret->data = strdup(seq);
-
-    c_assert2(ret->data, "strdup failed");
-
-    return ret;
-}
-
-void randseq_free(randseq_t rs)
-{
-    c_assert(rs);
-
-    free(rs->data);
-	
-    free(rs);
-}
-
-char randseq_next(randseq_t rs)
-{
-    c_assert(rs && rs->data);
-
-    char ret = rs->data[rs->pos++];
-
-    if(rs->pos == rs->len)
-	rs->pos = 0;
-
-    return ret;
-}
 
 board_t board_alloc(int nlines, int nrows, randseq_t rs)
 {
@@ -77,7 +19,10 @@ board_t board_alloc(int nlines, int nrows, randseq_t rs)
     b->ysize = nlines;
     b->xsize = nrows;
     b->rs = rs;
-    b->score=0;
+    b->score = 0;
+
+    b->silent = 0;
+    b->big = 0;
 
     b->data = (char*)malloc(nlines * nrows);
 
@@ -140,6 +85,9 @@ void board_print(board_t b)
 {
        c_assert(b);
 
+       if(b->silent)
+	   return;
+
 	int i,j;
 
 	printf("\t\t  ");
@@ -186,13 +134,15 @@ int board_is_valid_move(board_t b, int col, int line, dir_t dir)
 
     if(col < 0 || col >= b->xsize)
     {
-	fprintf(stderr, "Invalid column specifier:   not between 'a' and '%c'\n\n", 'a' + b->xsize - 1);
+	if(!b->silent)
+	    fprintf(stderr, "Invalid column specifier:   not between 'a' and '%c'\n\n", 'a' + b->xsize - 1);
 	return 0;
     }
 
     if(line < 0 || line >= b->ysize)
     {
-	fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n\n", b->ysize);
+	if(!b->silent)
+	    fprintf(stderr, "Invalid line specifier:   not between '1' and '%d'\n\n", b->ysize);
 	return 0;
     }
 
@@ -201,7 +151,8 @@ int board_is_valid_move(board_t b, int col, int line, dir_t dir)
 
     if(x < 0 || y < 0 || x >= b->xsize || y >=  b->ysize)
     {
-	fprintf(stderr, "Invalid move %c%d %s (cannot switch against the walls)\n\n", col + 'a', line + 1, dir_to_string(dir));
+	if(!b->silent)
+	    fprintf(stderr, "Invalid move %c%d %s (cannot switch against the walls)\n\n", col + 'a', line + 1, dir_to_string(dir));
 	return 0;
     }
     
@@ -211,6 +162,8 @@ int board_is_valid_move(board_t b, int col, int line, dir_t dir)
 
 int board_searchline(board_t b, int x, int y, dir_t dir)
 {
+    c_assert(b);
+
 	int cpt = 0, dist = 1;
 	char current = board_pos(b,x,y);
 
@@ -225,6 +178,8 @@ int board_searchline(board_t b, int x, int y, dir_t dir)
 
 int board_move(board_t b, int x, int y, dir_t dir)
 {
+    c_assert(b);
+
     if(!board_is_valid_move(b, x, y, dir))
 	return 1;
 
@@ -237,7 +192,8 @@ int board_move(board_t b, int x, int y, dir_t dir)
     if(!seg_count)
     { /* on a pas cree de segments */
 	board_swap(b, x, y, dir);	/* on retablit */
-	fputs("Invalid move (move leads nowhere)\n", stderr);
+	if(!b->silent)
+	    fputs("Invalid move (move leads nowhere)\n", stderr);
 	return 1;
     }
 

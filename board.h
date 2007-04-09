@@ -1,19 +1,25 @@
-#ifndef GEMMES_H
-#define GEMMES_H
+#ifndef BOARD_H
+#define BOARD_H
 
+#include "randseq.h"
 
-typedef struct s_randseq
+typedef enum { up=0, down=1, left=2, right=3 } dir_t;
+
+const int dx[4];
+const int dy[4];
+
+typedef struct s_board
 {
-    short len;
-    short pos;
-    char * data;
-}* randseq_t;
+    randseq_t rs;
+    int xsize;
+    int ysize;
+    char *data;
+    int score;
 
+    int silent;
+    int big;
 
-randseq_t randseq_new(int len);
-randseq_t randseq_new_from_str(char * seq);
-void randseq_free(randseq_t rs);
-char randseq_next(randseq_t rs);
+}* board_t;
 
 /* get the gemmes at (x, y) */
 #define board_pos(b, x, y) ((b)->data[(x) + (y)*((b)->ysize)])
@@ -31,21 +37,6 @@ char randseq_next(randseq_t rs);
 #define board_neighbor_valid(b, x, y, dir, dist) \
                 (((x) + dx[(dir)] * (dist)) >= 0 && ((x) + dx[(dir)] * (dist)) < b->xsize && \
                 ((y) + dy[(dir)] * (dist)) >= 0 && ((y) + dy[(dir)] * (dist)) < b->ysize)
-              
-
-typedef enum { up=0, down=1, left=2, right=3 } dir_t;
-
-const int dx[4];
-const int dy[4];
-
-typedef struct s_board
-{
-    randseq_t rs;
-	int xsize;
-	int ysize;
-	char *data;
-	int score;
-}* board_t;
 
 
 /* only alloc a new board, does not initialize gemmes */

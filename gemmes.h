@@ -1,6 +1,6 @@
 
-#ifndef GAME_H
-#define GAME_H
+#ifndef GEMMES_H
+#define GEMMES_H
 
 
 
@@ -20,8 +20,9 @@
  * ngemmes : nombre de gemmes
  * s : chaine aléatoire, peut être NULL
  * big : si non nul l'affichage gros est activé
+ * silent : si non nul, seul la commande dump affichera qqch
  */
-void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big);
+void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int silent);
 
 
 /* demarre un nouveau jeu avec les options par defaut */
