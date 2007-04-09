@@ -26,7 +26,7 @@ void start_game_loop(int nlines, int nrows, int ngemmes, char * s, int big, int 
 
 
 /* demarre un nouveau jeu avec les options par defaut */
-#define start_game_loop_defaut() start_game_loop(8, 8, 8, NULL, 0)
+#define start_game_loop_defaut() start_game_loop(8, 8, 8, NULL, 0, 0)
 
 
 #endif

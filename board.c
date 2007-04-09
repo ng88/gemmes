@@ -98,7 +98,7 @@ void board_print_big(board_t b)
 {
     int x, y;
 
-    fputs("Board:  +", stdout);
+    fputs("\nBoard:  +", stdout);
     for(x = 0; x < b->xsize; ++x)
 	printf("-%c-+", 'a' + x);
 
@@ -106,12 +106,12 @@ void board_print_big(board_t b)
 
     for(y = 0; y < b->ysize; ++y)
     {
-	int i, j;
+	int i;
 
 	for(i = 1; i < 4; ++i)
 	{
 	    if(i == 2)
-		printf("      %d |", y);
+		printf("      %d |", y + 1);
 	    else
 		fputs("        |", stdout);
 	    for(x = 0; x < b->xsize; ++x)
@@ -123,7 +123,7 @@ void board_print_big(board_t b)
 		putchar('|');
 	    }
 	    if(i == 2)
-		printf(" %d", y);
+		printf(" %d", y + 1);
 	    putchar('\n');
 	}
 
@@ -132,6 +132,9 @@ void board_print_big(board_t b)
 	    printf("-%c-+", 'a' + x);
 	putchar('\n');
     }
+
+    putchar('\n');
+
 }
 
 void board_print_small(board_t b)
