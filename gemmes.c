@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "assert.h"
 
@@ -54,6 +55,8 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, in
 	    int i;
 	    for(i = 0; i < read; ++i)
 	    {
+		line[i] = tolower(line[i]);
+
 		if(line[i] == ' ' || i == read - 1)
 		{
 		    entree = gemmes_process_command(b, cmd, line + i - cmd, &stop);
@@ -79,6 +82,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, in
 int gemmes_process_command(board_t b, char * line, int read, int * stop)
 {
     c_assert(stop);
+
 
     if(read == 0)
 	return 0;
