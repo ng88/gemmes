@@ -37,10 +37,11 @@ int main(int argc, char ** argv)
     int big = 0;
     int silent = 0;
 
-    while( (optch = getopt(argc, argv, "bhqs:x:y:c:")) != -1 )
+    while( (optch = getopt(argc, argv, "bfhqs:x:y:c:")) != -1 )
     {
 	switch(optch)
 	{
+	case 'f':
 	case 'b':
 	    big = 1;
 	    break;
