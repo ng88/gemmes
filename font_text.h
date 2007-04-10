@@ -1,0 +1,42 @@
+
+#ifndef FONT_TEXT_H
+#define FONT_TEXT_H
+
+
+/* Contains text fonts for text mode of the game*/
+
+
+#define LETTER_SIZE_X 3
+#define LETTER_SIZE_Y 3
+#define LETTER_COUNT 16
+
+typedef char font_t[LETTER_COUNT][LETTER_SIZE_Y][LETTER_SIZE_X + 1];
+
+/* big font */
+font_t BIG_FONT;
+
+
+/* fancy font */
+font_t FANCY_FONT;
+
+
+
+/* Get the char (x, y) of the letter l of the font f*/
+char text_font_get_char(font_t f, int l, int x, int y);
+
+/* Get the line number y of letter l (return a null terminated string)*/
+char* text_font_get_line(font_t f, int l, int y);
+
+
+
+
+
+
+
+
+
+
+
+
+#endif
+

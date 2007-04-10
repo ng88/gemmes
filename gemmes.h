@@ -3,6 +3,7 @@
 #define GEMMES_H
 
 #include "board.h"
+#include "font_text.h"
 
 #define HELP_MSG  "Moves are on three positions:\n" \
                   " - First char specifies the column to move from\n" \
@@ -18,10 +19,10 @@
  * nrows : nombre de colonnes (x)
  * ngemmes : nombre de gemmes
  * s : chaine aléatoire, peut être NULL
- * big : si non nul l'affichage gros est activé
+ * font : police a utiliser, peut etre NULL
  * silent : si non nul, seul la commande dump affichera qqch
  */
-void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, int silent);
+void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f, int silent);
 
 
 /* demarre un nouveau jeu avec les options par defaut */

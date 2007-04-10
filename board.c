@@ -5,6 +5,7 @@
 #include "board.h"
 #include "assert.h"
 
+
 const int dx[4] = {0, 0, -1, 1};
 const int dy[4] = {-1, 1, 0, 0};
 
@@ -23,7 +24,7 @@ board_t board_alloc(int nlines, int nrows, randseq_t rs)
     b->score = 0;
 
     b->silent = 0;
-    b->big = 0;
+    b->font = NULL;
 
     b->last_seg_count = 0;
 
@@ -90,7 +91,7 @@ void board_print(board_t b)
     if(b->silent)
 	return;
 
-    if(b->big)
+    if(b->font)
 	board_print_big(b);
     else
 	board_print_small(b);
@@ -111,21 +112,18 @@ void board_print_big(board_t b)
     {
 	int i;
 
-	for(i = 1; i < 4; ++i)
+	for(i = 0; i < 3; ++i)
 	{
-	    if(i == 2)
+	    if(i == 1)
 		printf("      %d |", y + 1);
 	    else
 		fputs("        |", stdout);
 	    for(x = 0; x < b->xsize; ++x)
 	    {
-		char c = board_pos(b, x, y);
-		putchar(c);
-		putchar(c);
-		putchar(c);
+		fputs(text_font_get_line(*b->font, board_pos(b, x, y) - 'A', i), stdout);
 		putchar('|');
 	    }
-	    if(i == 2)
+	    if(i == 1)
 		printf(" %d", y + 1);
 	    putchar('\n');
 	}

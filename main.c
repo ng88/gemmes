@@ -35,7 +35,7 @@ int main(int argc, char ** argv)
     int y = 8;
     int ncolor = 7;
     char * s = NULL;
-    int big = 0;
+    font_t * font = NULL;
     int silent = 0;
 
     while( (optch = getopt(argc, argv, "bfhqs:x:y:c:")) != -1 )
@@ -43,8 +43,10 @@ int main(int argc, char ** argv)
 	switch(optch)
 	{
 	case 'f':
+	    font = &FANCY_FONT;
+	    break;
 	case 'b':
-	    big = 1;
+	    font = &BIG_FONT;
 	    break;
 	case 'h':
 	    usage(pname, EXIT_SUCCESS);
@@ -79,14 +81,14 @@ int main(int argc, char ** argv)
 	return EXIT_FAILURE;
     }
 
-    if((s && strlen(s) <= 2) || (!s && ncolor <= 2))
+    if((s && strlen(s) <= 2) || (!s && (ncolor <= 2 || ncolor > 16 ) ))
     {
 	fprintf(stderr, "%s: invalid number of color (<= 2)\n", pname);
 	return EXIT_FAILURE;
     }
 
     srand(time(0));
-    gemmes_start_loop(y, x, ncolor, s, big, silent);
+    gemmes_start_loop(y, x, ncolor, s, font, silent);
 
     return EXIT_SUCCESS;
 }
