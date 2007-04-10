@@ -75,13 +75,13 @@ int main(int argc, char ** argv)
 
     if(y <= 0 || y >= 10 || x <= 0 || x >= 27)
     {
-	fprintf(stderr, "%s: invalid size", pname);
+	fprintf(stderr, "%s: invalid size\n", pname);
 	return EXIT_FAILURE;
     }
 
     if((s && strlen(s) <= 2) || (!s && ncolor <= 2))
     {
-	fprintf(stderr, "%s: invalid number of color (<= 2)", pname);
+	fprintf(stderr, "%s: invalid number of color (<= 2)\n", pname);
 	return EXIT_FAILURE;
     }
 
