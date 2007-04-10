@@ -60,7 +60,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 
 		    if(line[i] == ' ' || i == read - 1)
 		    {
-			entree = gemmes_process_command(b, cmd, line + i - cmd, &stop);
+			entree = gemmes_process_command(b, cmd, line + i - cmd, &stop) || entree;
 			if(stop)
 			    break;
 

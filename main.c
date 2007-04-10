@@ -12,6 +12,8 @@ void usage(const char * pname, int ev)
     fprintf(stderr, "usage: %s [option]\n"
 	            "  Accepted options:\n"
 	            "   -b                        big display\n"
+	            "   -f                        big display (ASCII Art)\n"
+	            "   -g                        big display (colored ASCII Art, does not pretend to be fully portable)\n"
 	            "   -h                        print this help string\n"
 	            "   -q                        quiet, only the dump command will display something\n"
                     "   -s randseq                use randseq as random sequence\n"
@@ -38,7 +40,7 @@ int main(int argc, char ** argv)
     font_t * font = NULL;
     int silent = 0;
 
-    while( (optch = getopt(argc, argv, "bfhqs:x:y:c:")) != -1 )
+    while( (optch = getopt(argc, argv, "bfghqs:x:y:c:")) != -1 )
     {
 	switch(optch)
 	{
@@ -47,6 +49,9 @@ int main(int argc, char ** argv)
 	    break;
 	case 'b':
 	    font = &BIG_FONT;
+	    break;
+	case 'g':
+	    font = &COLORED_FONT;
 	    break;
 	case 'h':
 	    usage(pname, EXIT_SUCCESS);

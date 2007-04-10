@@ -6,19 +6,25 @@
 /* Contains text fonts for text mode of the game*/
 
 
+
 #define LETTER_SIZE_X 3
 #define LETTER_SIZE_Y 3
 #define LETTER_COUNT 16
 
-typedef char font_t[LETTER_COUNT][LETTER_SIZE_Y][LETTER_SIZE_X + 1];
+#define LETTER_EXTRA 22
+
+typedef char font_t[LETTER_COUNT][LETTER_SIZE_Y][LETTER_SIZE_X + LETTER_EXTRA];
+
 
 /* big font */
 font_t BIG_FONT;
 
-
 /* fancy font */
 font_t FANCY_FONT;
 
+
+/* fancy font */
+font_t COLORED_FONT;
 
 
 /* Get the char (x, y) of the letter l of the font f*/

@@ -120,7 +120,11 @@ void board_print_big(board_t b)
 		fputs("        |", stdout);
 	    for(x = 0; x < b->xsize; ++x)
 	    {
-		fputs(text_font_get_line(*b->font, board_pos(b, x, y) - 'A', i), stdout);
+		char c = board_pos(b, x, y);
+		if(c == ' ')
+		    fputs("   ", stdout);
+		else
+		    fputs(text_font_get_line(*b->font, c - 'A', i), stdout);
 		putchar('|');
 	    }
 	    if(i == 1)
