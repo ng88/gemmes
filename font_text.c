@@ -347,24 +347,24 @@ font_t COLORED_FONT2 =
 
 
 
-char text_font_get_char(font_t f, int l, int x, int y)
+char text_font_get_char(font_t f, char l, int x, int y)
 {
     c_assert(f);
-    c_assert(l >= 0 && l < LETTER_COUNT);
+    c_assert(l >= 'A' && l < 'A' + LETTER_COUNT);
     c_assert(x >= 0 && x < LETTER_SIZE_X);
     c_assert(y >= 0 && y < LETTER_SIZE_Y);
 
-    return f[l][y][x];
+    return f[l - 'A'][y][x];
 
 }
 
-char* text_font_get_line(font_t f, int l, int y)
+char* text_font_get_line(font_t f, char l, int y)
 {
     c_assert(f);
-    c_assert(l >= 0 && l < LETTER_COUNT);
+    c_assert(l >= 'A' && l < 'A' + LETTER_COUNT);
     c_assert(y >= 0 && y < LETTER_SIZE_Y);
 
-    return f[l][y];
+    return f[l - 'A'][y];
 
 }
 

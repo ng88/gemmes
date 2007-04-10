@@ -124,7 +124,7 @@ void board_print_big(board_t b)
 		if(c == ' ')
 		    fputs("   ", stdout);
 		else
-		    fputs(text_font_get_line(*b->font, c - 'A', i), stdout);
+		    fputs(text_font_get_line(*b->font, c, i), stdout);
 		putchar('|');
 	    }
 	    if(i == 1)

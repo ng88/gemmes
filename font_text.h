@@ -30,10 +30,10 @@ font_t COLORED_FONT2;
 
 
 /* Get the char (x, y) of the letter l of the font f*/
-char text_font_get_char(font_t f, int l, int x, int y);
+char text_font_get_char(font_t f, char l, int x, int y);
 
 /* Get the line number y of letter l (return a null terminated string)*/
-char* text_font_get_line(font_t f, int l, int y);
+char* text_font_get_line(font_t f, char l, int y);
 
 
 
