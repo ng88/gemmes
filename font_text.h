@@ -22,9 +22,11 @@ font_t BIG_FONT;
 /* fancy font */
 font_t FANCY_FONT;
 
-
-/* fancy font */
+/* colored font */
 font_t COLORED_FONT;
+
+/* colored font */
+font_t COLORED_FONT2;
 
 
 /* Get the char (x, y) of the letter l of the font f*/

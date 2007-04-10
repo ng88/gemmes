@@ -13,7 +13,8 @@ void usage(const char * pname, int ev)
 	            "  Accepted options:\n"
 	            "   -b                        big display\n"
 	            "   -f                        big display (ASCII Art)\n"
-	            "   -g                        big display (colored ASCII Art, does not pretend to be fully portable)\n"
+	            "   -g                        big display (colored ASCII Art, does not pretend to be fully portable.\n"
+	            "                                          you can use -gg for another color disposition)\n"
 	            "   -h                        print this help string\n"
 	            "   -q                        quiet, only the dump command will display something\n"
                     "   -s randseq                use randseq as random sequence\n"
@@ -51,7 +52,10 @@ int main(int argc, char ** argv)
 	    font = &BIG_FONT;
 	    break;
 	case 'g':
-	    font = &COLORED_FONT;
+	    if(font == &COLORED_FONT)
+		font = &COLORED_FONT2;
+	    else
+		font = &COLORED_FONT;
 	    break;
 	case 'h':
 	    usage(pname, EXIT_SUCCESS);
