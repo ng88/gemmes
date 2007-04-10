@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "gemmes.h"
 
@@ -84,6 +85,7 @@ int main(int argc, char ** argv)
 	return EXIT_FAILURE;
     }
 
+    srand(time(0));
     gemmes_start_loop(y, x, ncolor, s, big, silent);
 
     return EXIT_SUCCESS;

@@ -23,6 +23,12 @@ typedef struct s_board
 
 }* board_t;
 
+typedef struct s_coord
+{
+    int x;
+    int y;
+} coord_t;
+
 /* get the gemmes at (x, y) */
 #define board_pos(b, x, y) ((b)->data[(y) + (x)*((b)->ysize)])
 
@@ -82,6 +88,8 @@ int board_segment_count(board_t b, int x, int y);
  * sed_count: segment count
  */
 void board_update_helper(board_t b, int multiple_seg, int seg_count);
+
+coord_t board_get_hint(board_t b);
 
 /* returns "left" for left, "right", for right etc*/
 char * dir_to_string(dir_t d);

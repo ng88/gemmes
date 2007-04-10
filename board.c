@@ -393,6 +393,48 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 
 }
 
+coord_t board_get_hint(board_t b)
+{
+    coord_t ret;
+    ret.x = ret.y = -1;
+
+    int x, y;
+    dir_t d;
+
+    int old_silent = b->silent;
+    b->silent = 1;
+
+    for(y = 0; y < b->ysize ; y++)
+	for(x = 0; x < b->xsize ;x++)
+	    for(d = 0; d < 4 ;d++)
+	    {
+		/* si c'est un coup valide */
+		if(board_is_valid_move(b, x, y, d))
+		{		    
+
+		    /* on essaye */
+		    board_swap(b, x, y, d);
+
+		    /* combien on a cree de segment */
+		    int seg_count = board_segment_count(b, x, y) + 
+			            board_segment_count(b, x + dx[d], y + dy[d]);
+
+                    /* on retablit */
+		    board_swap(b, x, y, d);
+
+		    if(seg_count)
+		    { /* c'est un coup qui abouti */
+			ret.x = x;
+			ret.y = y;
+			b->silent = old_silent;
+			return ret;
+		    }
+		}
+	    }
+
+    b->silent = old_silent;
+    return ret;
+}
 
 char * dir_to_string(dir_t d)
 {

@@ -15,7 +15,7 @@ randseq_t randseq_new(int len, int diff)
     c_assert2(data, "malloc failed");
 
     while(i < len)
-	data[i++] = 'A' + (int)((double)('A' + diff - 'A' + 1) * (rand() / (double)RAND_MAX));
+	data[i++] = 'A' + (int)((double)diff * (rand() / (double)RAND_MAX));
 
     randseq_t ret = (randseq_t)malloc(sizeof(struct s_randseq));
 

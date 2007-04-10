@@ -10,7 +10,6 @@
 
 
 
-
 void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, int silent)
 {
 
@@ -44,7 +43,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, in
 	    printf("This move created %d segment(s).\n", b->last_seg_count);
 
 	entree = 0;
-	while(!entree && read != -1) /* tant que pas d'entree correct */
+	while(!entree && read != -1 && !stop) /* tant que pas d'entree correct */
 	{
 	    if(!silent)
 		puts("\nWhat's your move? (or ? for help, h for hint, d for dump, q to quit)");
@@ -62,6 +61,8 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, in
 		    if(line[i] == ' ' || i == read - 1)
 		    {
 			entree = gemmes_process_command(b, cmd, line + i - cmd, &stop);
+			if(stop)
+			    break;
 
 			if(i + 1 < read)
 			    cmd = line + i + 1;
@@ -86,7 +87,6 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 {
     c_assert(stop);
 
-
     if(read == 0)
 	return 0;
     else if(read == 1) /* c'est peut être une commande */
@@ -103,7 +103,14 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 	    return 1;
 	}
 	case 'h': /* hint */
-	    return 1;
+	{
+	    coord_t c = board_get_hint(b);
+
+	    if(!b->silent && c.x != -1)
+		printf("Have a look at %c%d\n", 'a' + c.x, 1 + c.y);
+
+	    return 0;
+	}
 	case '?': /* help */
 	    if(!b->silent)
 		puts(HELP_MSG);
@@ -134,7 +141,17 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 	    return 0;
 	}
 		
-	return !board_move(b, line[0] - 'a', line[1] - '1', dir);
+	int ret = !board_move(b, line[0] - 'a', line[1] - '1', dir);
+
+	if(ret && board_get_hint(b).x == -1) /* partie finie */
+	{
+	    if(!b->silent)
+		fputs("Game over!\n", stderr);
+
+	    *stop = 1;
+	}
+
+	return ret;
 
     }
     else
