@@ -88,7 +88,7 @@ int main(int argc, char ** argv)
 
     if((s && strlen(s) <= 2) || (!s && (ncolor <= 2 || ncolor > 16 ) ))
     {
-	fprintf(stderr, "%s: invalid number of color (<= 2)\n", pname);
+	fprintf(stderr, "%s: invalid number of color (must be between 2 and 16)\n", pname);
 	return EXIT_FAILURE;
     }
 

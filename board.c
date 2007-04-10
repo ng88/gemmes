@@ -348,7 +348,7 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 	
 	board_print(b);
 	if(!b->silent)
-	    sleep(1);
+	    usleep(300000); /* sleep 0.3 second*/
 
 	/* on fait tomber les gemmes */
 
@@ -428,6 +428,7 @@ coord_t board_get_hint(board_t b)
 		    { /* c'est un coup qui abouti */
 			ret.x = x;
 			ret.y = y;
+			ret.d = d;
 			b->silent = old_silent;
 			return ret;
 		    }

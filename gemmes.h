@@ -31,4 +31,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 
 int gemmes_process_command(board_t b, char * line, int read, int * stop);
 
+
+void gemmes_autoplay(board_t b);
+
 #endif

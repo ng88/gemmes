@@ -46,7 +46,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 	while(!entree && read != -1 && !stop) /* tant que pas d'entree correct */
 	{
 	    if(!silent)
-		puts("\nWhat's your move? (or ? for help, h for hint, d for dump, q to quit)");
+		puts("\nWhat's your move? (or ? for help, h for hint, d for dump, a for autoplay, q to quit)");
 
 	    read = getline(&line, &len, stdin); /* une ligne peut contenir plusieurs commandes */
 
@@ -111,6 +111,11 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 
 	    return 0;
 	}
+	case 'a': /* autoplay */
+	    gemmes_autoplay(b);
+	    *stop = 1;
+	    return 1;
+	    break;
 	case '?': /* help */
 	    if(!b->silent)
 		puts(HELP_MSG);
@@ -162,3 +167,20 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
     }
 }
 
+void gemmes_autoplay(board_t b)
+{
+    coord_t c;
+    while( (c = board_get_hint(b)).x != -1 )
+    {
+	if(!b->silent)
+	    printf("Autoplay %c%d %s\n", 'a' + c.x, 1 + c.y, dir_to_string(c.d));
+
+	board_move(b, c.x, c.y, c.d);
+    }
+
+    board_print(b);
+
+    if(!b->silent)
+	fputs("Game over!\n", stderr);
+
+}

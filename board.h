@@ -28,6 +28,7 @@ typedef struct s_coord
 {
     int x;
     int y;
+    dir_t d;
 } coord_t;
 
 /* get the gemmes at (x, y) */
@@ -90,6 +91,7 @@ int board_segment_count(board_t b, int x, int y);
  */
 void board_update_helper(board_t b, int multiple_seg, int seg_count);
 
+/* return a hint, return (-1, -1, *) if no more move is possible*/
 coord_t board_get_hint(board_t b);
 
 /* returns "left" for left, "right", for right etc*/
