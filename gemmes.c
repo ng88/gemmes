@@ -44,26 +44,29 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int big, in
 	    printf("This move created %d segment(s).\n", b->last_seg_count);
 
 	entree = 0;
-	while(!entree) /* tant que pas d'entree correct */
+	while(!entree && read != -1) /* tant que pas d'entree correct */
 	{
 	    if(!silent)
 		puts("\nWhat's your move? (or ? for help, h for hint, d for dump, q to quit)");
 
 	    read = getline(&line, &len, stdin); /* une ligne peut contenir plusieurs commandes */
 
-	    char * cmd = line;
-	    int i;
-	    for(i = 0; i < read; ++i)
+	    if(read != -1)
 	    {
-		line[i] = tolower(line[i]);
-
-		if(line[i] == ' ' || i == read - 1)
+		char * cmd = line;
+		int i;
+		for(i = 0; i < read; ++i)
 		{
-		    entree = gemmes_process_command(b, cmd, line + i - cmd, &stop);
+		    line[i] = tolower(line[i]);
 
-		    if(i + 1 < read)
-			cmd = line + i + 1;
+		    if(line[i] == ' ' || i == read - 1)
+		    {
+			entree = gemmes_process_command(b, cmd, line + i - cmd, &stop);
 
+			if(i + 1 < read)
+			    cmd = line + i + 1;
+
+		    }
 		}
 	    }
 

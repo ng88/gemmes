@@ -296,51 +296,39 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 
     /* on va chercher les segments */
 
-    for(i = 0; i < ncase; ++i)
-    {
-
-	int x = board_index_to_x(buff, i);
-	int y = board_index_to_y(buff, i);
-
-	char current = board_pos(b, x, y);
-
-
-	printf("ch=%c %d;%d\n", current, x, y);
-
-
-	c_assert(buff->data[i] == board_pos(buff, x, y) &&
-		 b->data[i] == board_pos(b, x, y));
-
-	if(buff->data[i] == EMPTY) /* si la case n'est pas marquee */
+    int x, y;
+    for(y = 0; y < b->ysize ; y++)
+	for(x = 0; x < b->xsize ;x++)
 	{
-	    if(board_searchline(b, x, y, left) == 2)
-	    { /* alors on est dans un segment horizontal */
+	    char current = board_pos(b, x, y);
 
-		int x2 = x - 2;
-		while(x2 < buff->xsize && board_pos(b, x2, y) == current)
-		    board_pos(buff, x2++, y) = TAGGED;
+	    if( board_pos(buff, x, y) == EMPTY ) /* si la case n'est pas marquee */
+	    {
+		if(board_searchline(b, x, y, left) == 2)
+		{ /* alors on est dans un segment horizontal */
 
-		b->score += (x2 - x + 2 - 1) * 5 * multiple_seg;
-		multiple_seg *= 2;
-		seg_count++;
+		    int x2 = x - 2;
+		    while(x2 < buff->xsize && board_pos(b, x2, y) == current)
+			board_pos(buff, x2++, y) = TAGGED;
+
+		    b->score += (x2 - x + 2 - 1) * 5 * multiple_seg;
+		    multiple_seg *= 2;
+		    seg_count++;
+		}
+
+		else if(board_searchline(b, x, y, up) == 2)
+		{ /* alors on est dans un segment horizontal */
+
+		    int y2 = y - 2;
+		    while(y2 < buff->ysize && board_pos(b, x, y2) == current)
+			board_pos(buff, x, y2++) = TAGGED;
+
+		    b->score += (y2 - y + 2 - 1) * 5 * multiple_seg;
+		    multiple_seg *= 2;
+		    seg_count++;
+		}
 	    }
-
-	    else if(board_searchline(b, x, y, up) == 2)
-	    { /* alors on est dans un segment horizontal */
-
-		int y2 = y - 2;
-		while(y2 < buff->ysize && board_pos(b, x, y2) == current)
-		    board_pos(buff, x, y2++) = TAGGED;
-
-		b->score += (y2 - y + 2 - 1) * 5 * multiple_seg;
-		multiple_seg *= 2;
-		seg_count++;
-	    }
-		
-
 	}
-
-    }
 
     if(old_score != b->score) /* si on a eu des segments */
     {
