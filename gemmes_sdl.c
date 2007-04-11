@@ -6,6 +6,7 @@
 #include "sdl_draw.h"
 
 #define RES_GEMMES "res/gemmes.bmp"
+#define RES_FONT "res/font.bmp"
 
 
 #define GRID_WIDTH 2
@@ -13,11 +14,15 @@
 #define GRIDCOLOR 0x9f1f1f
 
 /* emplacement du plateau */
-#define BOARD_START_X 10
-#define BOARD_START_Y 10
+#define BOARD_START_X 50
+#define BOARD_START_Y 50
+
+/* emplacement du score depuis le bord droit */
+#define SCORE_POS_X 50
+#define SCORE_POS_Y 10
 
 /* espace apres le plateau */
-#define BOARD_RIGHT 50
+#define BOARD_RIGHT 150
 #define BOARD_BOTTOM 10
 
 /* taille d'une gemme */
@@ -31,7 +36,7 @@ static int HEIGHT;
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
-SDL_Surface *grille;
+SDL_Surface *font;
 
 void render(board_t);
 void init(board_t);
@@ -98,6 +103,7 @@ void gemmes_start_ihm(board_t b)
 	}
     }
 
+    SDL_FreeSurface(font);
     SDL_FreeSurface(sgemmes);
     SDL_FreeSurface(screen);
     SDL_Quit();
@@ -112,9 +118,15 @@ void init(board_t b)
     c_assert(sgemmes);
     SDL_FreeSurface(temp);
 
+    /* on charge la police */
+    temp = SDL_LoadBMP(RES_FONT);
+    c_assert2(temp, "unable to load " RES_FONT);
+    font = SDL_ConvertSurface(temp, screen->format, SDL_SWSURFACE);
+    c_assert(font);
+    SDL_FreeSurface(temp);
+
+
     draw_rect(screen, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, BGCOLOR);
-
-
 
 
     /* on trace la grille */
@@ -166,6 +178,14 @@ void render(board_t b)
 		       x * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X + GRID_WIDTH,
 		       y * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y + GRID_WIDTH);
 	}
+
+    /* on trace le score */
+
+    char s[30];
+
+    sprintf(s, "Score: %d", b->score);
+
+    draw_string(screen, font, WIDTH - SCORE_POS_X,  HEIGHT, s);
 
 
     if(SDL_MUSTLOCK(screen)) 

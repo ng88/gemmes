@@ -58,3 +58,34 @@ void draw_rect(SDL_Surface *screen, int screen_width, int screen_height, int x, 
     }
 }
 
+void draw_string(SDL_Surface *screen, SDL_Surface * font, int x, int y, char * s)
+{
+    if (SDL_MUSTLOCK(font))
+	if (SDL_LockSurface(font) < 0) 
+	    return;
+    
+    while(*s)
+    {
+	if(*s >= 33)
+	{
+	    int i, j;
+	    for (i = 0; i < font->w; i++)
+	    {
+		int screenofs = x + (y + i) * (screen->pitch / 4);
+		int charofs = (i + (*s - 33) * font->w) * (font->pitch / 4);
+		for (j = 0; j < font->w; j++)
+		{
+		    ((unsigned int*)screen->pixels)[screenofs] = 
+			((unsigned int*)font->pixels)[charofs];
+		    screenofs++;
+		    charofs++;
+		}
+	    }
+	}
+	s++;
+	x += font->w;
+    }
+    
+    if (SDL_MUSTLOCK(font)) 
+        SDL_UnlockSurface(font);
+}
