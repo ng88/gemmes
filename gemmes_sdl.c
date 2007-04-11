@@ -14,12 +14,12 @@
 #define GRIDCOLOR 0x9f1f1f
 
 /* emplacement du plateau */
-#define BOARD_START_X 50
-#define BOARD_START_Y 50
+#define BOARD_START_X 10
+#define BOARD_START_Y 10
 
 /* emplacement du score depuis le bord droit */
-#define SCORE_POS_X 50
-#define SCORE_POS_Y 10
+#define SCORE_POS_X 140
+#define SCORE_POS_Y 20
 
 /* espace apres le plateau */
 #define BOARD_RIGHT 150
@@ -183,9 +183,10 @@ void render(board_t b)
 
     char s[30];
 
-    sprintf(s, "Score: %d", b->score);
+    sprintf(s, "%d", b->score);
 
-    draw_string(screen, font, WIDTH - SCORE_POS_X,  HEIGHT, s);
+    draw_string(screen, font, WIDTH - SCORE_POS_X,  SCORE_POS_Y, "Score:");
+    draw_string(screen, font, WIDTH - SCORE_POS_X,  SCORE_POS_Y + font->w, s);
 
 
     if(SDL_MUSTLOCK(screen)) 
