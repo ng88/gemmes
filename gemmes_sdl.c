@@ -8,7 +8,7 @@
 #define RES_GEMMES "res/gemmes.bmp"
 
 
-#define GRID_WIDTH 1
+#define GRID_WIDTH 2
 #define BGCOLOR 0xffffff
 #define GRIDCOLOR 0x9f1f1f
 
@@ -34,7 +34,7 @@ SDL_Surface *sgemmes;
 SDL_Surface *grille;
 
 void render(board_t);
-void init();
+void init(board_t);
 void draw_gemme(char gemme, int x, int y);
 
 void gemmes_start_ihm(board_t b)
@@ -57,9 +57,9 @@ void gemmes_start_ihm(board_t b)
 	return;
     }
  
-    init();
+    init(b);
 
-    //gemmes_autoplay(b);
+    gemmes_autoplay(b);
 
     int stop = 0;
     while(!stop)
@@ -89,7 +89,7 @@ void gemmes_start_ihm(board_t b)
     SDL_Quit();
 }
 
-void init()
+void init(board_t b)
 {
     /* on charge les gemmes */
     SDL_Surface *temp = SDL_LoadBMP(RES_GEMMES);
@@ -100,6 +100,40 @@ void init()
 
     draw_rect(screen, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, BGCOLOR);
 
+
+
+
+    /* on trace la grille */
+
+    /* traits verticaux */
+    int board_size =  b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH;
+    int i;
+
+    for(i = 0; i <= b->xsize; ++i)
+    {
+	draw_rect(screen, WIDTH, HEIGHT,
+		  i * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X,
+		  BOARD_START_Y,
+		  GRID_WIDTH,
+		  board_size,
+		  GRIDCOLOR
+	    );
+    }
+
+    /* traits horizontaux */
+    board_size =  b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH;
+
+    for(i = 0; i <= b->xsize; ++i)
+    {
+	draw_rect(screen, WIDTH, HEIGHT,
+		  BOARD_START_X,
+		  i * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y,
+		  board_size,
+		  GRID_WIDTH,
+		  GRIDCOLOR
+	    );
+    }
+
 }
 
 void render(board_t b)
@@ -108,13 +142,12 @@ void render(board_t b)
 	if(SDL_LockSurface(screen) < 0) 
 	    return;
     
-
-    /* on trace le plateau */
     int x, y;
+    
+    /* on trace le plateau */
     for(x = 0; x < b->xsize; ++x)
 	for(y = 0; y < b->ysize; ++y)
 	{
-
 	    draw_gemme(board_pos(b, x, y), 
 		       x * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X + GRID_WIDTH,
 		       y * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y + GRID_WIDTH);

@@ -57,3 +57,4 @@ void draw_rect(SDL_Surface *screen, int screen_width, int screen_height, int x, 
 	}
     }
 }
+

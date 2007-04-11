@@ -11,9 +11,6 @@ void draw_tile(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_size_
 void draw_rect(SDL_Surface *screen, int screen_width, int screen_height, int x, int y, int width, int height, int c);
 
 
-void draw_horizontal_line(SDL_Surface *screen, int y, int c);
-
-
 
 
 #endif
