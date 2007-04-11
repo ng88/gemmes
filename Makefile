@@ -11,19 +11,20 @@ else
     ASSERTFLAGS=
 endif
 
-CC=gcc
-CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS)
-
 ifdef SDL
     IHM_FILES=gemmes_sdl.c board_sdl.c
+    IHMFLAGS=`sdl-config --cflags`
+    LDFLAGS=`sdl-config --libs` -lSDLmain -lSDL
 else
     IHM_FILES=gemmes_text.c board_text.c
+    IHMFLAGS=
+    LDFLAGS=
 endif
 
+CC=gcc
+CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS) $(IHMFLAGS)
 SRC=gemmes.c main.c board.c randseq.c font_text.c $(IHM_FILES)
-
 OBJS= $(SRC:.c=.o)
-
 EXE=gemmes
 
 all: $(EXE)
@@ -39,7 +40,7 @@ randseq.o: randseq.h assert.h
 font_text.o: font_text.h assert.h
 
 $(EXE): $(OBJS)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 
 
