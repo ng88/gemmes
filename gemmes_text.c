@@ -81,11 +81,7 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 	{
 	case 'd': /* dump */
 	{
-	    int i;
-	    for(i = 0; i < b->xsize * b->ysize; ++i)
-		putchar(b->data[i]);
-
-	    printf(" %d\n", b->score);
+	    gemmes_dump(b);
 	    return 1;
 	}
 	case 'h': /* hint */

@@ -59,7 +59,7 @@ void gemmes_start_ihm(board_t b)
  
     init(b);
 
-    gemmes_autoplay(b);
+    
 
     int stop = 0;
     while(!stop)
@@ -71,12 +71,26 @@ void gemmes_start_ihm(board_t b)
 	{
 	    switch (event.type) 
 	    {
-	    case SDL_KEYDOWN:
-		break;
 	    case SDL_KEYUP:
-		if (event.key.keysym.sym == SDLK_ESCAPE)
+	    {
+		switch(event.key.keysym.sym)
+		{
+		case SDLK_a:
+		    gemmes_autoplay(b);
 		    stop = 1;
-		break;
+		    break;
+		case SDLK_d:
+		    gemmes_dump(b);
+		    break;
+		case SDLK_ESCAPE:
+		case SDLK_q:
+		    stop = 1;
+		    break;
+		default:
+		    break;
+		}
+	    }
+	    break;
 	    case SDL_QUIT:
 		stop = 1;
 		break;

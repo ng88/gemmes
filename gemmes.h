@@ -32,6 +32,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 /* start ihm, can be the cli, the sdl gui...*/
 void gemmes_start_ihm(board_t b);
 
+void gemmes_dump(board_t b);
 
 void gemmes_autoplay(board_t b);
 

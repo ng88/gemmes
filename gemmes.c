@@ -48,3 +48,12 @@ void gemmes_autoplay(board_t b)
 	fputs("Game over!\n", stderr);
 
 }
+
+void gemmes_dump(board_t b)
+{
+    int i;
+    for(i = 0; i < b->xsize * b->ysize; ++i)
+	putchar(b->data[i]);
+    
+    printf(" %d\n", b->score);
+}
