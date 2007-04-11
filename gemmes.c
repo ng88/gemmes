@@ -8,11 +8,10 @@
 
 #include "gemmes.h"
 
-
+#define GEOF (unsigned int)(-1)
 
 void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f, int silent)
 {
-
     c_assert(nlines > 0 && nlines < 10 && nrows > 0 && nrows < 27);
     c_assert( (s && strlen(s) > 2) || (!s && (ngemmes > 2 || ngemmes <= 16 )) );
 
@@ -35,7 +34,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
     int stop = 0;
     int entree;
 
-    while( read != -1 && !stop )
+    while( read != GEOF && !stop )
     {
 	board_print(b);
 
@@ -43,17 +42,17 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 	    printf("This move created %d segment(s).\n", b->last_seg_count);
 
 	entree = 0;
-	while(!entree && read != -1 && !stop) /* tant que pas d'entree correct */
+	while(!entree && read != GEOF && !stop) /* tant que pas d'entree correct */
 	{
 	    if(!silent)
 		puts("\nWhat's your move? (or ? for help, h for hint, d for dump, a for autoplay, q to quit)");
 
 	    read = getline(&line, &len, stdin); /* une ligne peut contenir plusieurs commandes */
 
-	    if(read != -1)
+	    if(read != GEOF)
 	    {
 		char * cmd = line;
-		int i;
+		unsigned int i;
 		for(i = 0; i < read; ++i)
 		{
 		    line[i] = tolower(line[i]);
