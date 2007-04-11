@@ -132,7 +132,7 @@ void init(board_t b)
     /* on trace la grille */
 
     /* traits verticaux */
-    int board_size =  b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH;
+    int board_size =  b->ysize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH;
     int i;
 
     for(i = 0; i <= b->xsize; ++i)
@@ -147,9 +147,9 @@ void init(board_t b)
     }
 
     /* traits horizontaux */
-    board_size =  b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH;
+    board_size =  b->xsize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH;
 
-    for(i = 0; i <= b->xsize; ++i)
+    for(i = 0; i <= b->ysize; ++i)
     {
 	draw_rect(screen, WIDTH, HEIGHT,
 		  BOARD_START_X,
