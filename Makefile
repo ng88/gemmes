@@ -12,7 +12,7 @@ else
 endif
 
 ifdef SDL
-    IHM_FILES=gemmes_sdl.c board_sdl.c
+    IHM_FILES=gemmes_sdl.c board_sdl.c sdl_draw.c
     IHMFLAGS=`sdl-config --cflags`
     LDFLAGS=`sdl-config --libs` -lSDLmain -lSDL
 else
@@ -31,13 +31,14 @@ all: $(EXE)
 
 gemmes.o: gemmes.h assert.h
 gemmes_text.o: gemmes.h assert.h
-gemmes_sdl.o: gemmes.h assert.h
+gemmes_sdl.o: gemmes.h assert.h sdl_draw.h
 main.o: gemmes.h
 board.o: board.h assert.h
 board_text.o: board.h assert.h
 board_sdl.o: board.h assert.h
 randseq.o: randseq.h assert.h
 font_text.o: font_text.h assert.h
+sdl_draw.o: sdl_draw.h
 
 $(EXE): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)

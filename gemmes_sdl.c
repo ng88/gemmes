@@ -2,10 +2,15 @@
 #include "assert.h"
 #include "gemmes.h"
 
-
 #include "SDL/SDL.h"
+#include "sdl_draw.h"
 
 #define RES_GEMMES "res/gemmes.bmp"
+
+
+#define GRID_WIDTH 1
+#define BGCOLOR 0xffffff
+#define GRIDCOLOR 0x9f1f1f
 
 /* emplacement du plateau */
 #define BOARD_START_X 10
@@ -19,21 +24,18 @@
 #define GEMME_SIZE_X 32
 #define GEMME_SIZE_Y 32
 
-
 /* taille totale de la fenetre */
 static int WIDTH;
 static int HEIGHT;
 
-#define PITCH (screen->pitch / 4)
-
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
+SDL_Surface *grille;
 
 void render(board_t);
 void init();
-void drawtile(char gemme, int x, int y);
-
+void draw_gemme(char gemme, int x, int y);
 
 void gemmes_start_ihm(board_t b)
 {
@@ -44,8 +46,8 @@ void gemmes_start_ihm(board_t b)
 	return;
     }
 
-    WIDTH = b->xsize * GEMME_SIZE_X + BOARD_START_X + BOARD_RIGHT;
-    HEIGHT = b->ysize * GEMME_SIZE_Y + BOARD_START_Y + BOARD_BOTTOM;
+    WIDTH = b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH + BOARD_START_X + BOARD_RIGHT;
+    HEIGHT = b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH + BOARD_START_Y + BOARD_BOTTOM;
 
     screen = SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_SWSURFACE);
   
@@ -57,7 +59,7 @@ void gemmes_start_ihm(board_t b)
  
     init();
 
-    gemmes_autoplay(b);
+    //gemmes_autoplay(b);
 
     int stop = 0;
     while(!stop)
@@ -82,7 +84,8 @@ void gemmes_start_ihm(board_t b)
 	}
     }
 
-
+    SDL_FreeSurface(sgemmes);
+    SDL_FreeSurface(screen);
     SDL_Quit();
 }
 
@@ -94,6 +97,9 @@ void init()
     sgemmes = SDL_ConvertSurface(temp, screen->format, SDL_SWSURFACE);
     c_assert(sgemmes);
     SDL_FreeSurface(temp);
+
+    draw_rect(screen, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, BGCOLOR);
+
 }
 
 void render(board_t b)
@@ -108,9 +114,10 @@ void render(board_t b)
     for(x = 0; x < b->xsize; ++x)
 	for(y = 0; y < b->ysize; ++y)
 	{
-	    drawtile(board_pos(b, x, y), 
-		     x * GEMME_SIZE_X + BOARD_START_X,
-		     y * GEMME_SIZE_Y + BOARD_START_Y);
+
+	    draw_gemme(board_pos(b, x, y), 
+		       x * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X + GRID_WIDTH,
+		       y * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y + GRID_WIDTH);
 	}
 
 
@@ -120,28 +127,11 @@ void render(board_t b)
     SDL_UpdateRect(screen, 0, 0, WIDTH, HEIGHT);
 }
 
-void drawtile(char gemme, int x, int y)
+void draw_gemme(char gemme, int x, int y)
 {
-
-    if (SDL_MUSTLOCK(sgemmes))
-	if (SDL_LockSurface(sgemmes) < 0) 
-	    return;
-
-    int tile = gemme == ' ' ? 0 : gemme - 'A' + 1;
-    int i, j;
-    for (i = 0; i < GEMME_SIZE_X; i++)
-    {
-	int screenofs = x + (y + i) * PITCH;
-	int tileofs = (i + tile * GEMME_SIZE_Y) * (sgemmes->pitch / 4);
-	for (j = 0; j < GEMME_SIZE_Y; j++)
-	{
-	    ((unsigned int*)screen->pixels)[screenofs] = 
-		((unsigned int*)sgemmes->pixels)[tileofs];
-	    screenofs++;
-	    tileofs++;
-	}
-    }
-    
-    if (SDL_MUSTLOCK(sgemmes)) 
-        SDL_UnlockSurface(sgemmes);
+    draw_tile(screen, sgemmes,
+	      ((gemme == ' ') ? 0 : gemme - 'A' + 1),
+	      GEMME_SIZE_X,
+	      GEMME_SIZE_Y,
+	      x, y);
 }
