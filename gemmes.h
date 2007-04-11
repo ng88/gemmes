@@ -29,7 +29,8 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 #define gemmes_start_loop_defaut() gemmes_start_loop(8, 8, 7, NULL, 0, 0)
 
 
-int gemmes_process_command(board_t b, char * line, int read, int * stop);
+/* start ihm, can be the cli, the sdl gui...*/
+void gemmes_start_ihm(board_t b);
 
 
 void gemmes_autoplay(board_t b);

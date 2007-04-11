@@ -15,10 +15,12 @@ CC=gcc
 CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS)
 
 ifdef SDL
-    SRC=$(wildcard *.c)
+    IHM_FILES=gemmes_sdl.c board_sdl.c
 else
-    SRC=gemmes.c main_text.c board.c randseq.c font_text.c
+    IHM_FILES=gemmes_text.c board_text.c
 endif
+
+SRC=gemmes.c main.c board.c randseq.c font_text.c $(IHM_FILES)
 
 OBJS= $(SRC:.c=.o)
 
@@ -27,8 +29,12 @@ EXE=gemmes
 all: $(EXE)
 
 gemmes.o: gemmes.h assert.h
-main_text.o: gemmes.h
+gemmes_text.o: gemmes.h assert.h
+gemmes_sdl.o: gemmes.h assert.h
+main.o: gemmes.h
 board.o: board.h assert.h
+board_text.o: board.h assert.h
+board_sdl.o: board.h assert.h
 randseq.o: randseq.h assert.h
 font_text.o: font_text.h assert.h
 
