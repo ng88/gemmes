@@ -7,22 +7,31 @@
 
 #define RES_GEMMES "res/gemmes.bmp"
 
-#define BOARD_SIZE_X 400
-#define BOARD_SIZE_Y 300
+/* emplacement du plateau */
+#define BOARD_START_X 10
+#define BOARD_START_Y 10
 
+/* espace apres le plateau */
+#define BOARD_RIGHT 50
+#define BOARD_BOTTOM 10
+
+/* taille d'une gemme */
 #define GEMME_SIZE_X 32
 #define GEMME_SIZE_Y 32
 
-#define WIDTH BOARD_SIZE_X
-#define HEIGHT BOARD_SIZE_Y
+
+/* taille totale de la fenetre */
+static int WIDTH;
+static int HEIGHT;
 
 #define PITCH (screen->pitch / 4)
+
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
 
-void init();
 void render(board_t);
+void init();
 void drawtile(char gemme, int x, int y);
 
 
@@ -35,8 +44,10 @@ void gemmes_start_ihm(board_t b)
 	return;
     }
 
+    WIDTH = b->xsize * GEMME_SIZE_X + BOARD_START_X + BOARD_RIGHT;
+    HEIGHT = b->ysize * GEMME_SIZE_Y + BOARD_START_Y + BOARD_BOTTOM;
 
-    screen = SDL_SetVideoMode(BOARD_SIZE_X, BOARD_SIZE_Y, 32, SDL_SWSURFACE);
+    screen = SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_SWSURFACE);
   
     if (screen == NULL)
     {
@@ -45,6 +56,8 @@ void gemmes_start_ihm(board_t b)
     }
  
     init();
+
+    gemmes_autoplay(b);
 
     int stop = 0;
     while(!stop)
@@ -90,8 +103,15 @@ void render(board_t b)
 	    return;
     
 
-    
-    drawtile('A', 0, 0);
+    /* on trace le plateau */
+    int x, y;
+    for(x = 0; x < b->xsize; ++x)
+	for(y = 0; y < b->ysize; ++y)
+	{
+	    drawtile(board_pos(b, x, y), 
+		     x * GEMME_SIZE_X + BOARD_START_X,
+		     y * GEMME_SIZE_Y + BOARD_START_Y);
+	}
 
 
     if(SDL_MUSTLOCK(screen)) 
@@ -102,11 +122,12 @@ void render(board_t b)
 
 void drawtile(char gemme, int x, int y)
 {
+
     if (SDL_MUSTLOCK(sgemmes))
 	if (SDL_LockSurface(sgemmes) < 0) 
 	    return;
 
-    int tile = gemme - 'A';
+    int tile = gemme == ' ' ? 0 : gemme - 'A' + 1;
     int i, j;
     for (i = 0; i < GEMME_SIZE_X; i++)
     {
