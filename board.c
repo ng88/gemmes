@@ -259,7 +259,7 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 	
 	board_print(b);
 	if(!b->silent)
-	    usleep(250000); /* sleep 0.25 second*/
+	    usleep(500000); /* sleep 0.5 second*/
 
 	/* on fait tomber les gemmes */
 

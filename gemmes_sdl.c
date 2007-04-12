@@ -253,7 +253,7 @@ void init(board_t b)
 
     rects[1].x = WIDTH - SCORE_POS_X;
     rects[1].y = SCORE_POS_Y + font->w;
-    rects[1].w = WIDTH - WIDTH + SCORE_POS_X;
+    rects[1].w = SCORE_POS_X;
     rects[1].h = font->w;
 
     SDL_UpdateRect(screen, 0, 0, WIDTH, HEIGHT);
@@ -331,7 +331,7 @@ void do_move(board_t b, int x, int y, int dir_x, int dir_y)
     if(ret && board_get_hint(b).x == -1) /* partie finie */
     {
 	if(!b->silent)
-	    fputs("Game over!\n", stderr);
+	    fprintf(stderr,"Game over! Score %d\n", b->score);
 	
 	stop = 1;
     }
