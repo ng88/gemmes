@@ -1,3 +1,4 @@
+#include <unistd.h>
 
 #include "assert.h"
 #include "gemmes.h"
@@ -39,6 +40,7 @@ static int over_x;
 static int over_y;
 static int sel_x;
 static int sel_y;
+static int stop;
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
@@ -48,6 +50,7 @@ void render(board_t b);
 void init(board_t);
 void draw_gemme(char gemme, int x, int y, int mask);
 void do_move(board_t b, int x, int y, int dir_x, int dir_y);
+void show_hint(board_t b);
 
 void gemmes_start_ihm(board_t b)
 {
@@ -73,8 +76,6 @@ void gemmes_start_ihm(board_t b)
 
 
     
-
-    int stop = 0;
     while(!stop)
     {
 	render(b);
@@ -98,6 +99,9 @@ void gemmes_start_ihm(board_t b)
 		case SDLK_ESCAPE:
 		case SDLK_q:
 		    stop = 1;
+		    break;
+		case SDLK_h:
+		    show_hint(b);
 		    break;
 		default:
 		    break;
@@ -223,6 +227,8 @@ void init(board_t b)
     }
 
     over_x = over_y = sel_x = sel_y = -1; 
+
+    stop = 0;
 }
 
 void render(board_t b)
@@ -278,4 +284,55 @@ void draw_gemme(char gemme, int x, int y, int mask)
 
 void do_move(board_t b, int x, int y, int dir_x, int dir_y)
 {
+    dir_t d;
+
+    if(x - dir_x == 1)
+	d = left;
+    else if(x - dir_x == -1)
+	d = right;
+    else if(y - dir_y == 1)
+	d = up;
+    else if(y - dir_y == -1)
+	d = down;
+
+
+    int ret = !board_move(b, x, y, d);
+
+    if(ret && board_get_hint(b).x == -1) /* partie finie */
+    {
+	if(!b->silent)
+	    fputs("Game over!\n", stderr);
+	
+	stop = 1;
+    }
+
 }
+
+void show_hint(board_t b)
+{
+    coord_t c = board_get_hint(b);
+
+    c_assert(c.x != -1 && c.y != -1);
+
+    int old_sel_x = sel_x;
+    int old_sel_y = sel_y;
+
+    int i;
+    for(i = 1; i < 15; ++i)
+    {
+	if(i % 2 == 0)
+	    sel_x = sel_y = -1;
+	else
+	{
+	    sel_x = c.x;
+	    sel_y = c.y;
+	}
+	render(b);
+	usleep(100000);
+    }
+
+    sel_x = old_sel_x;
+    sel_y = old_sel_y;
+}
+
+
