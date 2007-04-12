@@ -12,6 +12,8 @@
 #define GRID_WIDTH 2
 #define BGCOLOR 0xffffff
 #define GRIDCOLOR 0x9f1f1f
+#define OVERCOLOR 0xdddddd
+#define SELCOLOR 0xaaaaaa
 
 /* emplacement du plateau */
 #define BOARD_START_X 10
@@ -33,14 +35,19 @@
 static int WIDTH;
 static int HEIGHT;
 
+static int over_x;
+static int over_y;
+static int sel_x;
+static int sel_y;
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
 SDL_Surface *font;
 
-void render(board_t);
+void render(board_t b);
 void init(board_t);
-void draw_gemme(char gemme, int x, int y);
+void draw_gemme(char gemme, int x, int y, int mask);
+void do_move(board_t b, int x, int y, int dir_x, int dir_y);
 
 void gemmes_start_ihm(board_t b)
 {
@@ -63,6 +70,7 @@ void gemmes_start_ihm(board_t b)
     }
  
     init(b);
+
 
     
 
@@ -96,6 +104,60 @@ void gemmes_start_ihm(board_t b)
 		}
 	    }
 	    break;
+	    case SDL_MOUSEMOTION:
+	        {
+		    /* si on est sur le plateau */
+		    if(event.button.x >= BOARD_START_X && event.button.x <= WIDTH - BOARD_RIGHT &&
+		       event.button.y >= BOARD_START_Y && event.button.y <= HEIGHT - BOARD_BOTTOM)
+		    {
+			int x, y;
+			x = (event.button.x - BOARD_START_X) / (GEMME_SIZE_X + GRID_WIDTH);
+			y = (event.button.y - BOARD_START_Y) / (GEMME_SIZE_Y + GRID_WIDTH);
+
+			/* si on a une case cliquee, on permet de cliquer que celles autour */
+			if( (sel_x == -1) || 
+			    (x == sel_x && y == sel_y) ||
+			    (x == sel_x + 1 && y == sel_y) ||
+			    (x == sel_x - 1 && y == sel_y) ||
+			    (x == sel_x && y == sel_y + 1) ||
+			    (x == sel_x && y == sel_y - 1) )
+			{
+			    over_x = x;
+			    over_y = y;
+			}
+			else
+			    over_x = over_y = -1;
+
+		    }
+		    else
+			over_x = over_y = -1;
+	        }
+		break;
+	    case SDL_MOUSEBUTTONDOWN:
+	    { 
+		    /* si on est sur le plateau */
+		    if(over_x != -1)
+		    {
+			/* on déslectionne si deja selectionné */
+			if(over_x == sel_x && over_y == sel_y)
+			    sel_x = sel_y = -1;
+			else
+			{
+			    /* si on a deja selectionne une case*/
+			    if(sel_x != -1)
+			    {
+				do_move(b, sel_x, sel_y, over_x, over_y);
+				over_x = over_y = sel_x = sel_y = -1;
+			    }
+			    else
+			    {
+				sel_x = over_x;
+				sel_y = over_y;
+			    }
+			}
+		    }
+	        }
+		break;
 	    case SDL_QUIT:
 		stop = 1;
 		break;
@@ -160,6 +222,7 @@ void init(board_t b)
 	    );
     }
 
+    over_x = over_y = sel_x = sel_y = -1; 
 }
 
 void render(board_t b)
@@ -168,15 +231,23 @@ void render(board_t b)
 	if(SDL_LockSurface(screen) < 0) 
 	    return;
     
-    int x, y;
+    int x, y, c;
     
     /* on trace le plateau */
     for(x = 0; x < b->xsize; ++x)
 	for(y = 0; y < b->ysize; ++y)
 	{
+	    if(x == sel_x && y == sel_y)
+		c = SELCOLOR;
+	    else if(x == over_x && y == over_y)
+		c = OVERCOLOR;
+	    else
+		c = 0xffffff;
+
 	    draw_gemme(board_pos(b, x, y), 
 		       x * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X + GRID_WIDTH,
-		       y * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y + GRID_WIDTH);
+		       y * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y + GRID_WIDTH,
+		       c);
 	}
 
     /* on trace le score */
@@ -195,11 +266,16 @@ void render(board_t b)
     SDL_UpdateRect(screen, 0, 0, WIDTH, HEIGHT);
 }
 
-void draw_gemme(char gemme, int x, int y)
+void draw_gemme(char gemme, int x, int y, int mask)
 {
-    draw_tile(screen, sgemmes,
-	      ((gemme == ' ') ? 0 : gemme - 'A' + 1),
-	      GEMME_SIZE_X,
-	      GEMME_SIZE_Y,
-	      x, y);
+	draw_tile_mask(screen, sgemmes,
+		  ((gemme == ' ') ? 0 : gemme - 'A' + 1),
+		  GEMME_SIZE_X,
+		  GEMME_SIZE_Y,
+		  x, y, mask);
+}
+
+
+void do_move(board_t b, int x, int y, int dir_x, int dir_y)
+{
 }
