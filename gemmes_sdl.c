@@ -41,6 +41,7 @@ static int over_y;
 static int sel_x;
 static int sel_y;
 static int stop;
+static SDL_Rect rects[2];
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
@@ -237,9 +238,25 @@ void init(board_t b)
 	    );
     }
 
+    /* score */
+    draw_string(screen, font, WIDTH - SCORE_POS_X,  SCORE_POS_Y, "Score:");
+
     over_x = over_y = sel_x = sel_y = -1; 
 
     stop = 0;
+
+    /* board & score rects */
+    rects[0].x = BOARD_START_X;
+    rects[0].y = BOARD_START_Y;
+    rects[0].w = WIDTH - BOARD_RIGHT - BOARD_START_X;
+    rects[0].h = HEIGHT - BOARD_BOTTOM - BOARD_START_Y;
+
+    rects[1].x = WIDTH - SCORE_POS_X;
+    rects[1].y = SCORE_POS_Y + font->w;
+    rects[1].w = WIDTH - WIDTH + SCORE_POS_X;
+    rects[1].h = font->w;
+
+    SDL_UpdateRect(screen, 0, 0, WIDTH, HEIGHT);
 }
 
 void render(board_t b)
@@ -273,14 +290,16 @@ void render(board_t b)
 
     sprintf(s, "%d", b->score);
 
-    draw_string(screen, font, WIDTH - SCORE_POS_X,  SCORE_POS_Y, "Score:");
     draw_string(screen, font, WIDTH - SCORE_POS_X,  SCORE_POS_Y + font->w, s);
 
 
     if(SDL_MUSTLOCK(screen)) 
 	SDL_UnlockSurface(screen);
-    
-    SDL_UpdateRect(screen, 0, 0, WIDTH, HEIGHT);
+
+
+    /* update score & board rects */
+    SDL_UpdateRects(screen, 2, rects);
+
 }
 
 void draw_gemme(char gemme, int x, int y, int mask)
