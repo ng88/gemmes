@@ -74,11 +74,15 @@ void gemmes_start_ihm(board_t b)
  
     init(b);
 
+    int changed = 1;
 
     
     while(!stop)
     {
-	render(b);
+	if(changed)
+	    render(b);
+
+	changed = 0;
 
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) 
@@ -110,6 +114,9 @@ void gemmes_start_ihm(board_t b)
 	    break;
 	    case SDL_MOUSEMOTION:
 	        {
+		    int old_x = over_x;
+		    int old_y = over_y;
+
 		    /* si on est sur le plateau */
 		    if(event.button.x >= BOARD_START_X && event.button.x <= WIDTH - BOARD_RIGHT &&
 		       event.button.y >= BOARD_START_Y && event.button.y <= HEIGHT - BOARD_BOTTOM)
@@ -135,6 +142,9 @@ void gemmes_start_ihm(board_t b)
 		    }
 		    else
 			over_x = over_y = -1;
+
+		    if(old_x != over_x || old_y != over_y)
+			changed = 1;
 	        }
 		break;
 	    case SDL_MOUSEBUTTONDOWN:
@@ -159,6 +169,7 @@ void gemmes_start_ihm(board_t b)
 				sel_y = over_y;
 			    }
 			}
+			changed = 1;
 		    }
 	        }
 		break;

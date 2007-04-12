@@ -34,7 +34,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 void gemmes_autoplay(board_t b)
 {
     coord_t c;
-    while( (c = board_get_hint(b)).x != -1 )
+    while((c = board_get_hint(b)).x != -1 )
     {
 	if(!b->silent)
 	    printf("Autoplay %c%d %s\n", 'a' + c.x, 1 + c.y, dir_to_string(c.d));
