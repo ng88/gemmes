@@ -89,27 +89,39 @@ void draw_string(SDL_Surface *screen, SDL_Surface * font, int x, int y, char * s
     if (SDL_MUSTLOCK(font))
 	if (SDL_LockSurface(font) < 0) 
 	    return;
+
+    int dep_x = x;
     
     while(*s)
     {
-	if(*s >= 33)
+	if(*s == '\n')
 	{
-	    int i, j;
-	    for (i = 0; i < font->w; i++)
+	    x = dep_x;
+	    y += font->w;
+	    s++;
+	    
+	}
+	else
+	{
+	    if(*s >= 33)
 	    {
-		int screenofs = x + (y + i) * (screen->pitch / 4);
-		int charofs = (i + (*s - 33) * font->w) * (font->pitch / 4);
-		for (j = 0; j < font->w; j++)
+		int i, j;
+		for (i = 0; i < font->w; i++)
 		{
-		    ((unsigned int*)screen->pixels)[screenofs] = 
-			((unsigned int*)font->pixels)[charofs];
-		    screenofs++;
-		    charofs++;
+		    int screenofs = x + (y + i) * (screen->pitch / 4);
+		    int charofs = (i + (*s - 33) * font->w) * (font->pitch / 4);
+		    for (j = 0; j < font->w; j++)
+		    {
+			((unsigned int*)screen->pixels)[screenofs] = 
+			    ((unsigned int*)font->pixels)[charofs];
+			screenofs++;
+			charofs++;
+		    }
 		}
 	    }
+	    s++;
+	    x += font->w;
 	}
-	s++;
-	x += font->w;
     }
     
     if (SDL_MUSTLOCK(font)) 

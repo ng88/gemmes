@@ -74,11 +74,11 @@ void board_print_small(board_t b)
 
 	int i,j;
 
-	printf("\t\t  ");
+	printf("\t\t   ");
 	for(i=0;i<b->xsize;i++)
 		printf("%c ",'a'+i);
 
-	fputs("\nBoard:\t\t +", stdout);
+	fputs("\nBoard:\t\t  +", stdout);
 	for(i=0;i<b->xsize;i++)
 		fputs("--", stdout);
 	printf("+\t Score: %d\n",b->score);
@@ -90,10 +90,10 @@ void board_print_small(board_t b)
 			printf("%c ",board_pos(b,j,i));
 		printf("|%d\n",i+1);
 	}
-	fputs("\t\t +", stdout);
+	fputs("\t\t  +", stdout);
 	for(i=0;i<b->xsize;i++)
 		fputs("--", stdout);
-	fputs("+\n\t\t  ", stdout);
+	fputs("+\n\t\t   ", stdout);
 
 	for(i=0;i<b->xsize;i++)
 		printf("%c ",'a'+i);

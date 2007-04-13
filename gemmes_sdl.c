@@ -32,12 +32,15 @@ static int BOARD_RIGHT;
 #define GEMME_SIZE_X 32
 #define GEMME_SIZE_Y 32
 
+#define RECT_COUNT 4
+
 static int over_x;
 static int over_y;
 static int sel_x;
 static int sel_y;
 static int stop;
-static SDL_Rect rects[2];
+static unsigned int total_seg_count;
+static SDL_Rect rects[RECT_COUNT];
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
@@ -242,18 +245,38 @@ void init(board_t b)
 
     over_x = over_y = sel_x = sel_y = -1; 
 
-    stop = 0;
+    /* nombre de segments */
+    draw_string(screen, font, screen->w - SCORE_POS_X,  SCORE_POS_Y + 3 * font->w, "Created\nsegments:");
 
-    /* board & score rects */
+    /* nombre de segments total */
+    draw_string(screen, font, screen->w - SCORE_POS_X,  SCORE_POS_Y + 7 * font->w, "Total:");
+
+    stop = 0;
+    total_seg_count = 0;
+
+    /* rectangle du plateau */
     rects[0].x = BOARD_START_X;
     rects[0].y = BOARD_START_Y;
     rects[0].w = screen->w - BOARD_RIGHT - BOARD_START_X;
     rects[0].h = screen->h - BOARD_BOTTOM - BOARD_START_Y;
 
+    /* rectangle du score */
     rects[1].x = screen->w - SCORE_POS_X;
     rects[1].y = SCORE_POS_Y + font->w;
     rects[1].w = SCORE_POS_X;
     rects[1].h = font->w;
+
+    /* rectangle du nombre de segment */
+    rects[2].x = screen->w - SCORE_POS_X;
+    rects[2].y = SCORE_POS_Y + font->w * 5;
+    rects[2].w = SCORE_POS_X;
+    rects[2].h = font->w;
+
+    /* rectangle du nombre de segment total*/
+    rects[3].x = screen->w - SCORE_POS_X;
+    rects[3].y = SCORE_POS_Y + font->w * 8;
+    rects[3].w = SCORE_POS_X;
+    rects[3].h = font->w;
 
     SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
     //printf("rand=%s\n", b->rs->data);
@@ -284,21 +307,26 @@ void render(board_t b)
 		       c);
 	}
 
-    /* on trace le score */
+    /* on trace le score etc */
 
     char s[30];
 
-    sprintf(s, "%d", b->score);
-
+    sprintf(s, "%u", b->score);
     draw_string(screen, font, screen->w - SCORE_POS_X,  SCORE_POS_Y + font->w, s);
 
+    sprintf(s, "%u", b->last_seg_count);
+    draw_rect(screen, rects[2].x, rects[2].y, rects[2].w, rects[2].h,  BGCOLOR);
+    draw_string(screen, font, screen->w - SCORE_POS_X,  SCORE_POS_Y + font->w * 5, s);
+
+    sprintf(s, "%u", total_seg_count);
+    draw_string(screen, font, screen->w - SCORE_POS_X,  SCORE_POS_Y + font->w * 8, s);
 
     if(SDL_MUSTLOCK(screen)) 
 	SDL_UnlockSurface(screen);
 
 
-    /* update score & board rects */
-    SDL_UpdateRects(screen, 2, rects);
+    /* update score,  board... rects */
+    SDL_UpdateRects(screen, RECT_COUNT, rects);
 
 }
 
@@ -328,6 +356,8 @@ void do_move(board_t b, int x, int y, int dir_x, int dir_y)
     //printf("%c%d%c\n", x + 'A', y + 1, dir_to_string(d)[0]);
 
     int ret = !board_move(b, x, y, d);
+
+    total_seg_count += b->last_seg_count;
 
     if(ret && board_get_hint(b).x == -1) /* partie finie */
     {
