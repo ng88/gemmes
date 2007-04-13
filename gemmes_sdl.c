@@ -21,20 +21,16 @@
 #define BOARD_START_Y 10
 
 /* emplacement du score depuis le bord droit */
-#define SCORE_POS_X 140
+static int SCORE_POS_X;
 #define SCORE_POS_Y 20
 
 /* espace apres le plateau */
-#define BOARD_RIGHT 150
+static int BOARD_RIGHT;
 #define BOARD_BOTTOM 10
 
 /* taille d'une gemme */
 #define GEMME_SIZE_X 32
 #define GEMME_SIZE_Y 32
-
-/* taille totale de la fenetre */
-static int WIDTH;
-static int HEIGHT;
 
 static int over_x;
 static int over_y;
@@ -62,14 +58,17 @@ void gemmes_start_ihm(board_t b)
 	return;
     }
 
-    WIDTH = b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH + BOARD_START_X + BOARD_RIGHT;
-    HEIGHT = b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH + BOARD_START_Y + BOARD_BOTTOM;
+/* plus il y a de case plus le score est grand !*/
+    SCORE_POS_X = 140 + b->xsize * b->ysize / 5;
+    BOARD_RIGHT = SCORE_POS_X + 10;
 
-    screen = SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_SWSURFACE);
-  
+    screen = SDL_SetVideoMode(b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH + BOARD_START_X + BOARD_RIGHT,
+			      b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH + BOARD_START_Y + BOARD_BOTTOM,
+			      32, SDL_SWSURFACE);
+
     if (screen == NULL)
     {
-	fprintf(stderr, "Unable to set 640x480 video: %s\n", SDL_GetError());
+	fprintf(stderr, "Unable to set %dx%d video: %s\n", screen->w, screen->h, SDL_GetError());
 	return;
     }
  
@@ -119,8 +118,8 @@ void gemmes_start_ihm(board_t b)
 		    int old_y = over_y;
 
 		    /* si on est sur le plateau */
-		    if(event.button.x >= BOARD_START_X && event.button.x <= WIDTH - BOARD_RIGHT &&
-		       event.button.y >= BOARD_START_Y && event.button.y <= HEIGHT - BOARD_BOTTOM)
+		    if(event.button.x >= BOARD_START_X && event.button.x <= screen->w - BOARD_RIGHT &&
+		       event.button.y >= BOARD_START_Y && event.button.y <= screen->h - BOARD_BOTTOM)
 		    {
 			int x, y;
 			x = (event.button.x - BOARD_START_X) / (GEMME_SIZE_X + GRID_WIDTH);
@@ -204,7 +203,7 @@ void init(board_t b)
     SDL_FreeSurface(temp);
 
 
-    draw_rect(screen, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT, BGCOLOR);
+    draw_rect(screen, 0, 0, screen->w, screen->h, BGCOLOR);
 
 
     /* on trace la grille */
@@ -215,7 +214,7 @@ void init(board_t b)
 
     for(i = 0; i <= b->xsize; ++i)
     {
-	draw_rect(screen, WIDTH, HEIGHT,
+	draw_rect(screen,
 		  i * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X,
 		  BOARD_START_Y,
 		  GRID_WIDTH,
@@ -229,7 +228,7 @@ void init(board_t b)
 
     for(i = 0; i <= b->ysize; ++i)
     {
-	draw_rect(screen, WIDTH, HEIGHT,
+	draw_rect(screen,
 		  BOARD_START_X,
 		  i * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y,
 		  board_size,
@@ -239,7 +238,7 @@ void init(board_t b)
     }
 
     /* score */
-    draw_string(screen, font, WIDTH - SCORE_POS_X,  SCORE_POS_Y, "Score:");
+    draw_string(screen, font, screen->w - SCORE_POS_X,  SCORE_POS_Y, "Score:");
 
     over_x = over_y = sel_x = sel_y = -1; 
 
@@ -248,15 +247,15 @@ void init(board_t b)
     /* board & score rects */
     rects[0].x = BOARD_START_X;
     rects[0].y = BOARD_START_Y;
-    rects[0].w = WIDTH - BOARD_RIGHT - BOARD_START_X;
-    rects[0].h = HEIGHT - BOARD_BOTTOM - BOARD_START_Y;
+    rects[0].w = screen->w - BOARD_RIGHT - BOARD_START_X;
+    rects[0].h = screen->h - BOARD_BOTTOM - BOARD_START_Y;
 
-    rects[1].x = WIDTH - SCORE_POS_X;
+    rects[1].x = screen->w - SCORE_POS_X;
     rects[1].y = SCORE_POS_Y + font->w;
     rects[1].w = SCORE_POS_X;
     rects[1].h = font->w;
 
-    SDL_UpdateRect(screen, 0, 0, WIDTH, HEIGHT);
+    SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
 }
 
 void render(board_t b)
@@ -290,7 +289,7 @@ void render(board_t b)
 
     sprintf(s, "%d", b->score);
 
-    draw_string(screen, font, WIDTH - SCORE_POS_X,  SCORE_POS_Y + font->w, s);
+    draw_string(screen, font, screen->w - SCORE_POS_X,  SCORE_POS_Y + font->w, s);
 
 
     if(SDL_MUSTLOCK(screen)) 

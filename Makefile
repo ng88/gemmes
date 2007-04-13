@@ -13,11 +13,11 @@ endif
 
 ifdef SDL
     IHM_FILES=gemmes_sdl.c board_sdl.c sdl_draw.c
-    IHMFLAGS=`sdl-config --cflags`
-    LDFLAGS=`sdl-config --libs` -lSDLmain -lSDL
+    IHMFLAGS=`sdl-config --cflags` -DGEMMES_SDL=1
+    LDFLAGS=`sdl-config --libs`
 else
     IHM_FILES=gemmes_text.c board_text.c
-    IHMFLAGS=
+    IHMFLAGS=-DGEMMES_TXT=1
     LDFLAGS=
 endif
 

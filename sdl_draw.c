@@ -1,6 +1,6 @@
 
 #include "sdl_draw.h"
-
+#include "assert.h"
 
 
 void draw_tile(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_size_x, int tile_size_y, int x, int y)
@@ -54,12 +54,13 @@ void draw_tile_mask(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_
 }
 
 
-void draw_rect(SDL_Surface *screen, int screen_width, int screen_height, int x, int y, int width, int height, int c)
+void draw_rect(SDL_Surface *screen, int x, int y, int width, int height, int c)
 {
+
     int i, j;
     for (i = 0; i < height; i++)
     {
-	if ((y + i) >= 0 && (y + i) < screen_height)
+	if ((y + i) >= 0 && (y + i) < screen->h)
 	{
 	    int len = width;
 	    int xofs = x;
@@ -71,9 +72,9 @@ void draw_rect(SDL_Surface *screen, int screen_width, int screen_height, int x, 
 	    }
 
 
-	    if (xofs + len >= screen_width)
+	    if (xofs + len >= screen->w)
 	    {
-		len -= (xofs + len) - screen_width;
+		len -= (xofs + len) - screen->w;
 	    }
 	    int ofs = (i + y) * (screen->pitch / 4) + xofs;
 

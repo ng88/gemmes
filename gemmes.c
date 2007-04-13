@@ -8,7 +8,7 @@
 
 void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f, int silent)
 {
-    c_assert(nlines > 0 && nlines < 10 && nrows > 0 && nrows < 27);
+    c_assert(nlines > 0 && nlines < 27 && nrows > 0 && nrows < 27);
     c_assert( (s && strlen(s) > 2) || (!s && (ngemmes > 2 || ngemmes <= 16 )) );
 
     randseq_t rs;
@@ -45,7 +45,7 @@ void gemmes_autoplay(board_t b)
     board_print(b);
 
     if(!b->silent)
-	fputs("Game over!\n", stderr);
+	fprintf(stderr,"Game over! Score %d\n", b->score);
 
 }
 

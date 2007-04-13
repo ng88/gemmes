@@ -229,7 +229,7 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 		    seg_count++;
 		}
 
-		else if(board_searchline(b, x, y, up) == 2)
+		if(board_searchline(b, x, y, up) == 2)
 		{ /* alors on est dans un segment horizontal */
 
 		    int y2 = y - 2;
