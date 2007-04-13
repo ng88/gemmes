@@ -112,11 +112,11 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 	    return 0;
 	}
     }
-    else if(read == 3) /* c'est peut être un coup */
+    else if(read == 3 || read == 4) /* c'est peut être un coup */
     {
 	dir_t dir;
 
-	switch(line[2])
+	switch(line[2 + read - 3])
 	{
 	case 'u': dir = up;  break;
 	case 'd': dir = down;  break;
@@ -127,8 +127,10 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 		fprintf(stderr, "Invalid direction specifier (%c): must be one of 'u' (up), 'd' (down), 'r' (right), 'l' (left)\n\n", line[2]);
 	    return 0;
 	}
-		
-	int ret = !board_move(b, line[0] - 'a', line[1] - '1', dir);
+
+	int l = read == 3 ? line[1] - '1' : (line[1] - '0') * 10 + line[2] - '1';
+
+	int ret = !board_move(b, line[0] - 'a', l, dir);
 
 	if(ret && board_get_hint(b).x == -1) /* partie finie */
 	{

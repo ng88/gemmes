@@ -84,19 +84,12 @@ int main(int argc, char ** argv)
     if(argc - optind)
 	usage(pname, EXIT_FAILURE);
 
-#ifdef GEMMES_TXT
-    if(y <= 0 || y >= 10 || x <= 0 || x >= 27)
-    {
-	fprintf(stderr, "%s: invalid size, max 9x26 in text mode\n", pname);
-	return EXIT_FAILURE;
-    }
-#else
+
     if(y <= 0 || y >= 27 || x <= 0 || x >= 27)
     {
-	fprintf(stderr, "%s: invalid size, max 26x26 in graphical mode\n", pname);
+	fprintf(stderr, "%s: invalid size, max 26x26\n", pname);
 	return EXIT_FAILURE;
     }
-#endif
 
     if((s && strlen(s) <= 2) || (!s && (ncolor <= 2 || ncolor > 16 ) ))
     {

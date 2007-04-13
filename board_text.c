@@ -39,7 +39,7 @@ void board_print_big(board_t b)
 	for(i = 0; i < 3; ++i)
 	{
 	    if(i == 1)
-		printf("      %d |", y + 1);
+		printf("     %2d |", y + 1);
 	    else
 		fputs("        |", stdout);
 	    for(x = 0; x < b->xsize; ++x)
@@ -82,7 +82,7 @@ void board_print_small(board_t b)
 
 	for(i=0;i<(b->ysize);i++)
 	{
-		printf("\t\t%d|",i+1);
+		printf("\t\t%2d|",i+1);
 		for(j=0;j<(b->xsize);j++)
 			printf("%c ",board_pos(b,j,i));
 		printf("|%d\n",i+1);
