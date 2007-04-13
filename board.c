@@ -194,13 +194,16 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 
     /* TAGGED indique une case marquee, ie la ou il y a plus de 3 gemmes
        identiques de suite et EMPTY indique une case ou ce n'est pas le cas */
-    enum { TAGGED = '1', EMPTY = '0' };
+    enum { TAGGED = 'A', EMPTY = 'B' }; /* rq: on n'utilise des gemmes afin 
+					   de permettre un affichage facile
+					   pour déboguer*/
 
     board_t buff =  board_alloc(b->ysize, b->xsize, b->rs);
+    buff->score = b->score;
 
     int ncase = buff->ysize * buff->xsize;
 
-    int old_score = b->score;
+    int old_seg_count = seg_count;
 
     int i;
 
@@ -239,11 +242,16 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 		    b->score += (y2 - y + 2 - 1) * 5 * multiple_seg;
 		    multiple_seg *= 2;
 		    seg_count++;
+
 		}
 	    }
 	}
 
-    if(old_score != b->score) /* si on a eu des segments */
+    /* il peut arriver un moment ou le score ne change plus ou est negatif */
+    c_warning2(b->score >= 0 && 
+	       ((seg_count != old_seg_count) == (b->score != buff->score)), "score overflow!")
+
+    if(seg_count > old_seg_count) /* si on a eu des segments */
     {
 
 	/* on va maintenant remplacer les segments par des espaces */
@@ -258,6 +266,7 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 	}
 	
 	board_print(b);
+
 	if(!b->silent)
 	    usleep(500000); /* sleep 0.5 second*/
 
