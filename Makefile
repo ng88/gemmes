@@ -21,9 +21,15 @@ else
     LDFLAGS=
 endif
 
+ifdef WIN_PORT
+    WIN_FILES=win_port.c
+else
+    WIN_FILES=
+endif
+
 CC=gcc
 CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS) $(IHMFLAGS)
-SRC=gemmes.c main.c board.c randseq.c font_text.c $(IHM_FILES)
+SRC=gemmes.c main.c board.c randseq.c font_text.c $(IHM_FILES) $(WIN_FILES)
 OBJS= $(SRC:.c=.o)
 EXE=gemmes
 
