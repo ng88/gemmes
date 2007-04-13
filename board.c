@@ -24,7 +24,6 @@ board_t board_alloc(int nlines, int nrows, randseq_t rs)
     b->score = 0;
 
     b->silent = 0;
-    b->font = NULL;
 
     b->last_seg_count = 0;
 

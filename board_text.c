@@ -1,5 +1,8 @@
 #include "board.h"
 #include "assert.h"
+#include "font_text.h"
+
+font_t * font = NULL;
 
 /* print the board with small letters */
 void board_print_small(board_t b);
@@ -15,7 +18,7 @@ void board_print(board_t b)
     if(b->silent)
 	return;
 
-    if(b->font)
+    if(font)
 	board_print_big(b);
     else
 	board_print_small(b);
@@ -48,7 +51,7 @@ void board_print_big(board_t b)
 		if(c == ' ')
 		    fputs("   ", stdout);
 		else
-		    fputs(text_font_get_line(*b->font, c, i), stdout);
+		    fputs(text_font_get_line(*font, c, i), stdout);
 		putchar('|');
 	    }
 	    if(i == 1)

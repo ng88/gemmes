@@ -6,15 +6,26 @@
 
 #include "gemmes.h"
 
+/* compilation conditionnelle seulement utilisée dans ce fichier */
+
+#ifdef GEMMES_TXT /* on a de police seulement en mode texte */
+
+#include "font_text.h"
+extern font_t *  font;
+
+#endif
+
 
 void usage(const char * pname, int ev)
 {
     fprintf(stderr, "usage: %s [option]\n"
 	            "  Accepted options:\n"
+#ifdef GEMMES_TXT
 	            "   -b                        big display\n"
 	            "   -f                        big display (ASCII Art)\n"
 	            "   -g                        big display (colored ASCII Art, does not pretend to be fully portable.\n"
 	            "                                          you can use -gg for another color disposition)\n"
+#endif
 	            "   -h                        print this help string\n"
 	            "   -q                        quiet, only the dump command will display something\n"
                     "   -s randseq                use randseq as random sequence\n"
@@ -38,13 +49,13 @@ int main(int argc, char ** argv)
     int y = 8;
     int ncolor = 7;
     char * s = NULL;
-    font_t * font = NULL;
     int silent = 0;
 
     while( (optch = getopt(argc, argv, "bfghqs:x:y:c:")) != -1 )
     {
 	switch(optch)
 	{
+#ifdef GEMMES_TXT
 	case 'f':
 	    font = &FANCY_FONT;
 	    break;
@@ -57,6 +68,7 @@ int main(int argc, char ** argv)
 	    else
 		font = &COLORED_FONT;
 	    break;
+#endif
 	case 'h':
 	    usage(pname, EXIT_SUCCESS);
 	    break;
@@ -98,7 +110,7 @@ int main(int argc, char ** argv)
     }
 
     srand(time(0));
-    gemmes_start_loop(y, x, ncolor, s, font, silent);
+    gemmes_start_loop(y, x, ncolor, s, silent);
 
     return EXIT_SUCCESS;
 }

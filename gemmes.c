@@ -6,7 +6,7 @@
 #include "gemmes.h"
 
 
-void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f, int silent)
+void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int silent)
 {
     c_assert(nlines > 0 && nlines < 27 && nrows > 0 && nrows < 27);
     c_assert( (s && strlen(s) > 2) || (!s && (ngemmes > 2 || ngemmes <= 16 )) );
@@ -20,7 +20,6 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, font_t * f,
 
     board_t b = board_new(nlines, nrows, rs);
 
-    b->font = f;
     b->silent = silent;
 
     gemmes_start_ihm(b);

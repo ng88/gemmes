@@ -13,6 +13,16 @@
 #define GEOF (size_t)(-1)
 
 
+#define HELP_MSG  "Moves are on three positions:\n" \
+                  " - First char specifies the column to move from\n" \
+		  " - Second one specifies the line to move from\n" \
+		  " - Third one specifies the direction: Up, Down, Left, Right\n" \
+		  "Examples: c4u (from c4, up); d7l (from d7, left)\n\n" \
+                  "The goal is to switch gems so that you get 3 or more aligned.\n"
+
+
+
+
 int gemmes_process_command(board_t b, char * line, int read, int * stop);
 
 

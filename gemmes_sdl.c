@@ -256,7 +256,7 @@ void init(board_t b)
     rects[1].h = font->w;
 
     SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
-    printf("rand=%s\n", b->rs->data);
+    //printf("rand=%s\n", b->rs->data);
 }
 
 void render(board_t b)
@@ -325,7 +325,7 @@ void do_move(board_t b, int x, int y, int dir_x, int dir_y)
     else if(y - dir_y == -1)
 	d = down;
 
-    printf("%c%d%c\n", x + 'A', y + 1, dir_to_string(d)[0]);
+    //printf("%c%d%c\n", x + 'A', y + 1, dir_to_string(d)[0]);
 
     int ret = !board_move(b, x, y, d);
 

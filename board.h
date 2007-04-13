@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #include "randseq.h"
-#include "font_text.h"
+
 
 typedef enum { up=0, down=1, left=2, right=3 } dir_t;
 
@@ -18,7 +18,6 @@ typedef struct s_board
     int score;
 
     int silent;
-    font_t * font;
 
     int last_seg_count;
 
