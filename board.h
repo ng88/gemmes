@@ -15,7 +15,7 @@ typedef struct s_board
     int xsize;
     int ysize;
     char *data;
-    int score;
+    unsigned int score;
 
     int silent;
 
@@ -82,7 +82,7 @@ int board_segment_count(board_t b, int x, int y);
  * multiple_seg: score coefficient
  * sed_count: segment count
  */
-void board_update_helper(board_t b, int multiple_seg, int seg_count);
+void board_update_helper(board_t b,  unsigned int multiple_seg,  unsigned int seg_count);
 
 /* return a hint, return (-1, -1, *) if no more move is possible*/
 coord_t board_get_hint(board_t b);

@@ -187,7 +187,7 @@ int board_segment_count(board_t b, int x, int y)
 }
 
 
-void board_update_helper(board_t b, int multiple_seg, int seg_count)
+void board_update_helper(board_t b,  unsigned int multiple_seg,  unsigned int seg_count)
 {
     c_assert(b);
 
@@ -202,7 +202,7 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 
     int ncase = buff->ysize * buff->xsize;
 
-    int old_seg_count = seg_count;
+    unsigned int old_seg_count = seg_count;
 
     int i;
 
@@ -246,9 +246,9 @@ void board_update_helper(board_t b, int multiple_seg, int seg_count)
 	    }
 	}
 
-    /* il peut arriver un moment ou le score ne change plus ou est negatif */
-    c_warning2(b->score >= 0 && 
-	       ((seg_count != old_seg_count) == (b->score != buff->score)), "score overflow!")
+    /* il peut arriver un moment ou le score ne change plus ou 'diminiue' */
+    c_warning2(b->score >= buff->score, "score overflow!")
+    c_warning2((seg_count > old_seg_count) == (b->score > buff->score), "score overflow!")
 
     if(seg_count > old_seg_count) /* si on a eu des segments */
     {
