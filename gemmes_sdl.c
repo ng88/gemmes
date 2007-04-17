@@ -11,7 +11,7 @@
 
 
 #define GRID_WIDTH 2
-#define BGCOLOR 0xffffff
+#define BGCOLOR 0x000000
 #define GRIDCOLOR 0x9f1f1f
 #define OVERCOLOR 0xdddddd
 #define SELCOLOR 0xaaaaaa
@@ -29,7 +29,7 @@ static int BOARD_RIGHT;
 #define BOARD_BOTTOM 10
 
 /* taille d'une gemme */
-#define GEMME_SIZE_X 48
+#define GEMME_SIZE_X 52
 #define GEMME_SIZE_Y 48
 
 #define RECT_COUNT 4
@@ -212,7 +212,7 @@ void init(board_t b)
     /* on trace la grille */
 
     /* traits verticaux */
-    int board_size =  b->ysize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH;
+    int board_size =  b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH;
     int i;
 
     for(i = 0; i <= b->xsize; ++i)
@@ -227,7 +227,7 @@ void init(board_t b)
     }
 
     /* traits horizontaux */
-    board_size =  b->xsize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH;
+    board_size =  b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH;
 
     for(i = 0; i <= b->ysize; ++i)
     {
@@ -334,8 +334,8 @@ void draw_gemme(char gemme, int x, int y, int mask)
 {
 	draw_tile_mask(screen, sgemmes,
 		  ((gemme == ' ') ? 0 : gemme - 'A' + 1),
-		  GEMME_SIZE_X,
 		  GEMME_SIZE_Y,
+		  GEMME_SIZE_X,
 		  x, y, mask);
 }
 
