@@ -29,8 +29,8 @@ static int BOARD_RIGHT;
 #define BOARD_BOTTOM 10
 
 /* taille d'une gemme */
-#define GEMME_SIZE_X 32
-#define GEMME_SIZE_Y 32
+#define GEMME_SIZE_X 48
+#define GEMME_SIZE_Y 48
 
 #define RECT_COUNT 4
 
