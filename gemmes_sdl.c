@@ -87,7 +87,7 @@ void gemmes_start_ihm(board_t b)
 
     changed = 1;
 
-    SDL_CreateThread(thread_draw, b);
+    SDL_Thread * thread = SDL_CreateThread(thread_draw, b);
     
     while(!stop)
     {
@@ -189,6 +189,8 @@ void gemmes_start_ihm(board_t b)
 	    }
 	}
     }
+
+    SDL_WaitThread(thread, NULL);
 
     SDL_FreeSurface(font);
     SDL_FreeSurface(sgemmes);
