@@ -28,7 +28,7 @@ void draw_tile(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_size_
         SDL_UnlockSurface(tiles);
 }
 
-void draw_tile_mask(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_size_x, int tile_size_y, int x, int y, int c)
+void draw_tile_mask(SDL_Surface *screen, SDL_Surface *tiles, int tilex, int tiley, int tile_size_x, int tile_size_y, int x, int y, int c)
 {
 
     if (SDL_MUSTLOCK(tiles))
@@ -39,7 +39,7 @@ void draw_tile_mask(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_
     for (i = 0; i < tile_size_x; i++)
     {
 	int screenofs = x + (y + i) * (screen->pitch / 4);
-	int tileofs = (i + tile * tile_size_x) * (tiles->pitch / 4);
+	int tileofs =  tilex * tile_size_y + (i + tiley * tile_size_x) * (tiles->pitch / 4);
 	for (j = 0; j < tile_size_y; j++)
 	{
 	    ((unsigned int*)screen->pixels)[screenofs] = 

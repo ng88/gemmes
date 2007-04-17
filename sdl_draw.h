@@ -7,7 +7,7 @@
 
 void draw_tile(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_size_x, int tile_size_y, int x, int y);
 
-void draw_tile_mask(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_size_x, int tile_size_y, int x, int y, int c);
+void draw_tile_mask(SDL_Surface *screen, SDL_Surface *tiles, int tilex, int tiley, int tile_size_x, int tile_size_y, int x, int y, int c);
 
 void draw_rect(SDL_Surface *screen, int x, int y, int width, int height, int c);
 

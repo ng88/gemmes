@@ -4,11 +4,12 @@
 #include "gemmes.h"
 
 #include "SDL/SDL.h"
+#include "SDL/SDL_thread.h" /* depuis animation, rev > 76 */
+
 #include "sdl_draw.h"
 
 #define RES_GEMMES "res/gemmes.bmp"
 #define RES_FONT "res/font.bmp"
-
 
 #define GRID_WIDTH 2
 #define BGCOLOR 0x000000
@@ -31,26 +32,29 @@ static int BOARD_RIGHT;
 /* taille d'une gemme */
 #define GEMME_SIZE_X 52
 #define GEMME_SIZE_Y 48
+#define GEMME_ANIM_COUNT 10
 
 #define RECT_COUNT 4
 
-static int over_x;
-static int over_y;
-static int sel_x;
-static int sel_y;
-static int stop;
-static unsigned int total_seg_count;
+static volatile int changed;
+static volatile int over_x;
+static volatile int over_y;
+static volatile int sel_x;
+static volatile int sel_y;
+static volatile int stop;
+static volatile unsigned int total_seg_count;
 static SDL_Rect rects[RECT_COUNT];
 
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
 SDL_Surface *font;
 
-void render(board_t b);
+void render(board_t b, int frame);
 void init(board_t);
-void draw_gemme(char gemme, int x, int y, int mask);
+void draw_gemme(char gemme, int x, int y, int mask, int frame);
 void do_move(board_t b, int x, int y, int dir_x, int dir_y);
 void show_hint(board_t b);
+int thread_draw(void* d);
 
 void gemmes_start_ihm(board_t b)
 {
@@ -77,15 +81,14 @@ void gemmes_start_ihm(board_t b)
  
     init(b);
 
-    int changed = 1;
+    changed = 1;
 
+    SDL_CreateThread(thread_draw, b);
     
     while(!stop)
     {
-	if(changed)
-	    render(b);
 
-	changed = 0;
+	//changed = 0;
 
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) 
@@ -97,7 +100,7 @@ void gemmes_start_ihm(board_t b)
 		switch(event.key.keysym.sym)
 		{
 		case SDLK_a:
-		    gemmes_autoplay(b);
+		    //gemmes_autoplay(b);
 		    stop = 1;
 		    break;
 		case SDLK_d:
@@ -282,12 +285,13 @@ void init(board_t b)
     //printf("rand=%s\n", b->rs->data);
 }
 
-void render(board_t b)
+void render(board_t b, int frame)
 {
+
     if(SDL_MUSTLOCK(screen))
 	if(SDL_LockSurface(screen) < 0) 
 	    return;
-    
+
     int x, y, c;
     
     /* on trace le plateau */
@@ -304,7 +308,7 @@ void render(board_t b)
 	    draw_gemme(board_pos(b, x, y), 
 		       x * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X + GRID_WIDTH,
 		       y * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y + GRID_WIDTH,
-		       c);
+		       c, frame);
 	}
 
     /* on trace le score etc */
@@ -330,10 +334,10 @@ void render(board_t b)
 
 }
 
-void draw_gemme(char gemme, int x, int y, int mask)
+void draw_gemme(char gemme, int x, int y, int mask, int frame)
 {
 	draw_tile_mask(screen, sgemmes,
-		  ((gemme == ' ') ? 0 : gemme - 'A' + 1),
+		  frame, ((gemme == ' ') ? 0 : gemme - 'A' + 1), 
 		  GEMME_SIZE_Y,
 		  GEMME_SIZE_X,
 		  x, y, mask);
@@ -388,7 +392,8 @@ void show_hint(board_t b)
 	    sel_x = c.x;
 	    sel_y = c.y;
 	}
-	render(b);
+	//render(b, 0);
+	changed = 1;
 	usleep(100000);
     }
 
@@ -397,3 +402,28 @@ void show_hint(board_t b)
 }
 
 
+int thread_draw(void* d)
+{
+    int c = 0;
+    int i = 0;
+    while(!stop)
+    {
+	if(changed)
+	    render((board_t)d, c);
+
+	usleep(1000);
+
+	i++;
+
+	if(i > 10)
+	{
+	    i = 0;
+	    changed = 1;
+	    c++;
+	    if(c == GEMME_ANIM_COUNT)
+		c = 0;
+	}
+    }
+
+    return 0;
+}
