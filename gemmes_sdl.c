@@ -88,7 +88,7 @@ void gemmes_start_ihm(board_t b)
     while(!stop)
     {
 
-	//changed = 0;
+	changed = 0;
 
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) 
@@ -336,6 +336,8 @@ void render(board_t b, int frame)
 
 void draw_gemme(char gemme, int x, int y, int mask, int frame)
 {
+    if(gemme == ' ')
+	printf("%d\n", frame);
 	draw_tile_mask(screen, sgemmes,
 		  frame, ((gemme == ' ') ? 0 : gemme - 'A' + 1), 
 		  GEMME_SIZE_Y,
@@ -392,7 +394,6 @@ void show_hint(board_t b)
 	    sel_x = c.x;
 	    sel_y = c.y;
 	}
-	//render(b, 0);
 	changed = 1;
 	usleep(100000);
     }
@@ -415,7 +416,7 @@ int thread_draw(void* d)
 
 	i++;
 
-	if(i > 10)
+	if(i > 15)
 	{
 	    i = 0;
 	    changed = 1;
