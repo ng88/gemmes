@@ -13,7 +13,7 @@
 
 #define GRID_WIDTH 2
 #define BGCOLOR 0x000000
-#define GRIDCOLOR 0x9f1f1f
+#define GRIDCOLOR 0xffffff
 #define OVERCOLOR 0xdddddd
 #define SELCOLOR 0xaaaaaa
 
@@ -36,7 +36,7 @@ static int BOARD_RIGHT;
 
 #define RECT_COUNT 4
 
-static volatile int changed;
+
 static volatile int over_x;
 static volatile int over_y;
 static volatile int sel_x;
@@ -45,13 +45,17 @@ static volatile int stop;
 static volatile unsigned int total_seg_count;
 static SDL_Rect rects[RECT_COUNT];
 
+volatile int current_frame;
+volatile int last_frame;
+volatile int changed;
+
 SDL_Surface *screen;
 SDL_Surface *sgemmes;
 SDL_Surface *font;
 
-void render(board_t b, int frame);
+void render(board_t b);
 void init(board_t);
-void draw_gemme(char gemme, int x, int y, int mask, int frame);
+void draw_gemme(char gemme, int x, int y, int mask);
 void do_move(board_t b, int x, int y, int dir_x, int dir_y);
 void show_hint(board_t b);
 int thread_draw(void* d);
@@ -285,7 +289,7 @@ void init(board_t b)
     //printf("rand=%s\n", b->rs->data);
 }
 
-void render(board_t b, int frame)
+void render(board_t b)
 {
 
     if(SDL_MUSTLOCK(screen))
@@ -308,7 +312,7 @@ void render(board_t b, int frame)
 	    draw_gemme(board_pos(b, x, y), 
 		       x * (GEMME_SIZE_X + GRID_WIDTH) + BOARD_START_X + GRID_WIDTH,
 		       y * (GEMME_SIZE_Y + GRID_WIDTH) + BOARD_START_Y + GRID_WIDTH,
-		       c, frame);
+		       c);
 	}
 
     /* on trace le score etc */
@@ -334,12 +338,20 @@ void render(board_t b, int frame)
 
 }
 
-void draw_gemme(char gemme, int x, int y, int mask, int frame)
+void draw_gemme(char gemme, int x, int y, int mask)
 {
+    /*if(gemme == ' ')
+	printf("%d\n", current_frame);
+    */
     if(gemme == ' ')
-	printf("%d\n", frame);
 	draw_tile_mask(screen, sgemmes,
-		  frame, ((gemme == ' ') ? 0 : gemme - 'A' + 1), 
+		  current_frame - last_frame, 0, 
+		  GEMME_SIZE_Y,
+		  GEMME_SIZE_X,
+		  x, y, mask);
+    else
+	draw_tile_mask(screen, sgemmes,
+		  current_frame, gemme - 'A' + 1, 
 		  GEMME_SIZE_Y,
 		  GEMME_SIZE_X,
 		  x, y, mask);
@@ -405,12 +417,13 @@ void show_hint(board_t b)
 
 int thread_draw(void* d)
 {
-    int c = 0;
+    current_frame = 0;
+    last_frame = 0;
     int i = 0;
     while(!stop)
     {
 	if(changed)
-	    render((board_t)d, c);
+	    render((board_t)d);
 
 	usleep(1000);
 
@@ -420,9 +433,9 @@ int thread_draw(void* d)
 	{
 	    i = 0;
 	    changed = 1;
-	    c++;
-	    if(c == GEMME_ANIM_COUNT)
-		c = 0;
+	    current_frame++;
+	    if(current_frame == GEMME_ANIM_COUNT)
+		current_frame = 0;
 	}
     }
 
