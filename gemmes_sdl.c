@@ -14,8 +14,8 @@
 #define GRID_WIDTH 2
 #define BGCOLOR 0x000000
 #define GRIDCOLOR 0xffffff
-#define OVERCOLOR 0xdddddd
-#define SELCOLOR 0xaaaaaa
+#define OVERCOLOR 0x666666//0xdddddd
+#define SELCOLOR 0x333333
 
 /* emplacement du plateau */
 #define BOARD_START_X 10
