@@ -16,7 +16,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int silent)
     if(s)
 	rs = randseq_new_from_str(s);
     else
-	rs = randseq_new(30, ngemmes);
+	rs = randseq_new(nrows * nlines, ngemmes);
 
     board_t b = board_new(nlines, nrows, rs);
 
