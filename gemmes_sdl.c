@@ -3,8 +3,13 @@
 #include "assert.h"
 #include "gemmes.h"
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_thread.h" /* depuis animation, rev > 76 */
+#ifdef G_WINDOWS
+# include "SDL.h"
+# include "SDL_thread.h" /* depuis animation, rev > 76 */
+#else
+# include "SDL/SDL.h"
+# include "SDL/SDL_thread.h" /* depuis animation, rev > 76 */
+#endif
 
 #include "sdl_draw.h"
 

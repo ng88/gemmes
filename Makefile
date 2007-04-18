@@ -23,12 +23,14 @@ endif
 
 ifdef WIN_PORT
     WIN_FILES=win_port.c
+    SYSFLAGS=-DG_WINDOWS
 else
     WIN_FILES=
+    SYSFLAGS=-DG_LINUX
 endif
 
 CC=gcc
-CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS) $(IHMFLAGS)
+CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS) $(IHMFLAGS) $(SYSFLAG)
 SRC=gemmes.c main.c board.c randseq.c $(IHM_FILES) $(WIN_FILES)
 OBJS= $(SRC:.c=.o)
 EXE=gemmes

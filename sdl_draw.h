@@ -3,7 +3,12 @@
 
 /* some useful SDL routines */
 
-#include "SDL/SDL.h"
+#ifdef G_WINDOWS
+# include "SDL.h"
+#else
+# include "SDL/SDL.h"
+#endif
+
 
 void draw_tile(SDL_Surface *screen, SDL_Surface *tiles, int tile, int tile_size_x, int tile_size_y, int x, int y);
 
