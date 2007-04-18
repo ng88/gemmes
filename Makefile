@@ -30,7 +30,7 @@ else
 endif
 
 CC=gcc
-CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS) $(IHMFLAGS) $(SYSFLAG)
+CFLAGS=-W -Wall  $(DEBUGFLAGS) $(ASSERTFLAGS) $(IHMFLAGS) $(SYSFLAGS)
 SRC=gemmes.c main.c board.c randseq.c $(IHM_FILES) $(WIN_FILES)
 OBJS= $(SRC:.c=.o)
 EXE=gemmes
