@@ -53,10 +53,20 @@ $(EXE): $(OBJS)
 
 
 
-.PHONY: clean 
+.PHONY: clean sdl
 
 clean:
 	@rm -f *.o *~ core *.core core.* *.tmp
+
+sdl:
+	@make SDL=1
+
+both:
+	@make clean
+	@make SDL=1
+	@mv $(EXE) x$(EXE)
+	@make clean
+	@make
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
