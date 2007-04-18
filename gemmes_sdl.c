@@ -77,6 +77,8 @@ void gemmes_start_ihm(board_t b)
 			      b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH + BOARD_START_Y + BOARD_BOTTOM,
 			      32, SDL_SWSURFACE);
 
+    SDL_WM_SetCaption("Gemmified", NULL);
+
     if (screen == NULL)
     {
 	fprintf(stderr, "Unable to set %dx%d video: %s\n", screen->w, screen->h, SDL_GetError());
@@ -357,15 +359,22 @@ void draw_gemme(char gemme, int x, int y)
     /*if(gemme == ' ')
 	printf("%d\n", current_frame);
     */
-    if(gemme == ' ')
+    /*if(gemme == ' ')
 	draw_tile2(screen, sgemmes,
 		  current_frame - last_frame, 0, 
 		  GEMME_SIZE_Y,
 		  GEMME_SIZE_X,
 		  x, y);
-    else
+		  else
 	draw_tile2(screen, sgemmes,
-		  current_frame, gemme - 'A' + 1, 
+		  current_frame, gemme - 'A' + 1,
+		  GEMME_SIZE_Y,
+		  GEMME_SIZE_X,
+		  x, y);
+*/
+
+	draw_tile2(screen, sgemmes,
+		  current_frame, ((gemme == ' ') ? 0 : (gemme - 'A' + 1)),
 		  GEMME_SIZE_Y,
 		  GEMME_SIZE_X,
 		  x, y);
