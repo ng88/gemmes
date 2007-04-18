@@ -1,8 +1,10 @@
 
 ifdef DEBUG
     DEBUGFLAGS=-g -ggdb -dH -D_DEBUG_=1
+    STRIP=@echo
 else
     DEBUGFLAGS=
+    STRIP=strip
 endif
 
 ifdef NOASSERT
@@ -50,7 +52,8 @@ sdl_draw.o: sdl_draw.h
 
 $(EXE): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
-	@strip $@
+	$(STRIP) $@ > /dev/null
+	@echo Done.
 
 
 
