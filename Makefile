@@ -50,6 +50,7 @@ sdl_draw.o: sdl_draw.h
 
 $(EXE): $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
+	@strip $@
 
 
 
@@ -67,6 +68,7 @@ both:
 	@mv $(EXE) x$(EXE)
 	@make clean
 	@make
+	@echo 'Text & SDL version built.'
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
