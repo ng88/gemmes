@@ -79,7 +79,7 @@ void gemmes_start_ihm(board_t b)
     BOARD_RIGHT = SCORE_POS_X + 10;
 
     screen = SDL_SetVideoMode(b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH + BOARD_START_X + BOARD_RIGHT,
-			      b->ysize * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH + BOARD_START_Y + BOARD_BOTTOM,
+			      (b->ysize == 2 ? 3 : b->ysize) * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH + BOARD_START_Y + BOARD_BOTTOM,
 			      32, SDL_SWSURFACE);
 
     SDL_WM_SetCaption("Gemmified", NULL);
