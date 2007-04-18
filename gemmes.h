@@ -4,7 +4,8 @@
 
 #include "board.h"
 
-
+/* Nombre d'essai maximum lors de la création d'un plateau */
+#define MAX_TRY_COUNT 100
 
 /* demarre un nouveau jeu
  * nlines : nombre de ligne (y)

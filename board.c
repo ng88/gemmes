@@ -54,6 +54,12 @@ board_t board_new(int nlines, int nrows, randseq_t rs)
 
     }
 
+    if(board_get_hint(b).x == -1)
+    {
+	board_free(b);
+	return NULL;
+    }
+
     return b;
 
 /*  

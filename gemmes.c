@@ -5,20 +5,52 @@
 
 #include "gemmes.h"
 
+#
 
 void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int silent)
 {
     c_assert(nlines > 0 && nlines < 27 && nrows > 0 && nrows < 27);
     c_assert( (s && strlen(s) > 2) || (!s && (ngemmes > 2 || ngemmes <= 16 )) );
 
-    randseq_t rs;
+    randseq_t rs = NULL;
+    board_t b = NULL;
     
-    if(s)
+    if(s) /* l'utilisateur force l'utilisation d'une sequence (option -s) */
+    {
 	rs = randseq_new_from_str(s);
+	b = board_new(nlines, nrows, rs);
+    }
     else
-	rs = randseq_new(nrows * nlines, ngemmes);
+    {
+	int i = 0;
 
-    board_t b = board_new(nlines, nrows, rs);
+	while(!b && i < MAX_TRY_COUNT) /* tant qu'on arrive pas a creer un plateau,
+					  on retire au hasard une sequence */
+	{
+	    if(rs)
+		randseq_free(rs);
+
+	    rs = randseq_new(nrows * nlines, ngemmes);
+	    b = board_new(nlines, nrows, rs);
+
+	    i++;
+	}
+    }
+
+
+
+    if(!b) /* La creation n'est pas possible (il n'existe plus de coup) */
+    {
+	
+	if(!silent)
+	    fputs("Unable to create the board with this rand sequence.\n", stderr);
+	
+	
+	randseq_free(rs);
+	return;
+	
+    }
+
 
     b->silent = silent;
 
