@@ -12,7 +12,6 @@
  * nrows : nombre de colonnes (x)
  * ngemmes : nombre de gemmes
  * s : chaine aléatoire, peut être NULL
- * font : police a utiliser, peut etre NULL
  * silent : si non nul, seul la commande dump affichera qqch
  */
 void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int silent);

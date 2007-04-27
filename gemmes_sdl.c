@@ -50,7 +50,6 @@ static volatile unsigned int total_seg_count;
 static SDL_Rect rects[RECT_COUNT];
 
 volatile int current_frame;
-volatile int last_frame;
 volatile int changed;
 
 SDL_Surface *screen;
@@ -80,7 +79,7 @@ void gemmes_start_ihm(board_t b)
 
     screen = SDL_SetVideoMode(b->xsize * (GEMME_SIZE_X + GRID_WIDTH) + GRID_WIDTH + BOARD_START_X + BOARD_RIGHT,
 			      (b->ysize == 2 ? 3 : b->ysize) * (GEMME_SIZE_Y + GRID_WIDTH) + GRID_WIDTH + BOARD_START_Y + BOARD_BOTTOM,
-			      32, SDL_SWSURFACE);
+			      32, SDL_SWSURFACE | SDL_DOUBLEBUF);
 
     SDL_WM_SetCaption("Gemmified", NULL);
 
@@ -361,22 +360,6 @@ void render(board_t b)
 
 void draw_gemme(char gemme, int x, int y)
 {
-    /*if(gemme == ' ')
-	printf("%d\n", current_frame);
-    */
-    /*if(gemme == ' ')
-	draw_tile2(screen, sgemmes,
-		  current_frame - last_frame, 0, 
-		  GEMME_SIZE_Y,
-		  GEMME_SIZE_X,
-		  x, y);
-		  else
-	draw_tile2(screen, sgemmes,
-		  current_frame, gemme - 'A' + 1,
-		  GEMME_SIZE_Y,
-		  GEMME_SIZE_X,
-		  x, y);
-*/
 
 	draw_tile2(screen, sgemmes,
 		  current_frame, ((gemme == ' ') ? 0 : (gemme - 'A' + 1)),
@@ -448,7 +431,7 @@ void show_hint(board_t b)
 int thread_draw(void* d)
 {
     current_frame = 0;
-    last_frame = 0;
+
     int i = 0;
     while(!stop)
     {
