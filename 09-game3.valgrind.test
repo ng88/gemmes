@@ -1,0 +1,71 @@
+#! ./testsuite
+p Ce fichier fait une (longue) partie jusqu'au bout + test valgrind
+
+! set timeout 30
+
+< k2r j1r e3d h3d h3r g2d i1r h4d g1d f1r d1d d1d d1d d2d c1r b1r c2d e2r d1r g2r 
+< e1r f2r e1d f2r c3d g1r b1r c1d f1r c5r b5d h6r f1r i1r e5r e1d e3r d5d d1d c1d 
+< f6r j7r h1r i3r i1r h3r k1d k4d g5r j1d g7d e1r c1r f1r f7r b1r e3d b1d a1r d1r 
+< a3r b2r b2d d7d d2r f1d a4d c1d b1d b2r b3d f7d j1d f4d g4r e1r e1d g2d i1r h5r 
+< h2r f1r j1d h1d g2r e2d g1r h5d h1r h1r f7r d8r g1d h3d h1d a4d g7d f1r i2r c5r 
+< d6r d5r f1r e4d d1r a1r e4r d2d c1d c4r c3r e4d f5r f1r f1d h3d f4r c6d f6r f3d 
+< h4r g4r d2r i3d j2d j3r h1r e4d i4d f5r f4r i5r h1r h1d k4d k5r f6r g1r e2d c6r 
+< c3r e6d c2r d4d d1d c1d c2d e6r d1r d1d d2r f2d e1r b2d e4d h4d g6d c7d d1r c1d 
+< d3d f1d h3d h4r i1d c8r d1r d4d d1r d2r d3d e4r d2r d3r c3r b3d c2r d6d c6r f3r 
+< f1d g2r g1d d2r e6d e1r f2r e1d e3d f2r i1d j1d j2r j2r g4d i4d g5r d3r h5d k5r 
+< c6r g10r f6r d1d b2r d3d f1d g1d h1d h1d a3d b3d e5d h5d k2d k2r g3r j2d h1r c6r 
+< i7d i2r k7r f2r i2r h7r i1d h2r g1d h5d i6d i1r h1d h2d e1d g3r f2d i5r i2d j1d 
+< i1r k7d i1r k5r k1d i1d j2d i2d h2r h2d i1r j2r h4r g1d e2d h2r h1d j2d k2r k1d 
+< f3r i3r i3d k7r l6d g4r j3r k5d i4d g2r k4r j2d i2d g2d e2d d3r c2r d1d g2r g1r 
+< e1r f2d c1d d1d g2d b3r a2d a3d c1d d3d c4d h4r h2d l1d j3r b5d j6r h8r h1r g3d 
+< g2r h2r g1d h1d i2d i2r k4r i4r i2r h1d i3r j1r i8r g2r h2r g2r j2d h2r k1d j3d 
+< i2d h2r j2d g1d i2d d1r h1d i1r i3r g1d h2r h2d i1d f4r g4d j4r f8r g2d i2r g6r 
+< d6d b2r c3d c3d c3d b1d c2r e4d d3d c2r e2r f2r b5r b2r a5r b2d b3r g6d f3r h3r 
+< j1r i3r g3r h7d i1r f6r g2r h3d e1d g6r e8d c2r c5r c3r e7r e2d e4d d3d e1r h1d 
+< i2d h1d h2d c3r d3d c2d a2r a2r c3r b3r b3d f3d e2d g1d g2r j3r a4r d4r f1d b3r 
+< b2d b3r b2r d3r b4d a4d c3d c7d e7d i2d g1d h1d i1r g1d f1r d5d a3r d6d d1d d5r 
+< c1d e3r a4r e1r f5r f1d f5d g6d h1d g7d f2r j2r j2d e3d c1d d2r f4d c5r c3d c4d 
+< e3d d1r c2d c1d e2r f2r d3r f1d b1r b1d b2r b1r c1d g2d g2r g2d h2r i1d j1r i2d 
+< c3d c2d e2d b2d e3d e3r e4d c1d d3d b5d h6r i2r i3d i2d g3r i1d f1r f2d h1d j2d 
+< k4r i1d j6d k2r l1d h5r h1r h2r f4r h3r h3r k1d j1d i2d h3d i6r i2d g1d f4r g2r 
+< d1r g3d f5r g6r g4r i1d g1r h2r h2r i6d g1r h3d e7r e4d b1r d3d e4d g4r d5r b1r 
+< d3r d2d e2d c1r c1d d6d e2d e3r g1d e1r b1d f1r e1r c1r b1d f1d d3r f1d c3d e2d 
+< c4d f4r f1d h2d h1d h2d h2d d3d c1d b1d f1d d5d a3r d2r c1d d2d b1r d1d f2d f1d 
+< c3d c7r b1r b4r e3r f1r f2d h2d i1r d3r f1d f2d e3d g4r e7d f6d h1r d5r i3r g1d 
+< g2r i2r i1d i3r g5r e5d d3r e2d k7r k2d d8r d1d e4r e1r f2d b1d c1r a2r g2r d4d 
+< a3r d3r e1r f2d f2r d6d b4d d1d b2r c1r c2r b2d b1d a3r c3d c2r c2d c1d b4d d1d 
+< a2r b2d a3d a2r d5d d1r b6d b7d a6r c7d d2r g2d h3d h1r i1r j8d h3r e7r f1r e1r 
+< e1d b2d c1d c2d i2d i1d i2d a4r a3r c2d d4d d1d b3r c1d b2d a4d k5d j6r k1r l3d 
+< j6r i1d g2r i1r k6r k2r j1r i1d i1d k2d k3r l3d j6d j6r f2r k2d k3r i4r j5d j6d 
+< g7r i2d h1d f1d i1r h1r i7d i2r l4d k3d h5r h4d c1r f1d h2d h2r g1r j1d f2r h3d 
+< f2d f3r g3d f1d g1d f2d h2d g1d g2r g2d i2d i1d h1d f4r e2d d1r d1d b2r d2d d2d 
+< f3d e3r f3r f1d g2r h1d g1d d3r a3r e4r e3d c1d e4d c2r c1r g4d h3d h5d i1d h5d 
+< g2d g4r k2r g3r f2r e1d e1r a1r b3d e3d h2d h3d e2r e1r g1d c2r b1r c1d f3d f4r 
+< i5r i2d j1r h3d f1r f2r g1d h4r h3d e2r d1r i3r g1d f1r g2r f1d h1r g2d h1r i2d 
+< h2r f3d e5r f4d d2d b1d f2d f3d c9r e4d b5r b2r c2d d2r c1d g2d e2r f10r f3r f2r 
+< h3r j3d j3d i2d c4r a1r b3r a3r d4r e3d e1r c3d c1r a5r i5r i2r h5r g1d g2r l2d 
+< h3r h6r h2r b8r c1r c4r c5d g5r g1d j2r h1r l2d j2r j2d i2d j1r e2d d4d d1r d3r 
+< c3r f4d e2d f2r f1d h2r h1d h1d f2d e2r f2d j2d j2d h3r f2d c5r c5d f5r d3d f2r 
+< d10d a1d e2d c2d a3r f7r e5d e2d c2d b3r a3r b3d e3d f2r d2d d5d b2r c3d a1d d2r 
+< c1d b1d b4d c4d b2r e6r d1r b1d d5r d3d e2d c5d e1d a3r f5d h3d i1d f2r f6d g1d 
+< j2d i2d f5d d2r f1d g1d c1d d2d f3d f2d e2d g2d f5d d1r d2d e2r d1d b3r c1d b2d 
+< g6r e8d e1d c6r c1r c4r b4d c6r c3r b3r c1d c1d a5d d2r c1r c1r a5r a4d b3r d5r 
+< h2r j1d g1d g2d c3r b5r d5d g6d g2d h2d k2d h3d c6d a2d a3r b2r b2r d6d c4r d4d 
+< c1r f9d g1d g4d f6r f5r h1r j4d h2d f2d h2d h3d i3d i3r j3d k1r l2d e4d f1d f1d 
+< c5r d2d e3r a5d b2r a1d b1r i1r i1d f1d d1r e2r d1r g2r j2r i1r j2d g5r i2d j3d 
+< k1d k3d j4r j5d h1r e1r d1d c2r h5d h1d j1r k1d i2r h2d i1r j2d i3d i1d h2r k3d 
+< h1r i3d j2d h3r g1r l1d j3d i1r h2r g4d g6d g7d f5d f1d e2d d3r b1d b2d d3r c3d 
+< e3r f1d d4r b4d c3r g1d e1r a5r f7d f2r f1r g1d f1d e1r g2r h1r i1d h1d i1r e3r 
+< g1d e2d d1d c1d d1d b1d g3r h3d f1r g1r l1d h2d e7d h3r g1d f3d h3r d5r g2r j1d 
+< e5d g3r f1d i2d e7d d1d g1d j1r g1d h4r d d5r
+> DCBEDBAECBCHCDCGCFEGDAEFEABFAHGECFDGEHECACADCCDHBHFDCFGBHEEDGFBGDACCGGHECEBFFFBEGFFADGEHAGDDHAGBFHCEEFBGEHEAGEGCFGBCFDEHAGDACEHECACA 15975
+$ valgrind --log-file-exactly=valgrind.out ./gemmes -q -x 12 -y 11 -c 8 -sBBCEGAEBCBCCFHHGEFDGDACFCFBCDBAECDBBEGCGAEBFDAEAFHGBHBGCGHECBFHEAAFFHHDHEFEAFAADAHEABDCHDHCEEBAFBFCBFFACDFDAGEDGDAGFDAEHAGDEHEBBCDCA
+
+> ERROR SUMMARY: 0 errors from 0 contexts
+$ grep "ERROR SUMMARY" valgrind.out | sed -e 's/^[^ ]* //' -e 's/ (.*$//'
+
+> malloc/free: in use at exit: 0 bytes in 0 blocks.
+$ grep "malloc/free: in use at exit:" valgrind.out | sed -e 's/^[^ ]* //' 
+
+$ rm valgrind.out
+

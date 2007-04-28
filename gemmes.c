@@ -17,7 +17,15 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int silent)
     
     if(s) /* l'utilisateur force l'utilisation d'une sequence (option -s) */
     {
-	rs = randseq_new_from_str(s, ngemmes);
+	rs = randseq_new_from_str(s);
+
+	if(!rs)
+	{
+	    if(!silent)
+		fputs("Invalid rand sequence (too many different color).\n", stderr);
+	    return;
+	}
+
 	b = board_new(nlines, nrows, rs);
     }
     else
@@ -82,11 +90,7 @@ void gemmes_autoplay(board_t b)
 
 void gemmes_dump(board_t b)
 {
-    int i;
-    for(i = 0; i < b->xsize * b->ysize; ++i)
-	putchar(b->data[i]);
-    
-    printf(" %d\n", b->score);
+    printf("%s %d\n",b->data, b->score);
 }
 
 
@@ -95,33 +99,41 @@ void gemmes_autoplay_createtest(board_t b)
     puts("#! ./testsuite");
     puts("p Ce fichier fait une (longue) partie jusqu'au bout");
 
-    char * dump = strdup(b->data);
+    char * first_dump = strdup(b->data);
+    char * last_dump = NULL;
+    unsigned int last_score;
     int i = 0;
+    int fin = 0;
     coord_t c;
-    while((c = board_get_hint(b)).x != -1 )
+
+    while((c = board_get_hint(b)).x != -1 && !fin)
     {
 	if(i % 20 == 0)
 	    fputs("\n< ", stdout);
 
-	printf("%c%d%c ", 'a' + c.x, 1 + c.y, dir_to_string(c.d)[0]);
-
 	board_move(b, c.x, c.y, c.d);
 
+	if(board_get_hint(b).x == -1) /* on est au dernier coup */
+	{
+	    printf("d %c%d%c\n> %s %d\n", 'a' + c.x, 1 + c.y, dir_to_string(c.d)[0], last_dump, last_score);
+	    fin = 1;
+	}
+	else
+	    printf("%c%d%c ", 'a' + c.x, 1 + c.y, dir_to_string(c.d)[0]);
+
 	++i;
+
+	free(last_dump);
+	last_dump = strdup(b->data);
+	last_score = b->score;
+
     }
 
-    fputs("\n> ", stdout); gemmes_dump(b);
-    
-
-    printf("$ ./gemmes -q -x %d -y %d -c %d -s", b->xsize, b->ysize, b->rs->ncolor);
+    printf("$ ./gemmes -q -x %d -y %d -c %d -s%s\n", b->xsize, b->ysize, b->rs->ncolor, first_dump);
 
 
-    for(i = 0; i < b->xsize * b->ysize; ++i)
-	putchar(dump[i]);
-
-    puts("");
-
-    free(dump);
+    free(last_dump);
+    free(first_dump);
 
 
 }

@@ -31,7 +31,7 @@ randseq_t randseq_new(int len, int diff)
     return ret;
 }
 
-randseq_t randseq_new_from_str(char * seq, int diff)
+randseq_t randseq_new_from_str(char * seq)
 {
     c_assert(seq);
 
@@ -42,7 +42,23 @@ randseq_t randseq_new_from_str(char * seq, int diff)
     ret->len = strlen(seq);
     ret->pos = 0;
     ret->data = strdup(seq);
-    ret->ncolor = diff;
+
+    ret->ncolor = 0;
+
+    /* on calcule le nombre de gemme différentes */
+    int i;
+    for(i = 0; i < ret->len; ++i)
+    {
+	ret->data[i] = toupper(ret->data[i]);
+	if(ret->data[i] - 'A' + 1 > ret->ncolor)
+	    ret->ncolor = ret->data[i] - 'A' + 1;
+    }
+
+    if(ret->ncolor > 16)
+    {
+	randseq_free(ret);
+	return NULL;
+    }
 
     c_assert2(ret->data, "strdup failed");
 

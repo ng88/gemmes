@@ -27,7 +27,9 @@ board_t board_alloc(int nlines, int nrows, randseq_t rs)
 
     b->last_seg_count = 0;
 
-    b->data = (char*)malloc(nlines * nrows);
+    b->data = (char*)malloc(nlines * nrows + 1);
+
+    b->data[nlines * nrows] = '\0'; /* for convenience */
 
     c_assert2(b->data, "malloc failed");
 

@@ -1,32 +1,39 @@
 #! ./testsuite
 p Ce fichier fait une (longue) partie jusqu'au bout
 
-< e1r h1r i1d f2d g3r a4d b3r j4r f5d f1d h1r h1d e2r g3r i3r h2r f3d g1r h4r i4d 
-< j2d h2r i3r c6r b2d a3r c5d c6r a1r c4r d2r b4r b3d e1r d5r c4r d3d b2r b2r c2d 
-< f4d f1d e1d d3d f3d h3r e4d g3d f1d g4d f2r f3d d1r g2d d3r h3r c4r e3r d2r f1d 
-< g2d g3d g1d e1d d4d c2d d2r f1r c2r a2r b1r b2r f5d g2r i3r f1r h1r h1d h3r i1d 
-< i3r h3r h1r j1r k2d j2d g3r f1d g6d f2r i4r f1r f1d e1r g1r e1d h2r h2d h1d g2d 
-< h4d h4d g1d h3d i1d e5d d3r b3d c4d d1d c5d d3r f1d c1r d1r g2r e3d c1d d2d c3d 
-< b3r c5r c2d f2r e1r e1d e1d c3d d1d f2r d1d b1d c5d b5d b1d c4r c2d b2d d1d b2d 
-< e3d d1d c3d e1d g1r g2r g3d i1d g3d d1d d1r d2r c1r g2d c4d c2d a6d a6d d2d d3r 
-< e1d c4d g4d d2r d1d d2d e5r e3r f3r h1d g1d e1d g1d f1r h2r g1d h1d f3r f3r h1r 
-< g2r j1r k1d h2d e1r h1d j1d g2d f2d c1r c1r e1r g4d h3d f3d f1r f2r e1d f1d f1r 
-< c7d d1d d1r f1r b2r d2r d3d e2r d2r d1r c3d g3r h2r j2r c3r d3r b3d d4d d1d e2r 
-< b2d b5r c1r c5d e7r c1r g1d e4r f5d e3r e1r e2d f4d d2d f1r e1r e3d e3d c4d f6d 
-< f1d e1d e2d g2d e3r c3d d3r d2d c1d g3d h1r c4r d4d d1d d3r c4r g4r c5r d3d h6d 
-< i2r h2r e8r i1r g2r f6r c7r e4r e2d e5d a4d g7d h3d f2r c1r g2d c2d c2d c2d e3r 
-< b3r e2r i2d e1r j3r i3d e4d b2r d4d e5d c1d a2r d2r d2d b3r c2d d3d g3d g3r g3r 
-< f4r c3d c1d b1r b2r b3d c1d d4d d1r a2r c3r c1d c2d a2r d4d c1r d3r d4d d3r h1d 
-< f1r c4d g4d d2r a3r a1d d2d e5d f4r f3r g1d g1r g3d h4r i4d h1d f2d h1r e1r c5d 
-< i5r c6r d4d e3d e1r b1r d2d c1r f1r e2r f4d g2r h1d h1r h1d g2r h1r b3r e1d d1r 
-< e1d g2d d4r b5d e5d e5d b1r e5d d1r i6r f2r g1d f2d d3d d3r d8r c1d b2d b2d d2d 
-< d3r f1r c1r e1r c4d e2d c3d b4r a2d d6d c6d f5d g3r f2r e4r c1r e6d g1r h1r e3d 
-< d3r b2r d1d c2r c3d d1d k3d a7r b6d a2r a4d g8d e4d d4d c5r e2d f2d e2d c1d c3d 
-< c5r d1r d1d e2r b3d d1r f3r a3r e3d e6r d5r d2r c4r d3r f2d e3d d3r d2r c3r d1r 
-< d3d b1d a1d d2r d1d c2d g5d g2r e1d i2d h1d d3r d1r e1d e1d d1d b3d d2d j3d g6r 
-< g3r f1r e3r i3r h2d f1d j2d g3r h5r g3d f1d i4d j2d i1d f4d j1r h3d j1r h3d g1d 
-< g1d f4d b1d b3d i5d h3r h2r f2r i1d f6d e5d g3r g3d h3d h1d j2r h2d e3r e4r f4r 
-< e4r d4r c2r f1d b2d c1d e1d e1d e4r h6r i1d f3r b9r b5r b2r e3d g2d e2r g2r f2r 
-< e2r f2d d1r h3r i2r g1d h4d g4r f1d b6r d
-> CFADHBHCBGEFGAHHCFBEGHHBDEGEBHADHEAGCBHGECEDACBCAACEGAEHFDHBHCBDFCCHBADFDGCEBDFFGBAGHFBDAEGHABCEDAEBEDEDHCFAHGGDFFCBGHFBG 7725
-$ ./gemmes -q -x 11 -y 11 -c -1 -sBGHFCCBCBGEFHGCBBEFCGHHAFCBDEHEDHCGBDDCFBCEDDFABAHAHGAEACAFBFBBHHCDAGFGAHDEEBDAFBFCHFABDBCCAFFBEDAECDAGEECFAHGCFDEFBGHFBG
+< b2d a2r a2d a2r f3d h3r j3d h3d i3d k3d a4d c1d b4r a4r a2r b3r j4d a5d e1r b3d 
+< c2d d5d g5r e2r i2d h2d k5d g1d f3r f1d j6r b7d f1r e3r b3r h7d h7r j2r i3r i1d 
+< c8d h8d i8d i1d i1d h1r g2r i1d j1d k3d j5d j2d j3r i6d j1d j1d k4d j2r i5d j6r 
+< j1d h1r i1d h5r k6r k1d j4d k3r j6r h4r i4d i3r j5d l1d l3d k2r l4d j7r j4r j2r 
+< j1d h1r g6r i5d j1r i1d h6d a10r a3d g10d f5r g3r g1d f4d g1d g5r e1r e1d b1r c1r 
+< c1d e2r g2r i2r f1d e1r e4d f1r e5d g5r f2r g2d f1d c1r b1d h1d e1r h3d f3r e1d 
+< b1r e1r f3r d1r e1r i2d h6r i3d h1d f1d f1r h5r g4d g5r g2d h4r i1d h2d i4r e2r 
+< g2d f1d g1r g8r j7r k6r j3d j1d i3r j4r j5d i1r k5r k1r k2r j6d j3d h6r c1r g8d 
+< h2r k1r l1d l2d j1r i1r g1r l2d h6d f1r a1r b2r h2r g3d g1d k3d j3d k1d c5d d1d 
+< b3r d3d d3d d4d d1d g1r e2d e2r f2r c4r c5r b2d b5r d5r d3r d2r c2d a1r b2d d3r 
+< b4d d3d e4d d1r e4d a5r d5d e5r b3r d1r f2d d1d d2r b1r f1d e2d e2d e1d d1r e1d 
+< h2d g1r i1r i1d d3d d1r e3d c3r d1d c2d d1d f2d e4d d2d e3r d1d d4r e4r b1d f2r 
+< e1d e2d e1r c3r c3d d3r d1d d1r e3r f1d d1r d1d e2r e4r c1r d1d g1r h1d i1d e1r 
+< h1d h1r c2d f3r e1r c1d d5r d3d d1d f4d d1d e1r g3r g1d h4d g2d j2r g5r f2d h7d 
+< g3d h2d h5r g2d c1r k6d i4d g5r f4r g1d e2r g1d j5r j6d i3d i4d h1d e2r g1d h3r 
+< i2r i1r h1r h3d g1d h1r i1d g1r h1d f3d g2d e4d e2r i2d g2r f3d e1d e3r a3d i3d 
+< d4d c5r c5d c5d c1d e1d c2d d3r d1d e2r f1d f1r c3d c3d b3d b3r c1r b1r g1r c4r 
+< c4d e5r f3r f2d d5d c4r b4d d1d c2d f4d g5d g1r e1r d1r f5r g2r g2d g2d g1d f1r 
+< g3r e1r h1d h3r f3d h3r i3r h1d g6r f1d e2d f3r g2r c3r i3r i2d h5r j6r i1d j4d 
+< i6d i6r i1d j1r k1d j1d i1d g1r i2d k1r i1d i3d g1d i1r i3d i4r h5r h1d h2r g3r 
+< g1d f2d f2d f1d d2r e2d i3d g1r h1r h1r g1r g3d h1r g1d j2r e5d g2r c3r g2d d1d 
+< h1r c3r c3r c3d h3d h2r h1d f1r d2d d2d c2d f2r f1d g2d e1d j2d g4d j1r e5r e2d 
+< e1r d2r c3r a1r a1d c2r b1r f2d c4d d4d c5r f2r f2r f2r g1d g2r i2d e2d c1d f1d 
+< h2d g1d d4r e4d g1d e2r g2d f3r j6d j6d i3r i1r g2r i1r i1r k2d h1r h3r j2d h1r 
+< h6d h1r i1d a7d b7d c4r a1r a4d d6d e5r b6d d5r a2r d7d d3d a3r b2r b1d f1d b3d 
+< c1d e3r c4d b2d e5r f3d d1d d3d c2r d2r d4r b3r b3d h5d g3r g3d g3d e1r g5r e1r 
+< h1d i2d i1r i2d i2d h5r h1d f4r f1d g3d g1d g1d d1r e2d h1r i1d e3d e1d i3d i3r 
+< f2d h2d i3d i2d i2d g2d e1r h1d f1r f3r g2r f2r c4r d3r d1d a1r g4r i4r h3r c2r 
+< e1d e3d b2d b2r h3r j4r k1d g2r k3r k1d j1r i1r j5d k1d i6d h6r j6d j2r i1d i1d 
+< e2r h1r f1d j3d i3d i2r h1d j1d h1r h3r g2d j2d j2d k2r j3d k1r k1r f4r e2r j5d 
+< i3r h1r k2d i1d i2d h1r i2d j5r j2r j3d i4d k6d h1r h5r f1r e1r j2d g5r g1r e3r 
+< e4r c1r d1r f1d e1r e1d e1d c1d h1d j4d f1d f1d d2d j3d i2r j6r k3d k1d k3d j1d 
+< h2d j6r i4r h4d j2r i4r j2d h4d k5r i3r j2d j2d l3d f8d g1d k8d i2r j1d h3r h1r 
+< f1r i1r h1r i4r g1r i1r j4d k9d j4d d i1d
+> FGAFGHFEDHHHFGDHFAECBFEADGEEGFFDADAEAHDHCGHBDFGHEABDBCFCGFBFGHHDBHFHCAGECAFHDEDBDFACHDFBEDGABGHGEADDFACFCFABGFDBHDGEDABGDEFDACGFEDFE 10560
+$ ./gemmes -q -x 12 -y 11 -c 8 -sFEECHGGHEBECEFGBBEBCEFFCEFBFFEBDAGFHEDHBEDDBABCCFDFCACFEAHCGDDBDBHDGCHHGDBHEDBCHHFHBDECCGBFCCBEBEDEHDEFGFECBGFAFDAHGFCAEDGGHDHEGEDFE

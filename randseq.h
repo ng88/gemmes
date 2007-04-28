@@ -15,7 +15,7 @@ typedef struct s_randseq
  * diff: number of different item in the sequence
  */
 randseq_t randseq_new(int len, int diff);
-randseq_t randseq_new_from_str(char * seq, int diff);
+randseq_t randseq_new_from_str(char * seq);
 void randseq_free(randseq_t rs);
 char randseq_next(randseq_t rs);
 
