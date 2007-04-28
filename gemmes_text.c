@@ -108,6 +108,12 @@ int gemmes_process_command(board_t b, char * line, int read, int * stop)
 	    *stop = 1;
 	    return 1;
 	    break;
+	case 't': /* autoplay & create a test*/
+	    b->silent = 1;
+	    gemmes_autoplay_createtest(b);
+	    *stop = 1;
+	    return 1;
+	    break;
 	case '?': /* help */
 	    if(!b->silent)
 		puts(HELP_MSG);

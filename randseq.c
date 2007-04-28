@@ -26,11 +26,12 @@ randseq_t randseq_new(int len, int diff)
     ret->len = len;
     ret->pos = 0;
     ret->data = data;
+    ret->ncolor = diff;
 
     return ret;
 }
 
-randseq_t randseq_new_from_str(char * seq)
+randseq_t randseq_new_from_str(char * seq, int diff)
 {
     c_assert(seq);
 
@@ -41,6 +42,7 @@ randseq_t randseq_new_from_str(char * seq)
     ret->len = strlen(seq);
     ret->pos = 0;
     ret->data = strdup(seq);
+    ret->ncolor = diff;
 
     c_assert2(ret->data, "strdup failed");
 

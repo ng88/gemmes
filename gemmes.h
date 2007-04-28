@@ -26,6 +26,10 @@ void gemmes_start_ihm(board_t b);
 
 void gemmes_dump(board_t b);
 
+/* Autoplay  */
 void gemmes_autoplay(board_t b);
+
+/* Autoplay & create a test file on stdout */
+void gemmes_autoplay_createtest(board_t b);
 
 #endif

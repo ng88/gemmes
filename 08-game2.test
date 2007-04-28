@@ -1,0 +1,32 @@
+#! ./testsuite
+p Ce fichier fait une (longue) partie jusqu'au bout
+
+< e1r h1r i1d f2d g3r a4d b3r j4r f5d f1d h1r h1d e2r g3r i3r h2r f3d g1r h4r i4d 
+< j2d h2r i3r c6r b2d a3r c5d c6r a1r c4r d2r b4r b3d e1r d5r c4r d3d b2r b2r c2d 
+< f4d f1d e1d d3d f3d h3r e4d g3d f1d g4d f2r f3d d1r g2d d3r h3r c4r e3r d2r f1d 
+< g2d g3d g1d e1d d4d c2d d2r f1r c2r a2r b1r b2r f5d g2r i3r f1r h1r h1d h3r i1d 
+< i3r h3r h1r j1r k2d j2d g3r f1d g6d f2r i4r f1r f1d e1r g1r e1d h2r h2d h1d g2d 
+< h4d h4d g1d h3d i1d e5d d3r b3d c4d d1d c5d d3r f1d c1r d1r g2r e3d c1d d2d c3d 
+< b3r c5r c2d f2r e1r e1d e1d c3d d1d f2r d1d b1d c5d b5d b1d c4r c2d b2d d1d b2d 
+< e3d d1d c3d e1d g1r g2r g3d i1d g3d d1d d1r d2r c1r g2d c4d c2d a6d a6d d2d d3r 
+< e1d c4d g4d d2r d1d d2d e5r e3r f3r h1d g1d e1d g1d f1r h2r g1d h1d f3r f3r h1r 
+< g2r j1r k1d h2d e1r h1d j1d g2d f2d c1r c1r e1r g4d h3d f3d f1r f2r e1d f1d f1r 
+< c7d d1d d1r f1r b2r d2r d3d e2r d2r d1r c3d g3r h2r j2r c3r d3r b3d d4d d1d e2r 
+< b2d b5r c1r c5d e7r c1r g1d e4r f5d e3r e1r e2d f4d d2d f1r e1r e3d e3d c4d f6d 
+< f1d e1d e2d g2d e3r c3d d3r d2d c1d g3d h1r c4r d4d d1d d3r c4r g4r c5r d3d h6d 
+< i2r h2r e8r i1r g2r f6r c7r e4r e2d e5d a4d g7d h3d f2r c1r g2d c2d c2d c2d e3r 
+< b3r e2r i2d e1r j3r i3d e4d b2r d4d e5d c1d a2r d2r d2d b3r c2d d3d g3d g3r g3r 
+< f4r c3d c1d b1r b2r b3d c1d d4d d1r a2r c3r c1d c2d a2r d4d c1r d3r d4d d3r h1d 
+< f1r c4d g4d d2r a3r a1d d2d e5d f4r f3r g1d g1r g3d h4r i4d h1d f2d h1r e1r c5d 
+< i5r c6r d4d e3d e1r b1r d2d c1r f1r e2r f4d g2r h1d h1r h1d g2r h1r b3r e1d d1r 
+< e1d g2d d4r b5d e5d e5d b1r e5d d1r i6r f2r g1d f2d d3d d3r d8r c1d b2d b2d d2d 
+< d3r f1r c1r e1r c4d e2d c3d b4r a2d d6d c6d f5d g3r f2r e4r c1r e6d g1r h1r e3d 
+< d3r b2r d1d c2r c3d d1d k3d a7r b6d a2r a4d g8d e4d d4d c5r e2d f2d e2d c1d c3d 
+< c5r d1r d1d e2r b3d d1r f3r a3r e3d e6r d5r d2r c4r d3r f2d e3d d3r d2r c3r d1r 
+< d3d b1d a1d d2r d1d c2d g5d g2r e1d i2d h1d d3r d1r e1d e1d d1d b3d d2d j3d g6r 
+< g3r f1r e3r i3r h2d f1d j2d g3r h5r g3d f1d i4d j2d i1d f4d j1r h3d j1r h3d g1d 
+< g1d f4d b1d b3d i5d h3r h2r f2r i1d f6d e5d g3r g3d h3d h1d j2r h2d e3r e4r f4r 
+< e4r d4r c2r f1d b2d c1d e1d e1d e4r h6r i1d f3r b9r b5r b2r e3d g2d e2r g2r f2r 
+< e2r f2d d1r h3r i2r g1d h4d g4r f1d b6r d
+> CFADHBHCBGEFGAHHCFBEGHHBDEGEBHADHEAGCBHGECEDACBCAACEGAEHFDHBHCBDFCCHBADFDGCEBDFFGBAGHFBDAEGHABCEDAEBEDEDHCFAHGGDFFCBGHFBG 7725
+$ ./gemmes -q -x 11 -y 11 -c -1 -sBGHFCCBCBGEFHGCBBEFCGHHAFCBDEHEDHCGBDDCFBCEDDFABAHAHGAEACAFBFBBHHCDAGFGAHDEEBDAFBFCHFABDBCCAFFBEDAECDAGEECFAHGCFDEFBGHFBG

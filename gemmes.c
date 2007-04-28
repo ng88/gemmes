@@ -17,7 +17,7 @@ void gemmes_start_loop(int nlines, int nrows, int ngemmes, char * s, int silent)
     
     if(s) /* l'utilisateur force l'utilisation d'une sequence (option -s) */
     {
-	rs = randseq_new_from_str(s);
+	rs = randseq_new_from_str(s, ngemmes);
 	b = board_new(nlines, nrows, rs);
     }
     else
@@ -87,4 +87,41 @@ void gemmes_dump(board_t b)
 	putchar(b->data[i]);
     
     printf(" %d\n", b->score);
+}
+
+
+void gemmes_autoplay_createtest(board_t b)
+{
+    puts("#! ./testsuite");
+    puts("p Ce fichier fait une (longue) partie jusqu'au bout");
+
+    char * dump = strdup(b->data);
+    int i = 0;
+    coord_t c;
+    while((c = board_get_hint(b)).x != -1 )
+    {
+	if(i % 20 == 0)
+	    fputs("\n< ", stdout);
+
+	printf("%c%d%c ", 'a' + c.x, 1 + c.y, dir_to_string(c.d)[0]);
+
+	board_move(b, c.x, c.y, c.d);
+
+	++i;
+    }
+
+    fputs("\n> ", stdout); gemmes_dump(b);
+    
+
+    printf("$ ./gemmes -q -x %d -y %d -c %d -s", b->xsize, b->ysize, b->rs->ncolor);
+
+
+    for(i = 0; i < b->xsize * b->ysize; ++i)
+	putchar(dump[i]);
+
+    puts("");
+
+    free(dump);
+
+
 }
