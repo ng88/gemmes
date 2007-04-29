@@ -99,7 +99,7 @@ void gemmes_autoplay_createtest(board_t b)
     puts("#! ./testsuite");
     puts("p Ce fichier fait une (longue) partie jusqu'au bout");
 
-    char * first_dump = strdup(b->data);
+    //char * first_dump = strdup(b->data);
     char * last_dump = NULL;
     unsigned int last_score;
     int i = 0;
@@ -129,11 +129,11 @@ void gemmes_autoplay_createtest(board_t b)
 
     }
 
-    printf("$ ./gemmes -q -x %d -y %d -c %d -s%s\n", b->xsize, b->ysize, b->rs->ncolor, first_dump);
+    printf("$ ./gemmes -q -x %d -y %d -c %d -s%s\n", b->xsize, b->ysize, b->rs->ncolor, b->rs->data);
 
 
     free(last_dump);
-    free(first_dump);
+    //free(first_dump);
 
 
 }

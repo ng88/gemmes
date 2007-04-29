@@ -113,6 +113,11 @@ void gemmes_start_ihm(board_t b)
 		    gemmes_autoplay(b);
 		    stop = 1;
 		    break;
+		case SDLK_t:
+		    b->silent = 1;
+		    gemmes_autoplay_createtest(b);
+		    stop = 1;
+		    break;
 		case SDLK_d:
 		    gemmes_dump(b);
 		    break;
