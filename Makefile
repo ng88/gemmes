@@ -66,14 +66,14 @@ mrproper: clean
 	@rm -f gemmes xgemmes
 
 sdl:
-	@make SDL=1
+	@$(MAKE) SDL=1
 
 both:
-	@make clean
-	@make SDL=1
+	@$(MAKE) clean
+	@$(MAKE) SDL=1
 	@mv $(EXE) x$(EXE)
-	@make clean
-	@make
+	@$(MAKE) clean
+	@$(MAKE)
 	@echo 'Text & SDL version built.'
 
 %.o: %.c
