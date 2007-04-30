@@ -21,7 +21,7 @@ p Ce fichier teste que le fancy display de votre programme ne provoque pas d'err
 < h1u h1d h1l h1r h2u h2d h2l h2r h3u h3d h3l h3r h4u h4d h4l h4r
 < h5u h5d h5l h5r h6u h6d h6l h6r h7u h7d h7l h7r h8u h8d h8l h8r
 < d q
-$ valgrind --log-file-exactly=valgrind.out ./gemmes -f -sFDGECECAADGECCDEAGDBGACFCCCCCCCCCCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB >/dev/null
+$ valgrind --log-file-exactly=valgrind.out ./gemmes -f -sFDGECECAADGECCDEAGDBGACFCCCCCCCCCCCBCFBCFGEDBFDEAEEDBEDEGDFBCBECGDABGFAEB >/dev/null 2>&1
 
 > ERROR SUMMARY: 0 errors from 0 contexts
 $ grep "ERROR SUMMARY" valgrind.out | sed -e 's/^[^ ]* //' -e 's/ (.*$//'

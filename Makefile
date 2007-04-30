@@ -57,10 +57,13 @@ $(EXE): $(OBJS)
 
 
 
-.PHONY: clean sdl
+.PHONY: clean sdl mrproper
 
 clean:
 	@rm -f *.o *~ core *.core core.* *.tmp
+
+mrproper: clean
+	@rm -f gemmes xgemmes
 
 sdl:
 	@make SDL=1
