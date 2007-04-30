@@ -90,6 +90,7 @@ void gemmes_autoplay(board_t b)
 
 void gemmes_dump(board_t b)
 {
+    /* b->data is null terminated */
     printf("%s %d\n",b->data, b->score);
 }
 

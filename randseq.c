@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
-
+#include <ctype.h>
 #include "randseq.h"
 #include "assert.h"
 
@@ -43,6 +43,8 @@ randseq_t randseq_new_from_str(char * seq)
     ret->pos = 0;
     ret->data = strdup(seq);
 
+    c_assert2(ret->data, "strdup failed");
+
     ret->ncolor = 0;
 
     /* on calcule le nombre de gemme différentes */
@@ -59,8 +61,6 @@ randseq_t randseq_new_from_str(char * seq)
 	randseq_free(ret);
 	return NULL;
     }
-
-    c_assert2(ret->data, "strdup failed");
 
     return ret;
 }
