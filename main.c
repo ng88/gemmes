@@ -1,3 +1,19 @@
+/***************************************************************************
+ *   This file is part of the 'gemmes' project                             *
+ *                                                                         *
+ *                                                                         *
+ *   Copyright (C) 2007 by                                                 *
+ *         GARCH Soufiane                                                  *
+ *         GUILLAUME Nicolas <ng@ngsoft-fr.com>                            *
+ *                                                                         *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; version 2 of the License only.          *
+ *   See the COPYING file.                                                 *
+ ***************************************************************************/
+
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
